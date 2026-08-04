@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edwhere Labs - Swipe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "surface-variant": "#d8e3fb",
+                  "secondary": "#6b38d4",
+                  "surface-container-high": "#dee8ff",
+                  "background": "#f9f9ff",
+                  "on-primary-fixed-variant": "#004395",
+                  "on-tertiary-container": "#f9ffea",
+                  "on-background": "#111c2d",
+                  "primary-container": "#2170e4",
+                  "on-surface": "#111c2d",
+                  "on-surface-variant": "#424754",
+                  "on-primary-container": "#fefcff",
+                  "on-secondary-fixed-variant": "#5516be",
+                  "primary-fixed": "#d8e2ff",
+                  "on-secondary-container": "#fffbff",
+                  "surface-tint": "#005ac2",
+                  "inverse-on-surface": "#ecf1ff",
+                  "inverse-primary": "#adc6ff",
+                  "tertiary-fixed": "#acf847",
+                  "tertiary-container": "#518200",
+                  "inverse-surface": "#263143",
+                  "secondary-container": "#8455ef",
+                  "error": "#ba1a1a",
+                  "on-error-container": "#93000a",
+                  "surface-container-highest": "#d8e3fb",
+                  "on-tertiary-fixed-variant": "#304f00",
+                  "on-error": "#ffffff",
+                  "surface-dim": "#cfdaf2",
+                  "outline-variant": "#c2c6d6",
+                  "surface-container-lowest": "#ffffff",
+                  "outline": "#727785",
+                  "on-tertiary-fixed": "#102000",
+                  "on-secondary-fixed": "#23005c",
+                  "on-primary": "#ffffff",
+                  "surface-bright": "#f9f9ff",
+                  "on-secondary": "#ffffff",
+                  "surface": "#f9f9ff",
+                  "on-tertiary": "#ffffff",
+                  "secondary-fixed-dim": "#d0bcff",
+                  "tertiary": "#3f6700",
+                  "surface-container": "#e7eeff",
+                  "tertiary-fixed-dim": "#91db2a",
+                  "primary": "#0058be",
+                  "secondary-fixed": "#e9ddff",
+                  "on-primary-fixed": "#001a42",
+                  "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "gutter": "16px",
+                  "base": "8px",
+                  "container-padding-mobile": "20px",
+                  "container-padding-desktop": "40px",
+                  "stack-overlap": "-12px"
+          },
+          "fontFamily": {
+                  "headline-lg": ["Plus Jakarta Sans"],
+                  "label-sm": ["Inter"],
+                  "display-lg": ["Plus Jakarta Sans"],
+                  "headline-lg-mobile": ["Plus Jakarta Sans"],
+                  "body-lg": ["Inter"],
+                  "body-md": ["Inter"],
+                  "label-md": ["Inter"],
+                  "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                  "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                  "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                  "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    
+    .card-stack-item {
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), opacity 0.3s ease;
+      cursor: grab;
+      touch-action: none;
+    }
+    .card-stack-item:active {
+      cursor: grabbing;
+    }
+    
+    .swipe-indicator {
+        opacity: 0;
+        transition: opacity 0.15s ease;
+    }
+
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    
+    body {
+      min-height: 100dvh;
+      overscroll-behavior: none;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="notifications">notifications</span>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 mt-20 mb-20 px-container-padding-mobile flex flex-col items-center justify-center relative overflow-hidden">
+<div class="relative z-30 mb-8 flex justify-center w-full">
+<div class="flex bg-surface-container p-1 rounded-full shadow-sm">
+<button class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm transition-all">Labs</button>
+<a class="px-4 py-1.5 rounded-full text-on-surface-variant font-label-md text-label-md hover:text-primary transition-all" href="#">Create New Lab</a>
+</div>
+</div>
+<!-- Decoration -->
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Indicators -->
+<div class="absolute inset-0 pointer-events-none z-40 flex items-center justify-center">
+<div class="swipe-indicator flex flex-col items-center text-error absolute left-10" id="skip-indicator">
+<span class="material-symbols-outlined text-6xl" data-icon="cancel">cancel</span>
+<span class="font-label-md text-label-md uppercase tracking-widest font-bold">Skip</span>
+</div>
+<div class="swipe-indicator flex flex-col items-center text-primary absolute right-10" id="view-indicator">
+<span class="material-symbols-outlined text-6xl" data-icon="info">info</span>
+<span class="font-label-md text-label-md uppercase tracking-widest font-bold">Details</span>
+</div>
+<div class="swipe-indicator flex flex-col items-center text-secondary absolute top-32" id="list-indicator">
+<span class="material-symbols-outlined text-6xl" data-icon="grid_view">grid_view</span>
+<span class="font-label-md text-label-md uppercase tracking-widest font-bold">List View</span>
+</div>
+<div class="swipe-indicator flex flex-col items-center text-on-surface-variant absolute bottom-32" id="prev-indicator">
+<span class="material-symbols-outlined text-6xl" data-icon="history">history</span>
+<span class="font-label-md text-label-md uppercase tracking-widest font-bold">Previous</span>
+</div>
+</div>
+<!-- Card Stack Container -->
+<div class="relative w-full max-w-md h-[520px] flex items-center justify-center" id="card-stack">
+<!-- Background Card (Visible during swipe) -->
+<div class="card-stack-item absolute w-full h-full bg-white rounded-[32px] shadow-sm border border-outline-variant/20 scale-[0.95] z-0 opacity-50" id="next-card-bg">
+<div class="h-1/2 relative bg-surface-container-high rounded-t-[32px] overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-outline-variant">analytics</span>
+</div>
+<div class="p-6">
+<div class="h-8 w-48 bg-surface-container-high rounded mb-4"></div>
+<div class="h-4 w-full bg-surface-container-high rounded mb-2"></div>
+<div class="h-4 w-2/3 bg-surface-container-high rounded"></div>
+</div>
+</div>
+<!-- Active Card -->
+<div class="card-stack-item absolute w-full h-full bg-white rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-outline-variant/10 z-20 overflow-hidden flex flex-col" id="active-card">
+<div class="h-1/2 relative">
+<div class="w-full h-full bg-cover bg-center" id="card-image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBtEOathNSO-wPiK4Wh0sIsqMe5sLuOnwdNBSeChQLRuOe4kl7GtvX8tt1X6MSAhJXL5VquCqEUUeTnVe39cXVm0SMzEDcdnKzCo-R2g4boEK1aqARlNsn8akdaqPq51GLw8Vjts2tlO6CrtugehrQ_9OoHPhT7imCB3IwLv5y1U2oVJ3llLJwilzqaqEjg4Qt0FNg0f2gfWSaVf0i083Q6hj2IpMvIM5-ctgZvEMSh5DCYaTV6EbygydoiBreMlmSMA9aj-ahADzyU');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute top-4 right-6 flex items-center text-tertiary glass-effect px-3 py-1 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-sm mr-1" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-md text-label-md font-bold" id="card-pts">500 pts</span>
+</div>
+<div class="absolute bottom-4 left-6 flex gap-2">
+<span class="bg-primary px-3 py-1 rounded-full text-white font-label-sm text-label-sm" id="card-category">Pentesting</span>
+<span class="bg-tertiary px-3 py-1 rounded-full text-white font-label-sm text-label-sm" id="card-difficulty">Easy</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md text-on-background" id="card-title">Metasploit Basics</h2>
+<div class="flex items-center text-on-surface-variant gap-1">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span class="font-label-sm text-label-sm" id="card-duration">4 hrs</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md mb-6" id="card-description">Learn the fundamentals of exploitation in a safe environment. Master the interface and common payloads.</p>
+<div class="flex flex-wrap gap-2 mb-8" id="card-tags">
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-lg font-label-sm text-label-sm">#Linux</span>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-lg font-label-sm text-label-sm">#Exploit</span>
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 border-t border-outline-variant/10 pt-4">
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-sm">keyboard_double_arrow_left</span>
+<span class="text-[9px] font-bold uppercase tracking-widest">Skip</span>
+</div>
+<div class="flex flex-col items-center gap-1 opacity-40">
+<span class="material-symbols-outlined text-sm">keyboard_double_arrow_right</span>
+<span class="text-[9px] font-bold uppercase tracking-widest">Details</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-surface/80 backdrop-blur-lg border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#"><span class="material-symbols-outlined">home</span><span class="font-label-sm text-label-sm">Home</span></a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#"><span class="material-symbols-outlined">work</span><span class="font-label-sm text-label-sm">Jobs</span></a>
+<a class="flex flex-col items-center justify-center text-primary font-bold" href="#"><span class="material-symbols-outlined">terminal</span><span class="font-label-sm text-label-sm">Labs</span></a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#"><span class="material-symbols-outlined">query_stats</span><span class="font-label-sm text-label-sm">Progress</span></a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#"><span class="material-symbols-outlined">person</span><span class="font-label-sm text-label-sm">Profile</span></a>
+</nav>
+<script>
+    const labsData = [
+        {
+            title: "Metasploit Basics",
+            category: "Pentesting",
+            difficulty: "Easy",
+            pts: "500 pts",
+            duration: "4 hrs",
+            desc: "Learn the fundamentals of exploitation in a safe environment. Master the interface and common payloads.",
+            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBtEOathNSO-wPiK4Wh0sIsqMe5sLuOnwdNBSeChQLRuOe4kl7GtvX8tt1X6MSAhJXL5VquCqEUUeTnVe39cXVm0SMzEDcdnKzCo-R2g4boEK1aqARlNsn8akdaqPq51GLw8Vjts2tlO6CrtugehrQ_9OoHPhT7imCB3IwLv5y1U2oVJ3llLJwilzqaqEjg4Qt0FNg0f2gfWSaVf0i083Q6hj2IpMvIM5-ctgZvEMSh5DCYaTV6EbygydoiBreMlmSMA9aj-ahADzyU",
+            tags: ["#Linux", "#Exploit"]
+        },
+        {
+            title: "Network Recon",
+            category: "Network",
+            difficulty: "Medium",
+            pts: "750 pts",
+            duration: "6 hrs",
+            desc: "Master the art of information gathering and network mapping using industry-standard tools like Nmap and Wireshark.",
+            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD-ieBKXCupvtdkReUryQMKHBVbwW3tyIOuNokmzQU2xVDOKYBJgqDjsKUHVxFVJ70x0ywQtKIucCq3Vqh8t0sICAzNTy1YDsKOMhFR-h2aGx7wllJdPdOeE1zwMEydl9QRCGznkN92b8jzwOKh4NJB8awA4X9BaWyF0jB0xyrJI__jZQVb58BdjXY19hD_rGw4uAPV1syjdBHp6GI-4bLU2jrtXson4r2NOqJ_v3xybogIhBrkVC9G1CZ4ghIL8X16ahA-X8OH-9uy",
+            tags: ["#Nmap", "#Scanning"]
+        },
+        {
+            title: "Web App Vulns",
+            category: "Web Security",
+            difficulty: "Hard",
+            pts: "1000 pts",
+            duration: "12 hrs",
+            desc: "Deep dive into OWASP Top 10 vulnerabilities and advanced exploitation techniques in modern web environments.",
+            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDLycUO-H_P6zmWF96q_lh51i1ama6mM84-_esO8JIRTql4dtp3p8_S5eAh6TT4LHdu-4jS2hmRBqrkEUcrLkXrZpZaJ2kMmtrs6LWPiW4bapCKuO2e4_ngyiDvHE0y-DYgTOafleFqxg9cWUAFX_duy-u2oHENQJXerEtvn96Em1-QsNLqWldQTZxt-RDuyxOgocynl2vqVBIgVtfYMAGpUcOv3Rw5Tr_4u1-HD-hPlYa4rRZ79Q3F9ltxsLYHH-6A0fH-oCwOdh8L",
+            tags: ["#OWASP", "#XSS"]
+        }
+    ];
+
+    let currentIndex = 0;
+    const card = document.getElementById('active-card');
+    const skipIndicator = document.getElementById('skip-indicator');
+    const viewIndicator = document.getElementById('view-indicator');
+    const listIndicator = document.getElementById('list-indicator');
+    const prevIndicator = document.getElementById('prev-indicator');
+    
+    let isDragging = false;
+    let startX, startY;
+    let currentX, currentY;
+    const threshold = 120;
+
+    function updateCardContent(index) {
+        const data = labsData[index % labsData.length];
+        document.getElementById('card-image').style.backgroundImage = `url('${data.image}')`;
+        document.getElementById('card-pts').textContent = data.pts;
+        document.getElementById('card-category').textContent = data.category;
+        document.getElementById('card-difficulty').textContent = data.difficulty;
+        document.getElementById('card-title').textContent = data.title;
+        document.getElementById('card-duration').textContent = data.duration;
+        document.getElementById('card-description').textContent = data.desc;
+        const tagsContainer = document.getElementById('card-tags');
+        tagsContainer.innerHTML = data.tags.map(tag => `<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-lg font-label-sm text-label-sm">${tag}</span>`).join('');
+    }
+
+    function handleStart(e) {
+        isDragging = true;
+        const touch = e.touches ? e.touches[0] : e;
+        startX = touch.pageX;
+        startY = touch.pageY;
+        card.style.transition = 'none';
+    }
+
+    function handleMove(e) {
+        if (!isDragging) return;
+        const touch = e.touches ? e.touches[0] : e;
+        currentX = touch.pageX;
+        currentY = touch.pageY;
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        const rotation = deltaX / 20;
+
+        card.style.transform = `translate(${deltaX}px, ${deltaY}px) rotate(${rotation}deg)`;
+
+        // Reset indicators
+        [skipIndicator, viewIndicator, listIndicator, prevIndicator].forEach(el => el.style.opacity = 0);
+
+        // Show relevant indicator based on primary axis
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX < -30) skipIndicator.style.opacity = Math.min(1, Math.abs(deltaX) / threshold);
+            if (deltaX > 30) viewIndicator.style.opacity = Math.min(1, deltaX / threshold);
+        } else {
+            if (deltaY < -30) listIndicator.style.opacity = Math.min(1, Math.abs(deltaY) / threshold);
+            if (deltaY > 30) prevIndicator.style.opacity = Math.min(1, deltaY / threshold);
+        }
+    }
+
+    function handleEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+
+        if (Math.abs(deltaX) > threshold || Math.abs(deltaY) > threshold) {
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0) animateOut(1, 0, 'details');
+                else animateOut(-1, 0, 'skip');
+            } else {
+                if (deltaY > 0) animateOut(0, 1, 'previous');
+                else animateOut(0, -1, 'list');
+            }
+        } else {
+            resetCard();
+        }
+    }
+
+    function resetCard() {
+        card.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        card.style.transform = `translate(0,0) rotate(0)`;
+        [skipIndicator, viewIndicator, listIndicator, prevIndicator].forEach(el => el.style.opacity = 0);
+    }
+
+    function animateOut(xDir, yDir, action) {
+        card.style.transition = 'transform 0.5s ease-in, opacity 0.4s ease-in';
+        card.style.transform = `translate(${xDir * 1000}px, ${yDir * 1000}px) rotate(${xDir * 45}deg)`;
+        card.style.opacity = '0';
+        
+        setTimeout(() => {
+            if (action === 'skip') {
+                currentIndex++;
+                updateCardContent(currentIndex);
+            } else if (action === 'previous') {
+                if (currentIndex > 0) currentIndex--;
+                updateCardContent(currentIndex);
+            } else if (action === 'list') {
+                // Navigate to Labs List View
+                window.location.href = '#labs-list'; // Simulated navigation for {{DATA:SCREEN:SCREEN_27}}
+                console.log('Navigating to Labs List View');
+                // In a real environment, this might trigger a route change
+                return;
+            } else if (action === 'details') {
+                // Navigate to Details View
+                window.location.href = '#details'; // Simulated navigation for {{DATA:SCREEN:SCREEN_43}}
+                console.log('Navigating to Lab Details');
+                return;
+            }
+            
+            // Reappear card for actions that don't navigate
+            card.style.transition = 'none';
+            card.style.transform = `translate(0, 50px) scale(0.9)`;
+            card.style.opacity = '0';
+            
+            setTimeout(() => {
+                card.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease-out';
+                card.style.transform = `translate(0,0) scale(1)`;
+                card.style.opacity = '1';
+                [skipIndicator, viewIndicator, listIndicator, prevIndicator].forEach(el => el.style.opacity = 0);
+            }, 50);
+        }, 300);
+    }
+
+    card.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+
+    card.addEventListener('touchstart', handleStart);
+    window.addEventListener('touchmove', handleMove);
+    window.addEventListener('touchend', handleEnd);
+    
+    // Explicit navigation for List Indicator click if needed (though it's hidden normally)
+    listIndicator.addEventListener('click', () => {
+        window.location.href = '#labs-list';
+    });
+</script>
+</body></html>

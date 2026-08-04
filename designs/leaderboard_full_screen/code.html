@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edwhere | Leaderboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d8e3fb",
+                    "secondary": "#6b38d4",
+                    "surface-container-high": "#dee8ff",
+                    "background": "#f9f9ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-tertiary-container": "#f9ffea",
+                    "on-background": "#111c2d",
+                    "primary-container": "#2170e4",
+                    "on-surface": "#111c2d",
+                    "surface-container-low": "#f0f3ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-surface-variant": "#424754",
+                    "on-primary-container": "#fefcff",
+                    "on-secondary-fixed-variant": "#5516be",
+                    "primary-fixed": "#d8e2ff",
+                    "on-secondary-container": "#fffbff",
+                    "surface-tint": "#005ac2",
+                    "inverse-on-surface": "#ecf1ff",
+                    "inverse-primary": "#adc6ff",
+                    "tertiary-fixed": "#acf847",
+                    "tertiary-container": "#518200",
+                    "inverse-surface": "#263143",
+                    "secondary-container": "#8455ef",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#304f00",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cfdaf2",
+                    "outline-variant": "#c2c6d6",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#727785",
+                    "on-tertiary-fixed": "#102000",
+                    "on-secondary-fixed": "#23005c",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#d0bcff",
+                    "tertiary": "#3f6700",
+                    "surface-container": "#e7eeff",
+                    "tertiary-fixed-dim": "#91db2a",
+                    "primary": "#0058be",
+                    "secondary-fixed": "#e9ddff",
+                    "on-primary-fixed": "#001a42",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-mobile": "20px",
+                    "container-padding-desktop": "40px",
+                    "stack-overlap": "-12px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .podium-gradient {
+            background: linear-gradient(180deg, rgba(33, 112, 228, 0.1) 0%, rgba(33, 112, 228, 0.02) 100%);
+        }
+        .rank-glow {
+            filter: drop-shadow(0 0 12px rgba(107, 56, 212, 0.4));
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-20">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary font-headline-md text-headline-md" data-icon="security">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex gap-4 items-center">
+<button class="hover:scale-110 transition-transform active:scale-95 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="pt-20 px-container-padding-mobile max-w-2xl mx-auto space-y-8">
+<!-- Podium Section -->
+<section class="relative pt-8 pb-4">
+<div class="flex items-end justify-center gap-2 md:gap-4 h-64">
+<!-- 2nd Place -->
+<div class="flex flex-col items-center flex-1 max-w-[100px]">
+<div class="relative mb-3">
+<div class="w-16 h-16 rounded-full border-4 border-surface-variant overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a young woman with glasses, looking determined, styled in a clean corporate portrait photography aesthetic with soft side lighting and a neutral slate blue background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbE6tbt_JroiBOIC0AaCjC4SqIE317T_zRO25rkJX-AV5WWcLRdYOvONAEyIerND5olIKMahyjqiX7mCuJ4hZdptIeh-1y70J3U1_bHv-p6QEz_uD3Zvx67H-PPTzqXdbgS5x3rfECRRkp5KAKSCJoeK_Jtcy1gVK0rpGZZ8tg5IRiq7HeJR3iKQpbfjlWUgAM06bwnKTGU1sfuy3VGjoZMookJphuGCbVFAVCjBlQ8okUBEd-j0R62-z1rvxNwoAdTvxnSUaLX46o">
+</div>
+<div class="absolute -bottom-1 -right-1 bg-surface-variant text-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-sm">2</div>
+</div>
+<div class="podium-gradient w-full h-24 rounded-t-2xl flex flex-col items-center justify-center p-2 text-center" style="transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); opacity: 1; transform: translateY(0px);">
+<span class="font-label-sm text-label-sm font-bold block truncate w-full">Sarah K.</span>
+<span class="text-[10px] text-on-surface-variant font-medium">1,820 pts</span>
+</div>
+</div>
+<!-- 1st Place -->
+<div class="flex flex-col items-center flex-1 max-w-[120px] -translate-y-4">
+<div class="relative mb-4">
+<div class="w-20 h-20 rounded-full border-4 border-primary overflow-hidden bg-surface-container ring-4 ring-primary/20 rank-glow">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male cybersecurity student wearing a high-tech headset, looking sharp and focused, set against a dark background with subtle blue neon geometric light patterns. Cinematic lighting, high-contrast modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHQx-hwfdn00kRixaaLPj_TyTQhZnI03W3eDqdExtAAsmo3DzA5F_tVVcF-ijXfosfCybdeWNb9VgLCJHZIfS8aG0CRjZ2wsEVB64p99bjigQ3wvzWdi65nc6x8_EL4lZ8Hx1pdNsp1lGBFGnpOlt-o0RfGNrXt1ZrI93so0zCXaMoOxU_zPYyx55E7pL_0I6n-Fw5DZocF68sjrCaRlWcrBj7fJoEue-EXWtojJSgdJ5x2Bk_FlgPv6XDtcDP-Fc7Swn_M98YeDVm">
+</div>
+<div class="absolute -bottom-2 -right-1 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg">1</div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<div class="bg-primary/10 border-x border-t border-primary/20 w-full h-32 rounded-t-3xl flex flex-col items-center justify-center p-2 text-center">
+<span class="font-label-sm text-label-sm font-extrabold text-primary block truncate w-full">Alex Rivera</span>
+<span class="text-xs text-primary/80 font-bold">2,150 pts</span>
+</div>
+</div>
+<!-- 3rd Place -->
+<div class="flex flex-col items-center flex-1 max-w-[100px]">
+<div class="relative mb-3">
+<div class="w-16 h-16 rounded-full border-4 border-surface-variant overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of an Asian male student with a modern haircut, looking thoughtful and ambitious. The lighting is bright and clean, emphasizing a corporate tech vibe, with a soft-focus background of a collaborative workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQOL1UB9Cpg41wcrmPV6qxaYdeeF2MJTF3jDZ5hGHyJCbk3cH9rZfMR4_liV72ANCkd2KgdKYjeS17Ycm0xR-p2Y8WoFQy_A-NuTekDbIxTR9QmfFAMSjgxvB4Adorbsl-Ha4xYxnX0Gm6xgGFN_jx88EeiYTKJ9MsYu1WOH4CMYRHr8CHAWOcnz3aCqVOzTTc0ryXL6FenMFV-KRK54qpa23RAgk7FM09WJzg0YUGce208-kuNrA3_OMas7ptTVuTeOt_8wOkYmCY">
+</div>
+<div class="absolute -bottom-1 -right-1 bg-orange-200 text-orange-900 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-sm">3</div>
+</div>
+<div class="podium-gradient w-full h-20 rounded-t-2xl flex flex-col items-center justify-center p-2 text-center" style="transition: 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); opacity: 1; transform: translateY(0px);">
+<span class="font-label-sm text-label-sm font-bold block truncate w-full">Chen W.</span>
+<span class="text-[10px] text-on-surface-variant font-medium">1,690 pts</span>
+</div>
+</div>
+</div>
+<!-- Ground Base -->
+<div class="h-1 w-full bg-surface-variant rounded-full opacity-50"></div>
+</section>
+<!-- User Stats Card (Sticky Focus) -->
+<section class="sticky top-20 z-40">
+<div class="bg-inverse-surface rounded-2xl p-5 shadow-xl transform transition-all duration-300 hover:scale-[1.02] flex items-center justify-between border border-white/10">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-2xl" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="absolute -top-2 -left-2 bg-secondary text-on-secondary px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider">#14</div>
+</div>
+<div>
+<h3 class="text-white font-headline-md text-body-lg font-bold">You (Rank #14)</h3>
+<p class="text-white/60 text-label-sm font-label-sm">In Master's League</p>
+</div>
+</div>
+<div class="text-right">
+<div class="flex items-center justify-end gap-1 text-tertiary-fixed-dim font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-body-lg">1,450</span>
+</div>
+<div class="flex items-center justify-end gap-1 text-orange-400">
+<span class="material-symbols-outlined text-xs" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="text-xs font-bold uppercase tracking-tighter">12 Days</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Leaderboard List -->
+<section class="space-y-3 pb-24">
+<div class="flex items-center justify-between px-2">
+<h2 class="font-headline-md text-label-md text-on-surface-variant uppercase tracking-widest">Global Ranking</h2>
+<div class="flex gap-1">
+<span class="text-xs text-on-surface-variant font-medium">Daily</span>
+<span class="material-symbols-outlined text-xs text-on-surface-variant" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- List Item 4-13 & 15+ -->
+<div class="space-y-2">
+<!-- Rank 4 -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:bg-surface-container-low transition-colors border border-outline-variant/10">
+<span class="w-6 text-center font-bold text-on-surface-variant">4</span>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up photographic portrait of a female professional with sleek black hair, wearing a high-collared tech jacket. Minimalist lighting, corporate clean style, vibrant clarity, soft white and gray studio backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQsFvXBnNkbH50l6jChrGXktx0TiWQdmvznkLlNRTOW6h1U7v4YkZq7-smj-PTVkpxIQz7ZT4XE4_GrCrr2V5igMD4WHSCKisPXTPOKH8Z2vIQowWiUl7_bXld7mwS52mTQgBij7sAoquLV-twpMvlHM2_ONCjC5_sVQfrQLoFTSM-CHZrAMsr2r59giiUsbJAacEKLXUNhuNciCHk1mtNbVy_nCfakrpSOloohd2jw884HKJyHUcYSgJnkyCv1wCEqxMrxRvCIFOq">
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<p class="font-bold text-on-surface">Maya Sterling</p>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<p class="text-[10px] text-on-surface-variant">Cyber Architect</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">1,640</p>
+</div>
+</div>
+<!-- Rank 5 -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:bg-surface-container-low transition-colors border border-outline-variant/10">
+<span class="w-6 text-center font-bold text-on-surface-variant">5</span>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male IT professional with short cropped hair and a subtle beard, smiling confidently. Soft natural light, modern office setting background with blurred green plants, professional photography aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB31S1FJm0DzFhmE12_876q8NmihdLaFrkKeAg7VnvUV2BQW3qHXcVYT21G8lJchfOnXtr4jWShQEDvj-Y95o41ZTbboyOyWn59lSeR7Z0xPtnOXzlt5ktC8qN2-33j4tW5oEoQenHCeZS0qBg_GLBKoOuMq_GJHH6eciFN5ZgTuOvvYk1tpI8qIdKOGMqBbqiB6Dp21Tb6GhWWAdW-7hDkuyavKjk1pVphFCVuzg1IfXx30vKZabAQft6QkUxbTAp3pJhJPZd_DTRy">
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">James T.</p>
+<p class="text-[10px] text-on-surface-variant">SOC Analyst</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">1,612</p>
+</div>
+</div>
+<!-- Divider with Rank Gaps -->
+<div class="flex items-center justify-center py-2">
+<div class="h-1 w-1 bg-outline rounded-full mx-1 opacity-40"></div>
+<div class="h-1 w-1 bg-outline rounded-full mx-1 opacity-40"></div>
+<div class="h-1 w-1 bg-outline rounded-full mx-1 opacity-40"></div>
+</div>
+<!-- Rank 13 (Just above user) -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:bg-surface-container-low transition-colors border border-outline-variant/10">
+<span class="w-6 text-center font-bold text-on-surface-variant">13</span>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a woman in a smart gray blazer, sharp and focused expression. Neutral studio lighting, clean tech-inspired background with subtle blue gradients, high-end commercial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChtIXMERUEV1yZZP0OQNs8oK7PjjCU4UDl7PRjN1-SLZm8UkzHsqH5oU1HzK529jO7h6yXHzvfXt4nHCVrWTJDN_h61O5IY4ijcWEQTfMRA_Z6RK2210B6MGHYR0dzMhrF-CxsJPfns6mfhZuMqv61iqwGx7HG7y4zKsd_ITjW_XkOOxSxY9xFGoBf703oP6YvrFpw4SJwsVVCKwJ_aZrX1jjLhT-OEG9GDUByQKladKozR0b_AlhhnxqWeShrDCUrqQkEUnyNDoeq">
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">Lana Volkov</p>
+<p class="text-[10px] text-on-surface-variant">Penetration Tester</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">1,475</p>
+</div>
+</div>
+<!-- Rank 15 (Just below user) -->
+<div class="bg-white p-4 rounded-xl shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] flex items-center gap-4 hover:bg-surface-container-low transition-colors border border-outline-variant/10">
+<span class="w-6 text-center font-bold text-on-surface-variant">15</span>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young diverse male in a casual hoodie looking engaged and cheerful. Warm morning sunlight, urban tech loft background, natural lifestyle photography, crisp detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcFlHFqdqv8rdT2V3o-qpOCnTT2NXxjnECbixS3OoR52UVnImR6NuRJUsWu59avK85ul-ItywKRPpkHOaAaPYYNTQVgDmYkwA66yie6CAD-RUTtZEKA3iq_pkVUJ89Xc5kGjqKz-2_9dfxLbHKoYAJ8DSW87JAAZhe9oDN6hGysUwePwE_KZBJMLjqzxiFUdztJVm2nX80u2wogYixK5oIcnZZArl_gpOyVulQaCKrPZ51J7w63pK68MOgtipm9FtQ-aU_jNgiA29-">
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">Jordan M.</p>
+<p class="text-[10px] text-on-surface-variant">Network Admin</p>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">1,420</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg rounded-t-xl shadow-lg border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors hover:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors hover:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors hover:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors hover:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for the "You" card
+        const userCard = document.querySelector('.sticky');
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            if (scrollPos > 100) {
+                userCard.classList.add('scale-[0.98]', 'opacity-95');
+            } else {
+                userCard.classList.remove('scale-[0.98]', 'opacity-95');
+            }
+        });
+
+        // Simple animation for podium loading
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.podium-gradient');
+            items.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+        });
+    </script>
+</body></html>

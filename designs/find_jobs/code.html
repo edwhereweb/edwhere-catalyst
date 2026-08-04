@@ -1,0 +1,321 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edwhere | Find Jobs</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d8e3fb",
+                    "secondary": "#6b38d4",
+                    "surface-container-high": "#dee8ff",
+                    "background": "#f9f9ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-tertiary-container": "#f9ffea",
+                    "on-background": "#111c2d",
+                    "primary-container": "#2170e4",
+                    "on-surface": "#111c2d",
+                    "surface-container-low": "#f0f3ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-surface-variant": "#424754",
+                    "on-primary-container": "#fefcff",
+                    "on-secondary-fixed-variant": "#5516be",
+                    "primary-fixed": "#d8e2ff",
+                    "on-secondary-container": "#fffbff",
+                    "surface-tint": "#005ac2",
+                    "inverse-on-surface": "#ecf1ff",
+                    "inverse-primary": "#adc6ff",
+                    "tertiary-fixed": "#acf847",
+                    "tertiary-container": "#518200",
+                    "inverse-surface": "#263143",
+                    "secondary-container": "#8455ef",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#304f00",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cfdaf2",
+                    "outline-variant": "#c2c6d6",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#727785",
+                    "on-tertiary-fixed": "#102000",
+                    "on-secondary-fixed": "#23005c",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#d0bcff",
+                    "tertiary": "#3f6700",
+                    "surface-container": "#e7eeff",
+                    "tertiary-fixed-dim": "#91db2a",
+                    "primary": "#0058be",
+                    "secondary-fixed": "#e9ddff",
+                    "on-primary-fixed": "#001a42",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-mobile": "20px",
+                    "container-padding-desktop": "40px",
+                    "stack-overlap": "-12px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC; /* Level 0 Background */
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .ambient-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+        }
+        .active-tab-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #0058be;
+            border-radius: 99px;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Edwhere</h1>
+</div>
+<button class="hover:scale-110 transition-transform active:scale-95 duration-200" onclick="window.location.href='{{DATA:SCREEN:SCREEN_8}}'">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-20 px-container-padding-mobile max-w-7xl mx-auto">
+<!-- Title & Search Area -->
+<section class="mt-4">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-6">Find Jobs</h2>
+<div class="flex gap-3 mb-8">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-white border border-outline-variant/50 rounded-xl py-3.5 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ambient-shadow text-body-md" placeholder="Search roles, companies..." type="text">
+</div>
+<button class="bg-primary text-on-primary p-3.5 rounded-xl ambient-shadow hover:bg-primary-container transition-colors flex items-center justify-center shrink-0" onclick="window.location.href='{{DATA:SCREEN:SCREEN_7}}'">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</section>
+<!-- Navigation Tabs -->
+<nav class="flex border-b border-outline-variant/30 mb-8 overflow-x-auto hide-scrollbar">
+<button class="px-4 py-3 font-label-md text-label-md text-primary relative active-tab-indicator whitespace-nowrap">Discover</button>
+<button class="px-4 py-3 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:text-primary transition-colors">Saved</button>
+<button class="px-4 py-3 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:text-primary transition-colors">Applied</button>
+<button class="px-4 py-3 font-label-md text-label-md text-on-surface-variant whitespace-nowrap hover:text-primary transition-colors">Community</button>
+</nav>
+<!-- Discovery Stats / Featured Header (Visual Flair) -->
+<div class="mb-8 p-6 rounded-2xl bg-inverse-surface relative overflow-hidden ambient-shadow">
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<p class="text-white/70 font-label-sm text-label-sm mb-1">Recommended for you</p>
+<h3 class="text-white font-headline-md text-headline-md">14 New Cyber Roles</h3>
+</div>
+<button class="bg-tertiary-fixed text-on-tertiary-fixed px-5 py-2.5 rounded-full font-label-md text-label-md hover:scale-105 transition-transform">
+                    Set Alert
+                </button>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-primary/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Job Cards List -->
+<div class="space-y-6 mb-20">
+<!-- Job Card 1 -->
+<article class="bg-white p-6 rounded-2xl ambient-shadow border border-white hover:border-primary/20 hover:scale-[1.01] transition-all duration-300 group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-14 h-14 rounded-xl overflow-hidden border border-outline-variant/20 shrink-0">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist logo for a cybersecurity firm named SentinelOne, featuring a stylized shield icon in deep blue and white, set against a pristine, well-lit corporate studio background with soft bokeh. The aesthetic is modern and secure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbG5tDZ9-csShc46KppgVeYQ2_yxlYePMhHyE839GdM3PsjQei1c6pG5-mMj2fkrq1ULEJ6Kg7kjkgGkjBf0fNcLFDr1Ag2_f5OBSCvIehum8rSzjuu-nTJaKo6DZj2CiVSHWLEh-ZB8uYN0rxMnQaHF9VY7Up7l8jUsQQo21asocBD5ekCROgYxl2-FdFX3lYejHh94c1zhepPfQfZhIW6r_j5Q22NX3P6Ys-M1G43nZSHIIJ6g3Cd_vbCPsMtM_8h6JgF7EvZquV">
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Junior SOC Analyst</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">SentinelOne</p>
+</div>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-3 py-1 bg-surface-container-low text-primary font-label-sm text-label-sm rounded-lg border border-primary/10">Full-time</span>
+<span class="px-3 py-1 bg-surface-container-low text-primary font-label-sm text-label-sm rounded-lg border border-primary/10">Remote</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-primary-fixed-variant font-label-sm text-label-sm rounded-lg">₹12-18 LPA</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/20">
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">schedule</span> Posted 2h ago
+                    </span>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-label-md text-label-md hover:bg-primary-container active:scale-95 transition-all shadow-md shadow-primary/20" onclick="window.location.href='{{DATA:SCREEN:SCREEN_10}}'">
+                        View
+                    </button>
+</div>
+</article>
+<!-- Job Card 2 -->
+<article class="bg-white p-6 rounded-2xl ambient-shadow border border-white hover:border-primary/20 hover:scale-[1.01] transition-all duration-300 group">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-4">
+<div class="w-14 h-14 rounded-xl overflow-hidden border border-outline-variant/20 shrink-0">
+<img class="w-full h-full object-cover" data-alt="A professional high-tech corporate logo for Palo Alto Networks, displayed on a sleek glass panel within a brightly lit, contemporary office lobby. The lighting is crisp and natural, emphasizing a high-energy, premium tech industry vibe with soft blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhyRF3rxaNoyE_jaK__3R8X_EaS5V5Ug1LORlw4z6r4DKRJzNNNuTlW_Bdo5olMdFYKYv_pMehRQxAI5IYW-Yl3ccNY4JqmajySUIkSgKJGDjMD_f1b3dTp-CQVwClaEVXO0D8YgCcTyy6Bf2PgqMq64DskknEdCeYT_JGKB4N3AicvZJkibdnjIU2axRXkkcj3a3wcW1XwlymszfEFL-hUPfRsZBM2nNDjbDsfI5mc5z_hBlJxepuQQvnRZ8BFwB_2Kvi2X1ku4gs">
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Cloud Security Intern</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">Palo Alto Networks</p>
+</div>
+</div>
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-3 py-1 bg-secondary/5 text-secondary font-label-sm text-label-sm rounded-lg border border-secondary/10">Internship</span>
+<span class="px-3 py-1 bg-secondary/5 text-secondary font-label-sm text-label-sm rounded-lg border border-secondary/10">Bangalore</span>
+<span class="px-3 py-1 bg-tertiary-container/10 text-tertiary font-label-sm text-label-sm rounded-lg">₹35k/mo</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/20">
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">schedule</span> Posted 5h ago
+                    </span>
+<button class="bg-surface-container-low text-primary px-6 py-2.5 rounded-xl font-label-md text-label-md hover:bg-surface-container-high active:scale-95 transition-all" onclick="window.location.href='{{DATA:SCREEN:SCREEN_10}}'">
+                        View
+                    </button>
+</div>
+</article>
+<!-- Card 3: Community/Referral nudge (Additional context) -->
+<div class="p-6 rounded-2xl bg-secondary-container text-white flex items-center gap-4 relative overflow-hidden">
+<div class="z-10">
+<h5 class="font-headline-md text-headline-md mb-1">Get Referrals</h5>
+<p class="text-white/80 text-body-md mb-3">Connect with 4 alumni currently working at SentinelOne.</p>
+<button class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-white/30 transition-colors" onclick="window.location.href='{{DATA:SCREEN:SCREEN_18}}'">Explore Community</button>
+</div>
+<span class="material-symbols-outlined text-white/20 text-8xl absolute -right-4 -bottom-4 rotate-12">groups</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_15}}">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full hover:text-primary transition-colors scale-105" href="{{DATA:SCREEN:SCREEN_16}}">
+<span class="material-symbols-outlined">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_17}}">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_9}}">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_21}}">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button - Contextual -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:bottom-10" onclick="window.location.href='{{DATA:SCREEN:SCREEN_19}}'">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+<script>
+        // Simple Interaction logic for tabs
+        const tabs = document.querySelectorAll('nav button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('text-primary', 'active-tab-indicator');
+                    t.classList.add('text-on-surface-variant');
+                });
+                tab.classList.add('text-primary', 'active-tab-indicator');
+                tab.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+
+
+</body></html>

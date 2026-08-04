@@ -1,0 +1,330 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Create New Lab | Edwhere</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#d8e3fb",
+                        "secondary": "#6b38d4",
+                        "surface-container-high": "#dee8ff",
+                        "background": "#f9f9ff",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary-container": "#f9ffea",
+                        "on-background": "#111c2d",
+                        "primary-container": "#2170e4",
+                        "on-surface": "#111c2d",
+                        "surface-container-low": "#f0f3ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-tint": "#005ac2",
+                        "inverse-on-surface": "#ecf1ff",
+                        "inverse-primary": "#adc6ff",
+                        "tertiary-fixed": "#acf847",
+                        "tertiary-container": "#518200",
+                        "inverse-surface": "#263143",
+                        "secondary-container": "#8455ef",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#304f00",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cfdaf2",
+                        "outline-variant": "#c2c6d6",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727785",
+                        "on-tertiary-fixed": "#102000",
+                        "on-secondary-fixed": "#23005c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "tertiary": "#3f6700",
+                        "surface-container": "#e7eeff",
+                        "tertiary-fixed-dim": "#91db2a",
+                        "primary": "#0058be",
+                        "secondary-fixed": "#e9ddff",
+                        "on-primary-fixed": "#001a42",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "stack-overlap": "-12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            font-family: 'Inter', sans-serif;
+            color: #111c2d;
+            margin: 0;
+            padding: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .form-input-focus:focus {
+            outline: none;
+            border-color: #0058be;
+            box-shadow: 0 0 0 3px rgba(0, 88, 190, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d8e3fb;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="hover:scale-110 transition-transform active:scale-95 duration-200 text-primary">
+<span class="material-symbols-outlined text-headline-md">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary hover:scale-110 transition-transform cursor-pointer">security</span>
+<span class="material-symbols-outlined text-primary hover:scale-110 transition-transform cursor-pointer">notifications</span>
+</div>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-2xl mx-auto">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-2">Create New Lab</h2>
+<p class="font-body-md text-on-surface-variant">Design a challenge for your peers. Your lab will be reviewed by the security council before being published to the Labs directory.</p>
+</div>
+<!-- Form Container -->
+<div class="glass-card p-6 rounded-xl shadow-lg mb-8">
+<form action="#" class="space-y-6" method="POST">
+<!-- Lab Name -->
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="lab_name">Lab Name</label>
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all duration-200" id="lab_name" name="lab_name" placeholder="e.g. SQL Injection Mastery" type="text">
+</div>
+<!-- Description -->
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="description">Description</label>
+<textarea class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all duration-200 resize-none" id="description" name="description" placeholder="Briefly describe the learning objectives and scenario..." rows="4"></textarea>
+</div>
+<!-- Field & Hours Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="field">Field</label>
+<select class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all duration-200 appearance-none" id="field" name="field">
+<option value="">Select Field</option>
+<option value="web_sec">Web Security</option>
+<option value="network">Network Auditing</option>
+<option value="forensics">Digital Forensics</option>
+<option value="crypto">Cryptography</option>
+<option value="malware">Malware Analysis</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-on-surface mb-2" for="hours">Estimated Hours</label>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest font-body-md form-input-focus transition-all duration-200" id="hours" name="hours" placeholder="2.5" type="number">
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-label-sm">HRS</span>
+</div>
+</div>
+</div>
+<!-- Difficulty -->
+<div>
+<label class="block font-label-md text-on-surface mb-4">Difficulty Level</label>
+<div class="grid grid-cols-3 gap-3">
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="difficulty" type="radio" value="beginner">
+<div class="flex flex-col items-center p-3 rounded-lg border border-outline-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed group-hover:bg-surface-container-low transition-all duration-200">
+<span class="material-symbols-outlined text-primary mb-1">signal_cellular_1_bar</span>
+<span class="font-label-sm">Beginner</span>
+</div>
+</label>
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="difficulty" type="radio" value="intermediate">
+<div class="flex flex-col items-center p-3 rounded-lg border border-outline-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed group-hover:bg-surface-container-low transition-all duration-200">
+<span class="material-symbols-outlined text-primary mb-1">signal_cellular_3_bar</span>
+<span class="font-label-sm">Intermediate</span>
+</div>
+</label>
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="difficulty" type="radio" value="advanced">
+<div class="flex flex-col items-center p-3 rounded-lg border border-outline-variant bg-surface-container-lowest peer-checked:border-primary peer-checked:bg-primary-fixed group-hover:bg-surface-container-low transition-all duration-200">
+<span class="material-symbols-outlined text-primary mb-1">signal_cellular_4_bar</span>
+<span class="font-label-sm">Advanced</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Instructions Upload -->
+<div>
+<label class="block font-label-md text-on-surface mb-2">Instructions Upload (PDF/MD)</label>
+<div class="relative border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center bg-surface-container-low/30 hover:bg-surface-container-low transition-colors duration-200 group" id="drop-zone">
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="instructions" name="instructions" type="file">
+<span class="material-symbols-outlined text-4xl text-outline mb-3 group-hover:text-primary transition-colors">upload_file</span>
+<p class="font-label-md text-on-surface mb-1">Click or drag to upload</p>
+<p class="font-label-sm text-on-surface-variant">Max size: 10MB</p>
+</div>
+<div class="hidden mt-3 p-3 bg-tertiary-fixed/30 rounded-lg flex items-center justify-between" id="file-indicator">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-label-sm text-on-tertiary-fixed" id="file-name">Lab_Guide.pdf</span>
+</div>
+<button class="text-error hover:scale-110 transition-transform" type="button">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-4">
+<button class="w-full py-4 bg-primary text-on-primary font-headline-md rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+<span>Submit for Review</span>
+<span class="material-symbols-outlined">send</span>
+</button>
+<p class="text-center font-label-sm text-on-surface-variant mt-4">Average review time: 24-48 hours</p>
+</div>
+</form>
+</div>
+<!-- Helpful Tips Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+<div class="bg-surface-container-high p-4 rounded-xl flex gap-4 items-start">
+<div class="bg-primary-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-primary-container">lightbulb</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Pro Tip</h4>
+<p class="font-label-sm text-on-surface-variant mt-1">Include high-quality screenshots in your PDF instructions to help students follow along.</p>
+</div>
+</div>
+<div class="bg-secondary-container/10 p-4 rounded-xl flex gap-4 items-start border border-secondary-container/20">
+<div class="bg-secondary-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container">shield_person</span>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Identity</h4>
+<p class="font-label-sm text-on-surface-variant mt-1">Authors gain +50 XP and a "Creator" badge upon first approved lab publication.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg shadow-lg rounded-t-xl flex justify-around items-center px-4 pb-safe h-16 border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions
+        const fileInput = document.getElementById('instructions');
+        const fileIndicator = document.getElementById('file-indicator');
+        const fileNameLabel = document.getElementById('file-name');
+        const dropZone = document.getElementById('drop-zone');
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameLabel.textContent = e.target.files[0].name;
+                fileIndicator.classList.remove('hidden');
+                dropZone.classList.add('border-primary', 'bg-primary-fixed/20');
+            }
+        });
+
+        // Form submission animation mock
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">refresh</span> <span>Processing...</span>`;
+            
+            setTimeout(() => {
+                btn.classList.replace('bg-primary', 'bg-tertiary');
+                btn.innerHTML = `<span class="material-symbols-outlined">done_all</span> <span>Submitted Successfully</span>`;
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.classList.replace('bg-tertiary', 'bg-primary');
+                    btn.innerHTML = originalContent;
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body></html>

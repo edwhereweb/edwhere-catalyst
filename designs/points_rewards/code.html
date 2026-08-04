@@ -1,0 +1,395 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edwhere - Your Progress</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d8e3fb",
+                    "secondary": "#6b38d4",
+                    "surface-container-high": "#dee8ff",
+                    "background": "#f9f9ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-tertiary-container": "#f9ffea",
+                    "on-background": "#111c2d",
+                    "primary-container": "#2170e4",
+                    "on-surface": "#111c2d",
+                    "surface-container-low": "#f0f3ff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-surface-variant": "#424754",
+                    "on-primary-container": "#fefcff",
+                    "on-secondary-fixed-variant": "#5516be",
+                    "primary-fixed": "#d8e2ff",
+                    "on-secondary-container": "#fffbff",
+                    "surface-tint": "#005ac2",
+                    "inverse-on-surface": "#ecf1ff",
+                    "inverse-primary": "#adc6ff",
+                    "tertiary-fixed": "#acf847",
+                    "tertiary-container": "#518200",
+                    "inverse-surface": "#263143",
+                    "secondary-container": "#8455ef",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-tertiary-fixed-variant": "#304f00",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cfdaf2",
+                    "outline-variant": "#c2c6d6",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#727785",
+                    "on-tertiary-fixed": "#102000",
+                    "on-secondary-fixed": "#23005c",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#d0bcff",
+                    "tertiary": "#3f6700",
+                    "surface-container": "#e7eeff",
+                    "tertiary-fixed-dim": "#91db2a",
+                    "primary": "#0058be",
+                    "secondary-fixed": "#e9ddff",
+                    "on-primary-fixed": "#001a42",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-mobile": "20px",
+                    "container-padding-desktop": "40px",
+                    "stack-overlap": "-12px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.8s ease-in-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating { animation: float 4s ease-in-out infinite; }
+        
+        /* Custom scrollbar for Badge Gallery */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animation for the streak flame */
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .flame-active { animation: flicker 1.5s infinite ease-in-out; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md" data-icon="security">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:scale-110 transition-transform active:scale-95 duration-200">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-7xl mx-auto">
+<!-- Title Section -->
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background">Your Progress</h2>
+<p class="text-on-surface-variant font-body-md">Keep pushing, you're in the top 5% of security researchers this week!</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Streak & Points Main Card (Large) -->
+<div class="md:col-span-8 bg-[#1E293B] rounded-xl p-8 text-white relative overflow-hidden shadow-xl flex flex-col justify-between min-h-[320px]">
+<!-- Background visual noise -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-secondary/20 rounded-full blur-3xl -ml-20 -mb-20"></div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="w-24 h-24 bg-surface-container-highest/10 rounded-full flex items-center justify-center border-2 border-primary-fixed-dim/30">
+<span class="material-symbols-outlined text-6xl text-tertiary-fixed-dim flame-active" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+</div>
+<div>
+<span class="font-display-lg text-display-lg block leading-none">12</span>
+<span class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-widest">Day Streak</span>
+</div>
+</div>
+<div class="h-16 w-px bg-outline-variant/20 hidden md:block"></div>
+<div class="flex flex-col">
+<span class="text-on-primary-container/70 font-label-md uppercase tracking-wider mb-1">Total Points Earned</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-tertiary-fixed">1,450</span>
+<span class="material-symbols-outlined text-tertiary-fixed" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 mt-8 pt-8 border-t border-outline-variant/10 flex gap-4 overflow-x-auto no-scrollbar">
+<!-- Daily mini indicators -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xs font-bold">M</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Repeated for visual effect -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xs font-bold">T</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xs font-bold">W</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xs font-bold">T</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center text-xs font-bold">F</div>
+<span class="material-symbols-outlined text-tertiary-fixed text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-xs font-bold">S</div>
+<div class="w-1.5 h-1.5 rounded-full bg-outline"></div>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-xs font-bold">S</div>
+<div class="w-1.5 h-1.5 rounded-full bg-outline"></div>
+</div>
+</div>
+</div>
+<!-- Weekly Completion Ring Card -->
+<div class="md:col-span-4 bg-white rounded-xl p-6 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] border border-surface-container flex flex-col items-center justify-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-widest">Weekly Completion</span>
+<div class="relative w-40 h-40">
+<!-- Progress Ring -->
+<svg class="w-full h-full" viewBox="0 0 100 100">
+<circle class="text-surface-container stroke-current" cx="50" cy="50" fill="transparent" r="40" stroke-width="8"></circle>
+<circle class="text-primary stroke-current progress-ring-circle" cx="50" cy="50" fill="transparent" r="40" stroke-linecap="round" stroke-width="8" style="stroke-dasharray: 251.2; stroke-dashoffset: 37.68;"></circle>
+<!-- Orbit Dot (Yellow Carry-forward) -->
+<circle class="fill-tertiary-fixed-dim" cx="50" cy="10" r="4" transform="rotate(270 50 50)"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-primary">85%</span>
+<span class="text-label-sm text-label-sm text-on-surface-variant">Completed</span>
+</div>
+</div>
+<div class="mt-6 p-3 bg-surface-container-low rounded-lg w-full">
+<p class="text-label-sm text-on-surface-variant italic">"Almost there! 3 more labs to reach 100%"</p>
+</div>
+</div>
+<!-- Badges Gallery -->
+<div class="md:col-span-12 bg-white rounded-xl p-6 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] border border-surface-container">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Badge Collection</h3>
+<button class="text-primary font-label-md hover:underline">View All</button>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
+<!-- Badge Item: Unlocked -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3 w-28 group">
+<div class="w-20 h-20 bg-secondary-fixed rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform cursor-pointer relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary/20 to-transparent"></div>
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<span class="text-label-sm text-label-sm text-center font-bold text-on-surface">Bug Hunter</span>
+</div>
+<!-- Badge Item: Unlocked -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3 w-28 group">
+<div class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform cursor-pointer relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="terminal" style="font-variation-settings: 'FILL' 1;">terminal</span>
+</div>
+<span class="text-label-sm text-label-sm text-center font-bold text-on-surface">Script Kiddy</span>
+</div>
+<!-- Badge Item: Unlocked -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3 w-28 group">
+<div class="w-20 h-20 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform cursor-pointer relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary/20 to-transparent"></div>
+<span class="material-symbols-outlined text-tertiary text-4xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="text-label-sm text-label-sm text-center font-bold text-on-surface">Project Ace</span>
+</div>
+<!-- Badge Item: Locked -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3 w-28 opacity-40">
+<div class="w-20 h-20 bg-surface-variant rounded-full flex items-center justify-center grayscale">
+<span class="material-symbols-outlined text-outline text-4xl" data-icon="lock">lock</span>
+</div>
+<span class="text-label-sm text-label-sm text-center text-on-surface">Root Admin</span>
+</div>
+<!-- Badge Item: Locked -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3 w-28 opacity-40">
+<div class="w-20 h-20 bg-surface-variant rounded-full flex items-center justify-center grayscale">
+<span class="material-symbols-outlined text-outline text-4xl" data-icon="shield_person">shield_person</span>
+</div>
+<span class="text-label-sm text-label-sm text-center text-on-surface">Guardian</span>
+</div>
+</div>
+</div>
+<!-- History of Rewards (Timeline) -->
+<div class="md:col-span-12 bg-white rounded-xl p-6 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] border border-surface-container">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">History of Rewards</h3>
+<div class="space-y-6">
+<!-- Timeline Item -->
+<div class="flex gap-4 relative">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-xl" data-icon="upload_file">upload_file</span>
+</div>
+<div class="w-0.5 h-full bg-outline-variant/30 absolute top-10"></div>
+</div>
+<div class="flex-1 pb-6">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Network Forensics Submission</h4>
+<p class="text-label-sm text-label-sm text-on-surface-variant">Project: Advanced Packet Analysis</p>
+</div>
+<span class="text-tertiary font-bold text-label-md">+250 pts</span>
+</div>
+<span class="text-[10px] text-outline uppercase tracking-tighter">Oct 24, 2023 • 14:20</span>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="flex gap-4 relative">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-white flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-xl" data-icon="terminal">terminal</span>
+</div>
+<div class="w-0.5 h-full bg-outline-variant/30 absolute top-10"></div>
+</div>
+<div class="flex-1 pb-6">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Module Completion</h4>
+<p class="text-label-sm text-label-sm text-on-surface-variant">Bash Scripting for Automation</p>
+</div>
+<span class="text-tertiary font-bold text-label-md">+100 pts</span>
+</div>
+<span class="text-[10px] text-outline uppercase tracking-tighter">Oct 22, 2023 • 09:15</span>
+</div>
+</div>
+<!-- Timeline Item -->
+<div class="flex gap-4 relative">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-xl" data-icon="emoji_events">emoji_events</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Weekly Streak Bonus</h4>
+<p class="text-label-sm text-label-sm text-on-surface-variant">7-day consistency award</p>
+</div>
+<span class="text-tertiary font-bold text-label-md">+500 pts</span>
+</div>
+<span class="text-[10px] text-outline uppercase tracking-tighter">Oct 20, 2023 • 23:59</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg flex justify-around items-center px-4 pb-safe h-16 shadow-lg border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full active:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-105 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple intersection observer to trigger ring animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const circle = entry.target.querySelector('.progress-ring-circle');
+                    if (circle) {
+                        // Reset and then set to animate
+                        circle.style.strokeDashoffset = '251.2';
+                        setTimeout(() => {
+                            circle.style.strokeDashoffset = '37.68'; // 85% completion (251.2 * (1 - 0.85))
+                        }, 100);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.md\\:col-span-4').forEach(card => observer.observe(card));
+    </script>
+</body></html>

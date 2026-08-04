@@ -1,0 +1,343 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edwhere Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.8s ease-in-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .pending-stack-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .pending-stack-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#d8e3fb",
+                      "secondary": "#6b38d4",
+                      "surface-container-high": "#dee8ff",
+                      "background": "#f9f9ff",
+                      "on-primary-fixed-variant": "#004395",
+                      "on-tertiary-container": "#f9ffea",
+                      "on-background": "#111c2d",
+                      "primary-container": "#2170e4",
+                      "on-surface": "#111c2d",
+                      "surface-container-low": "#f0f3ff",
+                      "primary-fixed-dim": "#adc6ff",
+                      "on-surface-variant": "#424754",
+                      "on-primary-container": "#fefcff",
+                      "on-secondary-fixed-variant": "#5516be",
+                      "primary-fixed": "#d8e2ff",
+                      "on-secondary-container": "#fffbff",
+                      "surface-tint": "#005ac2",
+                      "inverse-on-surface": "#ecf1ff",
+                      "inverse-primary": "#adc6ff",
+                      "tertiary-fixed": "#acf847",
+                      "tertiary-container": "#518200",
+                      "inverse-surface": "#263143",
+                      "secondary-container": "#8455ef",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#d8e3fb",
+                      "on-tertiary-fixed-variant": "#304f00",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#cfdaf2",
+                      "outline-variant": "#c2c6d6",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#727785",
+                      "on-tertiary-fixed": "#102000",
+                      "on-secondary-fixed": "#23005c",
+                      "on-primary": "#ffffff",
+                      "surface-bright": "#f9f9ff",
+                      "on-secondary": "#ffffff",
+                      "surface": "#f9f9ff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#d0bcff",
+                      "tertiary": "#3f6700",
+                      "surface-container": "#e7eeff",
+                      "tertiary-fixed-dim": "#91db2a",
+                      "primary": "#0058be",
+                      "secondary-fixed": "#e9ddff",
+                      "on-primary-fixed": "#001a42",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "base": "8px",
+                      "container-padding-mobile": "20px",
+                      "container-padding-desktop": "40px",
+                      "stack-overlap": "-12px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "label-sm": ["Inter"],
+                      "display-lg": ["Plus Jakarta Sans"],
+                      "headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary font-bold text-headline-md">security</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 bg-surface-container-high px-3 py-1 rounded-full border border-primary/10">
+<span class="text-[16px]">🔥</span>
+<span class="font-label-md text-label-md text-primary">12</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:scale-110 transition-transform p-2 rounded-full hover:bg-surface-variant/20">
+                    notifications
+                </button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-7xl mx-auto space-y-8">
+<!-- Welcome Section -->
+<section class="space-y-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Hello, Aryan 👋</h2>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-80">Stay disciplined, your dream job is 4 weeks away.</p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Weekly Job Checklist Card (Dark Focus Card) -->
+<div class="md:col-span-8 bg-[#1E293B] rounded-[24px] p-6 text-white shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-10 blur-[100px] -mr-32 -mt-32"></div>
+<div class="flex justify-between items-start relative z-10">
+<div class="space-y-4">
+<div>
+<span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 text-[12px] font-bold rounded-full uppercase tracking-wider">On Track</span>
+<h3 class="font-headline-md text-headline-md mt-2">Weekly Applications</h3>
+</div>
+<p class="text-white/70 font-body-md max-w-xs">4 more this week. 2 stacked from last week (Pending)</p>
+</div>
+<!-- Progress Ring -->
+<div class="relative w-32 h-32">
+<svg class="w-full h-full">
+<circle cx="64" cy="64" fill="transparent" r="54" stroke="rgba(255,255,255,0.1)" stroke-width="10"></circle>
+<circle class="text-primary-container progress-ring-circle" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="10" style="stroke-dasharray: 339.292; stroke-dashoffset: calc(339.292 - (339.292 * 60) / 100);"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-headline-md text-headline-md">6/10</span>
+<span class="text-[10px] uppercase opacity-60">Completed</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-8 relative z-10">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-xl font-label-md transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Log New
+                    </button>
+<button class="text-white/80 hover:text-white font-label-md transition-all">Explore Opportunities</button>
+</div>
+</div>
+<!-- Mini Leaderboard Card -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[24px] p-6 shadow-sm flex flex-col border border-outline-variant/30">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface">Leaderboard</h3>
+<span class="text-primary font-bold text-label-md">Rank #14</span>
+</div>
+<div class="space-y-4 flex-grow">
+<div class="flex items-center justify-between p-3 bg-surface rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="w-6 font-bold text-on-surface-variant opacity-40">1</span>
+<div class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center text-[12px] font-bold text-white">IS</div>
+<span class="font-label-md text-on-surface">Ishaan</span>
+</div>
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="w-6 font-bold text-on-surface-variant opacity-40">2</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[12px] font-bold text-white">KI</div>
+<span class="font-label-md text-on-surface">Kiara</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface rounded-xl border border-outline-variant/20">
+<div class="flex items-center gap-3">
+<span class="w-6 font-bold text-on-surface-variant opacity-40">3</span>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[12px] font-bold text-white">RO</div>
+<span class="font-label-md text-on-surface">Rohan</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-3 bg-white text-primary font-label-md rounded-xl border border-primary/20 hover:bg-primary-fixed transition-colors">
+                    View Full Rankings
+                </button>
+</div>
+<!-- Skill Building Card (Light Card) -->
+<div class="md:col-span-6 bg-white rounded-[24px] p-6 shadow-sm border border-outline-variant/30 flex flex-col justify-between group">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-error-container text-error text-[12px] font-bold rounded-full uppercase tracking-wider">Behind</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Skill Building</h3>
+<p class="text-on-surface-variant font-body-md mt-2">Target: 10 hrs / week</p>
+</div>
+<div class="relative w-24 h-24">
+<svg class="w-full h-full">
+<circle class="opacity-20" cx="48" cy="48" fill="transparent" r="40" stroke="var(--outline-variant)" stroke-width="8"></circle>
+<circle class="text-secondary progress-ring-circle" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8" style="stroke-dasharray: 251.327; stroke-dashoffset: calc(251.327 - (251.327 * 45) / 100);"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-label-md text-on-surface">4.5h</span>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<button class="w-full bg-secondary-fixed text-on-secondary-fixed font-label-md py-3 rounded-xl hover:bg-secondary-container hover:text-white transition-all flex items-center justify-center gap-2 group-hover:shadow-md">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                        Explore Projects
+                    </button>
+</div>
+</div>
+<!-- Career Setup Card (Checklist Card) -->
+<div class="md:col-span-6 bg-surface-container-high rounded-[24px] p-6 shadow-sm border border-outline-variant/30 relative overflow-hidden">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-secondary">list_alt</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Career Setup</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-4 bg-white rounded-2xl shadow-sm border border-outline-variant/10">
+<div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-white">check</span>
+</div>
+<span class="font-body-md text-on-surface line-through opacity-50">Resume Update</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-white rounded-2xl shadow-sm border border-outline-variant/10 hover:border-primary/40 transition-colors cursor-pointer group">
+<div class="w-6 h-6 rounded-full border-2 border-outline group-hover:border-primary transition-colors"></div>
+<span class="font-body-md text-on-surface">LinkedIn Setup</span>
+<span class="ml-auto text-primary text-[12px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">DO NOW</span>
+</div>
+<div class="flex items-center gap-3 p-4 bg-white rounded-2xl shadow-sm border border-outline-variant/10 hover:border-primary/40 transition-colors cursor-pointer group">
+<div class="w-6 h-6 rounded-full border-2 border-outline group-hover:border-primary transition-colors"></div>
+<span class="font-body-md text-on-surface">Portfolio Review</span>
+</div>
+</div>
+<!-- Pending Stack Effect -->
+<div class="mt-6 pt-4 border-t border-outline-variant/20">
+<p class="text-[12px] font-bold text-on-surface-variant mb-3">PENDING FROM PREVIOUS MONTH</p>
+<div class="relative h-12">
+<div class="absolute top-0 left-0 w-full bg-white p-3 rounded-xl border border-outline-variant/20 shadow-sm pending-stack-card z-30 flex items-center justify-between">
+<span class="text-label-md truncate">Certifications Audit</span>
+<span class="material-symbols-outlined text-error text-[18px]">priority_high</span>
+</div>
+<div class="absolute top-[8px] left-[10px] right-[10px] h-10 bg-surface-variant/40 rounded-xl border border-outline-variant/10 z-20"></div>
+<div class="absolute top-[16px] left-[20px] right-[20px] h-10 bg-surface-variant/20 rounded-xl border border-outline-variant/10 z-10"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Section Image/Banner -->
+<div class="w-full h-48 rounded-[24px] overflow-hidden relative group cursor-pointer">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-700 group-hover:scale-105" data-alt="A modern, high-tech workspace for a cybersecurity student, featuring dual monitors displaying lines of code and network maps. The room is softly lit with cool blue and violet ambient light, with a clean desk organized with technical books and a sleek laptop. The atmosphere is quiet, focused, and professional, embodying a light-mode corporate modern aesthetic with high-quality surfaces and subtle reflections." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCyIp0fh-qg0nl1ITE59ZLxMhe3pkIEmfOavZMuMHa3A2MNZezLwXi_zLMK0qcG0cYhLpkeZ1uLP4eSO-vUbNifqX6YgLnwGNVtg3xzpnOKI_M20lltjW0SekJBXc6VTy19BTNVY4Om7X8K0jfoM0dhs8Is2IyTBI34sD6gh99GrwQ-Qv5gs1cL0WgI1glkJJ-K8n79ZJW_mUiN0ZA1uUmMZ2e533ujxNnnvZQAG4uJEpqC-MWNKMy9djZ3d-e5ohQDCnyE2Dzh0YLO')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+<span class="text-primary-fixed-dim font-bold text-label-md uppercase tracking-widest mb-1">New Event</span>
+<h4 class="text-white font-headline-md text-headline-md">Hack-the-Box Local Meetup: London</h4>
+<p class="text-white/80 font-body-md">Join 40+ other Edwhere students this Saturday.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg border-t border-outline-variant/30 rounded-t-xl shadow-lg">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for checklist
+        document.querySelectorAll('.cursor-pointer.group').forEach(item => {
+            item.addEventListener('click', function() {
+                const check = this.querySelector('.w-6.h-6');
+                if (check.innerHTML.trim() === '') {
+                    check.innerHTML = '<span class="material-symbols-outlined text-[16px] text-white">check</span>';
+                    check.classList.remove('border-2', 'border-outline');
+                    check.classList.add('bg-emerald-500', 'flex', 'items-center', 'justify-center');
+                    this.querySelector('span:not(.ml-auto)').classList.add('line-through', 'opacity-50');
+                } else {
+                    check.innerHTML = '';
+                    check.classList.add('border-2', 'border-outline');
+                    check.classList.remove('bg-emerald-500', 'flex', 'items-center', 'justify-center');
+                    this.querySelector('span:not(.ml-auto)').classList.remove('line-through', 'opacity-50');
+                }
+            });
+        });
+
+        // Hover lift effect logic for stack cards (pure CSS handled mostly but extra JS for sequence if needed)
+        const stackItems = document.querySelectorAll('.pending-stack-card');
+        stackItems.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = "50";
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = "30";
+            });
+        });
+    </script>
+</body></html>

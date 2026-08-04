@@ -1,0 +1,283 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Notifications - Edwhere</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .notification-stack > div {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .notification-stack > div:hover {
+            transform: translateX(8px);
+        }
+        body {
+            background-color: #f9f9ff;
+            color: #111c2d;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#d8e3fb",
+                        "secondary": "#6b38d4",
+                        "surface-container-high": "#dee8ff",
+                        "background": "#f9f9ff",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary-container": "#f9ffea",
+                        "on-background": "#111c2d",
+                        "primary-container": "#2170e4",
+                        "on-surface": "#111c2d",
+                        "surface-container-low": "#f0f3ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-tint": "#005ac2",
+                        "inverse-on-surface": "#ecf1ff",
+                        "inverse-primary": "#adc6ff",
+                        "tertiary-fixed": "#acf847",
+                        "tertiary-container": "#518200",
+                        "inverse-surface": "#263143",
+                        "secondary-container": "#8455ef",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#304f00",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cfdaf2",
+                        "outline-variant": "#c2c6d6",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727785",
+                        "on-tertiary-fixed": "#102000",
+                        "on-secondary-fixed": "#23005c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "tertiary": "#3f6700",
+                        "surface-container": "#e7eeff",
+                        "tertiary-fixed-dim": "#91db2a",
+                        "primary": "#0058be",
+                        "secondary-fixed": "#e9ddff",
+                        "on-primary-fixed": "#001a42",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "stack-overlap": "-12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="text-primary hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Edwhere</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:scale-110 transition-transform relative">
+<span class="material-symbols-outlined" data-icon="notifications" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-2xl mx-auto">
+<!-- Title & Header -->
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Notifications</h2>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 hover:underline">
+                Mark all as read
+            </button>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 mb-6 overflow-x-auto pb-2 no-scrollbar">
+<span class="px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md cursor-pointer">All</span>
+<span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant cursor-pointer transition-colors">Alerts</span>
+<span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant cursor-pointer transition-colors">Achievements</span>
+<span class="px-4 py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md text-label-md hover:bg-surface-variant cursor-pointer transition-colors">Social</span>
+</div>
+<!-- Notification List -->
+<div class="space-y-4 notification-stack">
+<!-- Notification: Overdue Warning (Critical/Red) -->
+<div class="glass-card p-5 rounded-xl shadow-sm border-l-4 border-error flex gap-4">
+<div class="w-12 h-12 bg-error-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error" data-icon="report" style="font-variation-settings: 'FILL' 1;">report</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-error font-bold">🚨 Overdue Warning</h3>
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm">2m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        2 tasks from last week have carried forward. Complete them today to maintain your streak!
+                    </p>
+<div class="mt-3 flex gap-2">
+<button class="px-4 py-1.5 bg-error text-on-error rounded-lg font-label-md text-label-md">View Tasks</button>
+</div>
+</div>
+</div>
+<!-- Notification: Weekly Goal Reminder (Info/Blue) -->
+<div class="glass-card p-5 rounded-xl shadow-sm border-l-4 border-primary flex gap-4">
+<div class="w-12 h-12 bg-primary-fixed rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="assignment_late" style="font-variation-settings: 'FILL' 1;">assignment_late</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-primary font-bold">⚠️ Weekly Goal Reminder</h3>
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm">1h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        You still need 4 more job applications to meet your target of 10.
+                    </p>
+<div class="mt-3 w-full bg-surface-container-low rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full w-[60%]"></div>
+</div>
+</div>
+</div>
+<!-- Notification: Achievement (Success/Mint) -->
+<div class="glass-card p-5 rounded-xl shadow-sm border-l-4 border-tertiary flex gap-4">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
+<div class="absolute inset-0 bg-tertiary/10 animate-pulse"></div>
+<span class="material-symbols-outlined text-tertiary relative z-10" data-icon="military_tech" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-tertiary font-bold">🏆 Achievement</h3>
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm">4h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        You've earned the "Security Scout" badge! You're in the top 5% of learners this month.
+                    </p>
+<div class="mt-4 flex items-center gap-3 p-3 bg-surface-container rounded-lg">
+<div class="w-10 h-10 rounded-lg bg-white p-1 shadow-inner">
+<img class="w-full h-full object-contain" data-alt="A futuristic metallic badge with a shield and magnifying glass icon, glowing with soft emerald light on a clean professional background, 3D render style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8SCpGW6pSyZmrhRXT3JJDYI4pXmcgVONwacBcZ0LvWa0aDZ2Qipt_O29OYVDIcH-f5vWXPe-iUOMiI9obVQzwaARxNl0GZumFpU1H4eFU1zWA2S5cQSsnGXzkWWpjwRrr8CXg07iGgF8JvloTIVioDtsMvHWt78DgVMhk64USH6au1DgHGwfS-oXqNiZW54LyFcfvuGQkKdYTRYDjr7DYdB3LkmPHLRvMIuaV-j_Z3y6QYOsFh1tubRaF01tAbZ9IlQTzlM6mJKsx">
+</div>
+<span class="font-label-md text-label-md text-on-surface">Security Scout Badge</span>
+</div>
+</div>
+</div>
+<!-- Notification: Rank Update (Motivation/Violet) -->
+<div class="glass-card p-5 rounded-xl shadow-sm border-l-4 border-secondary flex gap-4">
+<div class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-label-md text-label-md text-secondary font-bold">📉 Rank Update</h3>
+<span class="text-on-surface-variant/60 font-label-sm text-label-sm">Yesterday</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        You've moved up to #14 on the Leaderboard. Just 4 more spots to reach the Elite tier!
+                    </p>
+</div>
+</div>
+<!-- Suggestion Card (Contextual) -->
+<div class="mt-8 relative overflow-hidden rounded-2xl p-6 bg-inverse-surface text-inverse-on-surface shadow-xl">
+
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md mb-2">Weekend Sprint?</h4>
+<p class="opacity-80 font-body-md text-body-md mb-4">Complete 3 mini-labs this weekend to earn double XP and clear your carry-forward tasks.</p>
+<button class="px-6 py-2 bg-primary-fixed text-on-primary-fixed rounded-xl font-bold hover:scale-105 transition-transform">Get Started</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg h-16 flex justify-around items-center px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for notification cards
+        document.querySelectorAll('.notification-stack > div').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1.01) translateX(8px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body></html>

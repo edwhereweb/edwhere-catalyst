@@ -1,0 +1,289 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Labs Filter | Edwhere</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#d8e3fb",
+                    "secondary": "#6b38d4",
+                    "surface-container-high": "#dee8ff",
+                    "background": "#f9f9ff",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-tertiary-container": "#f9ffea",
+                    "on-background": "#111c2d",
+                    "primary-container": "#2170e4",
+                    "on-surface": "#111c2d",
+                    "surface-variant": "#d8e3fb",
+                    "on-surface-variant": "#424754",
+                    "on-primary-container": "#fefcff",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-tint": "#005ac2",
+                    "inverse-on-surface": "#ecf1ff",
+                    "inverse-primary": "#adc6ff",
+                    "tertiary-fixed": "#acf847",
+                    "tertiary-container": "#518200",
+                    "inverse-surface": "#263143",
+                    "secondary-container": "#8455ef",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d8e3fb",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#cfdaf2",
+                    "outline-variant": "#c2c6d6",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#727785",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#3f6700",
+                    "surface-container": "#e7eeff",
+                    "primary": "#0058be",
+                    "on-primary-fixed": "#001a42",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-mobile": "20px",
+                    "container-padding-desktop": "40px",
+                    "stack-overlap": "-12px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #0058be;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-checkbox:checked {
+            background-color: #0058be;
+            border-color: #0058be;
+        }
+
+        .active-chip {
+            background-color: #0058be;
+            color: white;
+            border-color: #0058be;
+        }
+        
+        /* Hide scrollbar for chips */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="hover:scale-110 transition-transform active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary">close</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Labs Filter</h1>
+</div>
+<button class="text-primary font-label-md hover:opacity-70 transition-opacity">
+                Clear All
+            </button>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-2xl mx-auto space-y-10">
+<!-- Duration Slider -->
+<section class="space-y-6">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-on-background">Duration</h2>
+<span class="font-label-md text-primary bg-primary/10 px-3 py-1 rounded-full"><span id="duration-val">10</span> hrs</span>
+</div>
+<div class="relative pt-2">
+<input class="w-full h-2 bg-surface-container rounded-lg appearance-none cursor-pointer accent-primary" id="duration-slider" max="20" min="0" step="1" type="range" value="10">
+<div class="flex justify-between mt-4 text-on-surface-variant font-label-sm">
+<span>0 hrs</span>
+<span>20 hrs</span>
+</div>
+</div>
+</section>
+<!-- Difficulty Level -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-on-background">Difficulty</h2>
+<div class="grid grid-cols-1 gap-4">
+<label class="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-outline-variant/30 cursor-pointer group hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+<span class="material-symbols-outlined">signal_cellular_1_bar</span>
+</div>
+<span class="font-label-md text-on-surface">Easy</span>
+</div>
+<input class="custom-checkbox w-6 h-6 rounded-lg border-outline-variant text-primary focus:ring-primary" type="checkbox">
+</label>
+<label class="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-outline-variant/30 cursor-pointer group hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined">signal_cellular_3_bar</span>
+</div>
+<span class="font-label-md text-on-surface">Medium</span>
+</div>
+<input checked="" class="custom-checkbox w-6 h-6 rounded-lg border-outline-variant text-primary focus:ring-primary" type="checkbox">
+</label>
+<label class="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-outline-variant/30 cursor-pointer group hover:border-primary/50 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined">signal_cellular_4_bar</span>
+</div>
+<span class="font-label-md text-on-surface">Hard</span>
+</div>
+<input class="custom-checkbox w-6 h-6 rounded-lg border-outline-variant text-primary focus:ring-primary" type="checkbox">
+</label>
+</div>
+</section>
+<!-- Field Selection -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-on-background">Field</h2>
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2.5 rounded-full border border-outline-variant/50 text-on-surface-variant font-label-md hover:bg-surface-container transition-all active:scale-95" onclick="toggleChip(this)">Malware</button>
+<button class="active-chip px-5 py-2.5 rounded-full border border-primary text-white font-label-md transition-all active:scale-95" onclick="toggleChip(this)">Network</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant/50 text-on-surface-variant font-label-md hover:bg-surface-container transition-all active:scale-95" onclick="toggleChip(this)">Web</button>
+<button class="active-chip px-5 py-2.5 rounded-full border border-primary text-white font-label-md transition-all active:scale-95" onclick="toggleChip(this)">Cloud</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant/50 text-on-surface-variant font-label-md hover:bg-surface-container transition-all active:scale-95" onclick="toggleChip(this)">Cryptography</button>
+</div>
+</section>
+<!-- Job Role -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-on-background">Job Role</h2>
+<div class="flex flex-wrap gap-3">
+<button class="active-chip px-5 py-2.5 rounded-full border border-primary text-white font-label-md transition-all active:scale-95" onclick="toggleChip(this)">SOC</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant/50 text-on-surface-variant font-label-md hover:bg-surface-container transition-all active:scale-95" onclick="toggleChip(this)">Auditor</button>
+<button class="active-chip px-5 py-2.5 rounded-full border border-primary text-white font-label-md transition-all active:scale-95" onclick="toggleChip(this)">Pen-Tester</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant/50 text-on-surface-variant font-label-md hover:bg-surface-container transition-all active:scale-95" onclick="toggleChip(this)">Cloud Security</button>
+</div>
+</section>
+<!-- Visualization Decorative Asset -->
+<div class="relative w-full h-40 rounded-3xl overflow-hidden mt-12 bg-surface-container-low border border-outline-variant/20 shadow-inner">
+
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-t from-background/90 to-transparent">
+<p class="font-label-sm text-secondary uppercase tracking-widest mb-1">Live Lab Updates</p>
+<p class="font-body-md text-on-surface-variant max-w-xs">Filter through 450+ technical environments tailored for your career path.</p>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Footer -->
+<footer class="fixed bottom-0 left-0 w-full glass-panel border-t border-outline-variant/30 px-container-padding-mobile py-6 z-50">
+<div class="max-w-2xl mx-auto flex gap-4">
+<button class="flex-1 py-4 px-6 rounded-xl border border-primary text-primary font-label-md hover:bg-primary/5 transition-colors active:scale-95">
+                Clear All
+            </button>
+<button class="flex-[2] py-4 px-6 rounded-xl bg-primary text-on-primary font-label-md shadow-lg shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all">
+                Apply Filters
+            </button>
+</div>
+</footer>
+<!-- Bottom Nav (Suppressed because this is a focused task/sub-page) -->
+<script>
+        // Duration Slider Update
+        const slider = document.getElementById('duration-slider');
+        const valDisplay = document.getElementById('duration-val');
+        
+        slider.oninput = function() {
+            valDisplay.innerHTML = this.value;
+        }
+
+        // Chip Toggle Function
+        function toggleChip(btn) {
+            const isActive = btn.classList.contains('active-chip');
+            if (isActive) {
+                btn.classList.remove('active-chip', 'text-white', 'border-primary');
+                btn.classList.add('text-on-surface-variant', 'border-outline-variant/50');
+            } else {
+                btn.classList.add('active-chip', 'text-white', 'border-primary');
+                btn.classList.remove('text-on-surface-variant', 'border-outline-variant/50');
+            }
+        }
+
+        // Micro-interactions for form controls
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const parent = this.closest('label');
+                if (this.checked) {
+                    parent.classList.add('bg-primary-fixed', 'border-primary');
+                    parent.classList.remove('bg-white', 'border-outline-variant/30');
+                } else {
+                    parent.classList.remove('bg-primary-fixed', 'border-primary');
+                    parent.classList.add('bg-white', 'border-outline-variant/30');
+                }
+            });
+        });
+
+        // Background atmosphere: slow gradient movement
+        const body = document.body;
+        let angle = 0;
+        function animateBg() {
+            angle = (angle + 0.1) % 360;
+            // body.style.background = `linear-gradient(${angle}deg, #f9f9ff 0%, #f0f3ff 100%)`;
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+    </script>
+</body></html>

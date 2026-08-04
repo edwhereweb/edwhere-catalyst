@@ -1,0 +1,308 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Log New Job Application - Edwhere</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .input-focus-ring:focus {
+            outline: none;
+            border-color: #0058be;
+            box-shadow: 0 0 0 3px rgba(0, 88, 190, 0.15);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#d8e3fb",
+                        "secondary": "#6b38d4",
+                        "surface-container-high": "#dee8ff",
+                        "background": "#f9f9ff",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-tertiary-container": "#f9ffea",
+                        "on-background": "#111c2d",
+                        "primary-container": "#2170e4",
+                        "on-surface": "#111c2d",
+                        "surface-container-low": "#f0f3ff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "on-primary-container": "#fefcff",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "primary-fixed": "#d8e2ff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-tint": "#005ac2",
+                        "inverse-on-surface": "#ecf1ff",
+                        "inverse-primary": "#adc6ff",
+                        "tertiary-fixed": "#acf847",
+                        "tertiary-container": "#518200",
+                        "inverse-surface": "#263143",
+                        "secondary-container": "#8455ef",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#304f00",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#cfdaf2",
+                        "outline-variant": "#c2c6d6",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#727785",
+                        "on-tertiary-fixed": "#102000",
+                        "on-secondary-fixed": "#23005c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "tertiary": "#3f6700",
+                        "surface-container": "#e7eeff",
+                        "tertiary-fixed-dim": "#91db2a",
+                        "primary": "#0058be",
+                        "secondary-fixed": "#e9ddff",
+                        "on-primary-fixed": "#001a42",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "base": "8px",
+                        "container-padding-mobile": "20px",
+                        "container-padding-desktop": "40px",
+                        "stack-overlap": "-12px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding-mobile py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Log Application</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined p-2 text-on-surface-variant hover:scale-110 transition-transform cursor-pointer">notifications</span>
+</div>
+</div>
+</header>
+<main class="pt-24 px-container-padding-mobile max-w-2xl mx-auto">
+<!-- Decoration / Atmospheric Element -->
+<div class="mb-8 p-6 bg-inverse-surface rounded-xl overflow-hidden relative shadow-lg">
+
+<div class="relative z-10">
+<h2 class="text-white font-headline-md text-headline-md mb-1">Accelerate Your Career</h2>
+<p class="text-surface-variant font-label-md text-label-md opacity-90">Every logged application is a step closer to your dream cybersecurity role.</p>
+</div>
+</div>
+<form class="space-y-6" id="applicationForm">
+<!-- Job Title Section -->
+<div class="space-y-3">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="jobTitle">Job Title</label>
+<input class="w-full h-14 px-4 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all placeholder:text-outline" id="jobTitle" placeholder="e.g. Security Analyst" type="text">
+<!-- Quick Selection Chips -->
+<div class="flex flex-wrap gap-2 pt-1">
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary/5 text-label-sm font-label-sm transition-all text-on-surface-variant hover:text-primary" onclick="setJobTitle('DevOps')" type="button">DevOps</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary/5 text-label-sm font-label-sm transition-all text-on-surface-variant hover:text-primary" onclick="setJobTitle('SOC Analyst')" type="button">SOC Analyst</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary/5 text-label-sm font-label-sm transition-all text-on-surface-variant hover:text-primary" onclick="setJobTitle('Pen-Tester')" type="button">Pen-Tester</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant hover:border-primary hover:bg-primary/5 text-label-sm font-label-sm transition-all text-on-surface-variant hover:text-primary" onclick="setJobTitle('IT Support')" type="button">IT Support</button>
+</div>
+</div>
+<!-- Company & Role -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="company">Company</label>
+<input class="w-full h-14 px-4 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all" id="company" placeholder="e.g. CrowdStrike" type="text">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="roleType">Role</label>
+<div class="relative">
+<select class="w-full h-14 px-4 pr-10 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring appearance-none transition-all" id="roleType">
+<option value="">Select Role</option>
+<option value="full-time">Full-time</option>
+<option value="contract">Contract</option>
+<option value="internship">Internship</option>
+<option value="part-time">Part-time</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Location & URL -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="location">Location</label>
+<input class="w-full h-14 px-4 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all" id="location" placeholder="e.g. Remote/Hybrid" type="text">
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="url">Application URL</label>
+<div class="relative">
+<input class="w-full h-14 px-4 pl-12 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all" id="url" placeholder="https://..." type="url">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">link</span>
+</div>
+</div>
+</div>
+<!-- Date & Status -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="appliedDate">Applied Date</label>
+<div class="relative">
+<input class="w-full h-14 px-4 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all" id="appliedDate" type="date">
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="status">Status</label>
+<div class="relative">
+<select class="w-full h-14 px-4 pr-10 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring appearance-none transition-all" id="status">
+<option value="applied">Applied</option>
+<option value="interviewing">Interviewing</option>
+<option value="offer">Offer</option>
+<option value="rejected">Rejected</option>
+<option value="withdrawn">Withdrawn</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Notes -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="notes">Notes</label>
+<textarea class="w-full p-4 rounded-xl border border-outline-variant bg-surface-container-lowest input-focus-ring transition-all resize-none" id="notes" placeholder="Additional details about the interview process, company culture, or specific requirements..." rows="4"></textarea>
+</div>
+<!-- Form Actions -->
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="flex-1 h-14 rounded-xl border-2 border-secondary text-secondary font-bold hover:bg-secondary/5 transition-all flex items-center justify-center gap-2 active:scale-95 duration-200" type="button">
+<span class="material-symbols-outlined">drafts</span>
+                    Save Draft
+                </button>
+<button class="flex-1 h-14 rounded-xl bg-primary text-white font-bold hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center justify-center gap-2 active:scale-95 duration-200" type="submit">
+<span class="material-symbols-outlined">send</span>
+                    Log Application
+                </button>
+</div>
+</form>
+<!-- Tip Card -->
+<div class="mt-12 p-6 bg-surface-container-high rounded-2xl border border-outline-variant/30 flex gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white">lightbulb</span>
+</div>
+<div>
+<h4 class="font-headline-md text-label-md text-on-surface mb-1">Smart Tip</h4>
+<p class="text-on-surface-variant text-label-sm leading-relaxed">Logging details early helps you stay organized during the interview phase. Mentioning specific tech stacks noted in the JD during follow-ups shows high attention to detail.</p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-safe h-16 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-lg border-t border-outline-variant/30 shadow-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold relative after:content-[''] after:absolute after:-bottom-1 after:w-1 after:h-1 after:bg-secondary after:rounded-full" href="#">
+<span class="material-symbols-outlined">work</span>
+<span class="font-label-sm text-label-sm">Jobs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">terminal</span>
+<span class="font-label-sm text-label-sm">Labs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        function setJobTitle(title) {
+            const input = document.getElementById('jobTitle');
+            input.value = title;
+            input.focus();
+            
+            // Visual feedback for selected chip
+            const buttons = document.querySelectorAll('button[type="button"]');
+            buttons.forEach(btn => {
+                if (btn.innerText === title) {
+                    btn.classList.add('bg-primary', 'text-white', 'border-primary');
+                    btn.classList.remove('text-on-surface-variant', 'border-outline-variant');
+                } else if (['DevOps', 'SOC Analyst', 'Pen-Tester', 'IT Support'].includes(btn.innerText)) {
+                    btn.classList.remove('bg-primary', 'text-white', 'border-primary');
+                    btn.classList.add('text-on-surface-variant', 'border-outline-variant');
+                }
+            });
+        }
+
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Micro-interaction: Scale down and pulse the primary button on submit
+            const btn = e.target.querySelector('button[submit]');
+            alert('Application logged successfully! 🚀');
+        });
+
+        // Set default date to today
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appliedDate').value = today;
+        }
+    </script>
+</body></html>
