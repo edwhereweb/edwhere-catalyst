@@ -1,0 +1,151 @@
+export type ColorTokens = {
+  // Core
+  background: string;
+  foreground: string;
+  card: string;
+  cardForeground: string;
+  popover: string;
+  popoverForeground: string;
+  primary: string;
+  primaryForeground: string;
+  secondary: string;
+  secondaryForeground: string;
+  muted: string;
+  mutedForeground: string;
+  accent: string;
+  accentForeground: string;
+  destructive: string;
+  destructiveForeground: string;
+  border: string;
+  input: string;
+  ring: string;
+  // Surface layers (from design system)
+  surface: string;
+  surfaceContainer: string;
+  surfaceContainerLow: string;
+  surfaceContainerHigh: string;
+  surfaceContainerLowest: string;
+  onSurface: string;
+  onSurfaceVariant: string;
+  inverseSurface: string;
+  inverseOnSurface: string;
+  outlineVariant: string;
+  // Semantic
+  success: string;
+  successForeground: string;
+  successLight: string;
+  warning: string;
+  warningForeground: string;
+  warningLight: string;
+  info: string;
+  infoForeground: string;
+  infoLight: string;
+  // Gamification
+  xp: string;
+  xpLight: string;
+  streak: string;
+  streakLight: string;
+  badge: string;
+  badgeLight: string;
+};
+
+const lightColors: ColorTokens = {
+  background: '#f9f9ff',
+  foreground: '#111c2d',
+  card: '#ffffff',
+  cardForeground: '#111c2d',
+  popover: '#ffffff',
+  popoverForeground: '#111c2d',
+  primary: '#0058be',
+  primaryForeground: '#ffffff',
+  secondary: '#6b38d4',
+  secondaryForeground: '#ffffff',
+  muted: '#e7eeff',
+  mutedForeground: '#424754',
+  accent: '#dee8ff',
+  accentForeground: '#111c2d',
+  destructive: '#ba1a1a',
+  destructiveForeground: '#ffffff',
+  border: '#c2c6d6',
+  input: '#ffffff',
+  ring: '#0058be',
+  surface: '#f9f9ff',
+  surfaceContainer: '#e7eeff',
+  surfaceContainerLow: '#f0f3ff',
+  surfaceContainerHigh: '#dee8ff',
+  surfaceContainerLowest: '#ffffff',
+  onSurface: '#111c2d',
+  onSurfaceVariant: '#424754',
+  inverseSurface: '#263143',
+  inverseOnSurface: '#ecf1ff',
+  outlineVariant: '#c2c6d6',
+  success: '#1a7a4a',
+  successForeground: '#ffffff',
+  successLight: '#d1fae5',
+  warning: '#b45309',
+  warningForeground: '#ffffff',
+  warningLight: '#fef3c7',
+  info: '#0058be',
+  infoForeground: '#ffffff',
+  infoLight: '#dbeafe',
+  xp: '#7c3aed',
+  xpLight: '#ede9fe',
+  streak: '#ea580c',
+  streakLight: '#ffedd5',
+  badge: '#0891b2',
+  badgeLight: '#cffafe',
+};
+
+const darkColors: ColorTokens = {
+  background: '#0f1621',
+  foreground: '#ecf1ff',
+  card: '#1a2236',
+  cardForeground: '#ecf1ff',
+  popover: '#1a2236',
+  popoverForeground: '#ecf1ff',
+  primary: '#adc6ff',
+  primaryForeground: '#001a42',
+  secondary: '#d0bcff',
+  secondaryForeground: '#23005c',
+  muted: '#263143',
+  mutedForeground: '#c2c6d6',
+  accent: '#263143',
+  accentForeground: '#ecf1ff',
+  destructive: '#ff897d',
+  destructiveForeground: '#690005',
+  border: '#3a4559',
+  input: '#1a2236',
+  ring: '#adc6ff',
+  surface: '#0f1621',
+  surfaceContainer: '#1a2236',
+  surfaceContainerLow: '#161e2e',
+  surfaceContainerHigh: '#1f2d42',
+  surfaceContainerLowest: '#0c1219',
+  onSurface: '#ecf1ff',
+  onSurfaceVariant: '#c2c6d6',
+  inverseSurface: '#ecf1ff',
+  inverseOnSurface: '#263143',
+  outlineVariant: '#3a4559',
+  success: '#4ade80',
+  successForeground: '#052e16',
+  successLight: '#14532d',
+  warning: '#fbbf24',
+  warningForeground: '#451a03',
+  warningLight: '#78350f',
+  info: '#60a5fa',
+  infoForeground: '#1e3a5f',
+  infoLight: '#1e3a5f',
+  xp: '#a78bfa',
+  xpLight: '#2e1065',
+  streak: '#fb923c',
+  streakLight: '#431407',
+  badge: '#22d3ee',
+  badgeLight: '#083344',
+};
+
+export const themes = {
+  light: lightColors,
+  dark: darkColors,
+};
+
+export type ThemeMode = keyof typeof themes;
