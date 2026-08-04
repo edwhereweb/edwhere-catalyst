@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/clerk-expo": "^2.0.0",
+    "@clerk/clerk-expo": "^2.19.36",
     "@reduxjs/toolkit": "^2.3.0",
     "expo": "~52.0.0",
     "expo-font": "~13.0.0",
