@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Edwhere",
+    "slug": "edwhere-catalyst",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "edwhere",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.edwhere.catalyst"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0058be"
+      },
+      "package": "com.edwhere.catalyst"
+    },
+    "plugins": ["expo-router", "expo-font", "expo-secure-store"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
