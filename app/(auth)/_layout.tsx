@@ -7,7 +7,7 @@ export default function AuthLayout() {
   const { isLoaded, isSignedIn } = useAuth();
 
   if (!isLoaded) return <LoadingView />;
-  if (isSignedIn) return <Redirect href="/(protected)/(tabs)" />;
+  if (isSignedIn) return <Redirect href={'/(protected)/(tabs)' as any} />;
 
   return null; // expo-router renders the child (auth) screens
 }
