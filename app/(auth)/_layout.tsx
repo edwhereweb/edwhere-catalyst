@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
 import { LoadingView } from '@/components/feedback/LoadingView';
 
@@ -9,5 +9,5 @@ export default function AuthLayout() {
   if (!isLoaded) return <LoadingView />;
   if (isSignedIn) return <Redirect href={'/(protected)/(tabs)' as any} />;
 
-  return null; // expo-router renders the child (auth) screens
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

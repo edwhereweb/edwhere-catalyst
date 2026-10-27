@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Button } from '@/components/ui/Button';
-import { ErrorState } from '@/components/feedback/ErrorState';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/theme/ThemeProvider';
@@ -84,7 +83,11 @@ export default function SignInScreen() {
           }}
           value={password}
         />
-        {error ? <ErrorState message={error} /> : null}
+        {error ? (
+          <Text variant="small" color={theme.colors.destructive}>
+            {error}
+          </Text>
+        ) : null}
         <Button
           disabled={!isLoaded || !email.trim() || !password}
           label="Sign in"

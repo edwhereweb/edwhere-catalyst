@@ -12,33 +12,20 @@ import { EmptyState } from '@/components/feedback/EmptyState';
 import { useTheme } from '@/theme/ThemeProvider';
 import type { Job } from '@/types/placement';
 
-const NAV_TABS = ['Discover', 'Saved', 'Applied'] as const;
-type NavTab = (typeof NAV_TABS)[number];
-
 export default function PlacementIndexScreen() {
   const { theme } = useTheme();
   const { colors, spacing, radii, shadows } = theme;
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<NavTab>('Discover');
   const [search, setSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
 
   const { data: jobs, isLoading, isError, refetch, isFetching } = useGetJobsQuery(
     { search },
-    { skip: activeTab !== 'Discover' },
   );
 
   const handleSearch = () => setSearch(searchInput);
 
   function renderContent() {
-    if (activeTab !== 'Discover') {
-      return (
-        <EmptyState
-          title={`${activeTab} coming soon`}
-          message="This tab will show your relevant jobs."
-        />
-      );
-    }
     if (isLoading) return <LoadingView message="Finding opportunities…" />;
     if (isError) return <ErrorState onRetry={refetch} message="Could not load jobs. Please retry." />;
     if (!jobs?.length) {
@@ -121,7 +108,7 @@ export default function PlacementIndexScreen() {
               onChangeText={setSearchInput}
               onSubmitEditing={handleSearch}
               returnKeyType="search"
-              placeholder="Search roles, companies…"
+              placeholder="Search roles or locations…"
               placeholderTextColor={colors.mutedForeground}
               style={{
                 flex: 1,
@@ -146,36 +133,6 @@ export default function PlacementIndexScreen() {
           >
             <Text style={{ fontSize: 20 }}>📋</Text>
           </TouchableOpacity>
-        </View>
-
-        {/* Nav tabs */}
-        <View
-          style={{
-            flexDirection: 'row',
-            borderBottomWidth: 1,
-            borderBottomColor: colors.border + '50',
-            marginBottom: spacing.md,
-          }}
-        >
-          {NAV_TABS.map((tab) => (
-            <TouchableOpacity
-              key={tab}
-              onPress={() => setActiveTab(tab)}
-              style={{
-                paddingVertical: spacing.sm + 2,
-                paddingHorizontal: spacing.md,
-                borderBottomWidth: 3,
-                borderBottomColor: activeTab === tab ? colors.primary : 'transparent',
-              }}
-            >
-              <Text
-                variant="button"
-                color={activeTab === tab ? colors.primary : colors.mutedForeground}
-              >
-                {tab}
-              </Text>
-            </TouchableOpacity>
-          ))}
         </View>
 
         {/* Content */}

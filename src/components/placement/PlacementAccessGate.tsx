@@ -1,33 +1,23 @@
 import React from 'react';
-import { useUser } from '@clerk/clerk-expo';
 import { LoadingView } from '../feedback/LoadingView';
 import { RestrictedAccessView } from '../feedback/RestrictedAccessView';
+import { ErrorState } from '../feedback/ErrorState';
+import { useGetPlacementProfileQuery } from '@/store/api/placementApi';
 
 interface Props {
   children: React.ReactNode;
 }
 
-/**
- * PlacementAccessGate
- *
- * Wraps any placement screen. Reads `hasPlacementAccess` from the Clerk user's
- * `publicMetadata` (set by the admin LMS when granting access). Renders a
- * `RestrictedAccessView` for students who don't have access yet.
- *
- * Clerk `publicMetadata` is trusted server-set data — it cannot be modified by
- * the student client, making this a safe access-control check for UI gating.
- */
 export function PlacementAccessGate({ children }: Props) {
-  const { isLoaded, user } = useUser();
+  const { data: profile, isLoading, isError, error, refetch } = useGetPlacementProfileQuery();
 
-  if (!isLoaded) {
-    return <LoadingView message="Checking access..." />;
+  if (isLoading) return <LoadingView message="Checking access..." />;
+  if (isError) {
+    const status = 'status' in error ? error.status : undefined;
+    if (status === 403 || status === 404) return <RestrictedAccessView />;
+    return <ErrorState message="Could not verify placement access." onRetry={refetch} />;
   }
-
-  const hasAccess = (user?.publicMetadata as { hasPlacementAccess?: boolean } | undefined)
-    ?.hasPlacementAccess === true;
-
-  if (!hasAccess) {
+  if (!profile?.isActive) {
     return <RestrictedAccessView />;
   }
 

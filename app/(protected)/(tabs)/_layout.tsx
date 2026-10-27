@@ -1,15 +1,10 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { useTheme } from '@/theme/ThemeProvider';
-import { Text } from '@/components/ui/Text';
-import { useUser } from '@clerk/clerk-expo';
 
 export default function TabsLayout() {
   const { theme } = useTheme();
   const { colors } = theme;
-  const { user } = useUser();
-
-  const hasPlacementAccess = (user?.publicMetadata as { hasPlacementAccess?: boolean } | undefined)?.hasPlacementAccess === true;
 
   return (
     <Tabs
@@ -28,14 +23,6 @@ export default function TabsLayout() {
         options={{
           title: 'Home',
           tabBarLabel: 'Home',
-        }}
-      />
-      <Tabs.Screen
-        name="placement"
-        options={{
-          title: 'Jobs',
-          tabBarLabel: 'Jobs',
-          href: hasPlacementAccess ? '/(protected)/placement' : null,
         }}
       />
       <Tabs.Screen

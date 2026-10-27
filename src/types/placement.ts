@@ -34,7 +34,6 @@ export interface Job {
     icon: string;
   }[];
   careerMatchPercent?: number;
-  isBookmarked?: boolean;
 }
 
 export interface JobApplication {
@@ -47,13 +46,4 @@ export interface JobApplication {
   appliedAt: string; // ISO date string
   updatedAt: string; // ISO date string
   notes?: string;
-}
-
-export interface PlacementAccessStatus {
-  hasPlacementAccess: boolean;
-}
-
-export interface BulkPlacementAccessPayload {
-  studentIds: string[];
-  grant: boolean;
 }

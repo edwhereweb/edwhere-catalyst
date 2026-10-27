@@ -1,28 +1,175 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Job, JobApplication, PlacementAccessStatus, BulkPlacementAccessPayload } from '@/types/placement';
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { Job, JobApplication, JobType, ApplicationStatus } from '@/types/placement';
+import { getClerkToken } from '@/services/authToken';
+
+interface MobileResponse<T> {
+  data: T;
+  meta?: unknown;
+}
+
+interface ApiJob extends Record<string, unknown> {
+  id: string;
+}
+
+interface ApiApplication extends Record<string, unknown> {
+  id: string;
+}
+
+interface PlacementProfile extends Record<string, unknown> {
+  isActive?: boolean;
+}
+
+const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/+$/, '');
+
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: apiBaseUrl ? `${apiBaseUrl}/` : '',
+  prepareHeaders: async (headers) => {
+    const token = await getClerkToken();
+    if (token) headers.set('Authorization', ['Bearer', token].join(' '));
+    headers.set('X-API-Version', '1');
+    return headers;
+  },
+});
+
+const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = (
+  args,
+  api,
+  extraOptions,
+) => {
+  if (!apiBaseUrl) {
+    return {
+      error: {
+        status: 'CUSTOM_ERROR',
+        error: 'Set EXPO_PUBLIC_API_BASE_URL to the Edwhere LMS origin.',
+      },
+    };
+  }
+
+  return rawBaseQuery(args, api, extraOptions);
+};
+
+function unwrapResponse<T>(response: MobileResponse<T>): T {
+  if (!response || !Object.prototype.hasOwnProperty.call(response, 'data')) {
+    throw new Error('The server returned an invalid response.');
+  }
+  return response.data;
+}
+
+function stringValue(value: unknown, fallback = ''): string {
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : fallback;
+}
+
+function getCompany(job: ApiJob) {
+  const company = job.company;
+  if (typeof company === 'string') return { name: company };
+  if (company && typeof company === 'object') {
+    const value = company as Record<string, unknown>;
+    return {
+      name: stringValue(value.name, 'Company'),
+      logoUrl: stringValue(value.logoUrl) || undefined,
+    };
+  }
+  return { name: 'Company' };
+}
+
+function normalizeJobType(value: unknown): JobType {
+  const normalized = stringValue(value, 'full-time').toLowerCase().replace(/_/g, '-');
+  const types: JobType[] = ['full-time', 'part-time', 'internship', 'contract', 'freelance'];
+  return types.includes(normalized as JobType) ? (normalized as JobType) : 'full-time';
+}
+
+function mapJob(value: ApiJob): Job {
+  const company = getCompany(value);
+  const rawTags = Array.isArray(value.tags) ? value.tags : Array.isArray(value.skills) ? value.skills : [];
+  const tags = rawTags.flatMap((tag) => {
+    if (typeof tag === 'string') return [{ label: tag, variant: 'primary' as const }];
+    if (tag && typeof tag === 'object' && typeof (tag as Record<string, unknown>).label === 'string') {
+      const item = tag as Record<string, unknown>;
+      const variant = item.variant;
+      return [{
+        label: stringValue(item.label),
+        variant: (variant === 'secondary' || variant === 'tertiary'
+          ? variant
+          : 'primary') as Job['tags'][number]['variant'],
+      }];
+    }
+    return [];
+  });
+  const rawRequirements = Array.isArray(value.requirements) ? value.requirements : [];
+  const requirements = rawRequirements.flatMap((requirement) => {
+    if (!requirement || typeof requirement !== 'object') return [];
+    const item = requirement as Record<string, unknown>;
+    if (typeof item.label !== 'string') return [];
+    return [{
+      label: item.label,
+      description: stringValue(item.description),
+      icon: stringValue(item.icon, '•'),
+    }];
+  });
+  const locationType = stringValue(value.locationType, 'onsite').toLowerCase();
+
+  return {
+    id: value.id,
+    title: stringValue(value.title, 'Untitled role'),
+    company: company.name,
+    companyLogoUrl: company.logoUrl,
+    location: stringValue(value.location, 'Location not specified'),
+    locationType: locationType === 'remote' || locationType === 'hybrid' ? locationType : 'onsite',
+    salary: stringValue(value.salary ?? value.salaryRange ?? value.salaryMin),
+    type: normalizeJobType(value.type),
+    tags,
+    postedAt: stringValue(value.postedAt ?? value.createdAt),
+    description: stringValue(value.description) || undefined,
+    responsibilities: Array.isArray(value.responsibilities)
+      ? value.responsibilities.filter((item): item is string => typeof item === 'string')
+      : undefined,
+    requirements,
+    careerMatchPercent: typeof value.careerMatchPercent === 'number' ? value.careerMatchPercent : undefined,
+  };
+}
+
+function normalizeApplicationStatus(value: unknown): ApplicationStatus {
+  const status = stringValue(value, 'applied').toLowerCase();
+  if (status === 'pending' || status === 'applied') return 'applied';
+  if (status === 'interview' || status === 'interviewing') return 'interviewing';
+  if (status === 'shortlisted') return 'shortlisted';
+  if (status === 'offer' || status === 'offered' || status === 'accepted') return 'offer';
+  if (status === 'rejected') return 'rejected';
+  if (status === 'withdrawn') return 'withdrawn';
+  return 'applied';
+}
+
+function mapApplication(value: ApiApplication): JobApplication {
+  const job = value.job && typeof value.job === 'object'
+    ? value.job as Record<string, unknown>
+    : undefined;
+  const company = job ? getCompany(job as ApiJob).name : stringValue(value.company, 'Company');
+
+  return {
+    id: value.id,
+    jobId: stringValue(value.jobId ?? job?.id),
+    jobTitle: stringValue(job?.title ?? value.jobTitle, 'Untitled role'),
+    company,
+    status: normalizeApplicationStatus(value.status),
+    appliedAt: stringValue(value.appliedAt),
+    updatedAt: stringValue(value.updatedAt ?? value.appliedAt),
+    notes: stringValue(value.note ?? value.notes) || undefined,
+  };
+}
 
 export const placementApi = createApi({
   reducerPath: 'placementApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.EXPO_PUBLIC_API_BASE_URL ?? 'https://api.edwhere.com/v1',
-    prepareHeaders: (headers, { getState }) => {
-      // Token is injected via Clerk's tokenAccessor.
-      // In production, use a Clerk-aware baseQuery wrapper that calls getToken().
-      const token = (getState() as { auth?: { token?: string } }).auth?.token;
-      if (token) {
-        headers.set('Authorization', ['Bearer', token].join(' '));
-      }
-      return headers;
-    },
-  }),
-  tagTypes: ['Job', 'Application', 'PlacementAccess'],
+  baseQuery,
+  tagTypes: ['Job', 'Application', 'PlacementProfile'],
   endpoints: (builder) => ({
-    // ── Job Listings ──────────────────────────────────────────────────────────
-    getJobs: builder.query<Job[], { search?: string; type?: string; location?: string }>({
+    getJobs: builder.query<Job[], { search?: string; type?: string }>({
       query: (params) => ({
-        url: '/placement/jobs',
+        url: '/api/mobile/placement/jobs',
         params,
       }),
+      transformResponse: (response: MobileResponse<ApiJob[]>) =>
+        unwrapResponse(response).map(mapJob),
       providesTags: (result) =>
         result
           ? [
@@ -33,22 +180,15 @@ export const placementApi = createApi({
     }),
 
     getJobById: builder.query<Job, string>({
-      query: (id) => `/placement/jobs/${id}`,
+      query: (id) => `/api/mobile/placement/jobs/${encodeURIComponent(id)}`,
+      transformResponse: (response: MobileResponse<ApiJob>) => mapJob(unwrapResponse(response)),
       providesTags: (_result, _error, id) => [{ type: 'Job', id }],
     }),
 
-    bookmarkJob: builder.mutation<void, { jobId: string; bookmarked: boolean }>({
-      query: ({ jobId, bookmarked }) => ({
-        url: `/placement/jobs/${jobId}/bookmark`,
-        method: 'PATCH',
-        body: { bookmarked },
-      }),
-      invalidatesTags: (_result, _error, { jobId }) => [{ type: 'Job', id: jobId }],
-    }),
-
-    // ── Applications ──────────────────────────────────────────────────────────
     getMyApplications: builder.query<JobApplication[], void>({
-      query: () => '/placement/applications',
+      query: () => '/api/mobile/placement/applications',
+      transformResponse: (response: MobileResponse<ApiApplication[]>) =>
+        unwrapResponse(response).map(mapApplication),
       providesTags: (result) =>
         result
           ? [
@@ -58,55 +198,21 @@ export const placementApi = createApi({
           : [{ type: 'Application', id: 'LIST' }],
     }),
 
-    applyForJob: builder.mutation<JobApplication, { jobId: string; notes?: string }>({
+    applyForJob: builder.mutation<JobApplication, { jobId: string; note?: string }>({
       query: (body) => ({
-        url: '/placement/applications',
+        url: '/api/mobile/placement/applications',
         method: 'POST',
         body,
       }),
+      transformResponse: (response: MobileResponse<ApiApplication>) =>
+        mapApplication(unwrapResponse(response)),
       invalidatesTags: [{ type: 'Application', id: 'LIST' }],
     }),
 
-    updateApplicationStatus: builder.mutation<
-      JobApplication,
-      { applicationId: string; status: JobApplication['status']; notes?: string }
-    >({
-      query: ({ applicationId, ...body }) => ({
-        url: `/placement/applications/${applicationId}`,
-        method: 'PATCH',
-        body,
-      }),
-      invalidatesTags: (_result, _error, { applicationId }) => [
-        { type: 'Application', id: applicationId },
-      ],
-    }),
-
-    // ── Placement Access (student-facing, reads own flag) ─────────────────────
-    getMyPlacementAccess: builder.query<PlacementAccessStatus, void>({
-      query: () => '/placement/access/me',
-      providesTags: [{ type: 'PlacementAccess', id: 'ME' }],
-    }),
-
-    // ── Admin: Manage student placement access ────────────────────────────────
-    setStudentPlacementAccess: builder.mutation<
-      void,
-      { studentId: string; grant: boolean }
-    >({
-      query: ({ studentId, grant }) => ({
-        url: `/admin/students/${studentId}/placement-access`,
-        method: 'PATCH',
-        body: { hasPlacementAccess: grant },
-      }),
-      invalidatesTags: [{ type: 'PlacementAccess', id: 'ME' }],
-    }),
-
-    bulkSetPlacementAccess: builder.mutation<void, BulkPlacementAccessPayload>({
-      query: (body) => ({
-        url: '/admin/students/bulk-placement-access',
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: [{ type: 'PlacementAccess', id: 'ME' }],
+    getPlacementProfile: builder.query<PlacementProfile, void>({
+      query: () => '/api/mobile/placement/profile',
+      transformResponse: (response: MobileResponse<PlacementProfile>) => unwrapResponse(response),
+      providesTags: [{ type: 'PlacementProfile', id: 'ME' }],
     }),
   }),
 });
@@ -114,11 +220,7 @@ export const placementApi = createApi({
 export const {
   useGetJobsQuery,
   useGetJobByIdQuery,
-  useBookmarkJobMutation,
   useGetMyApplicationsQuery,
   useApplyForJobMutation,
-  useUpdateApplicationStatusMutation,
-  useGetMyPlacementAccessQuery,
-  useSetStudentPlacementAccessMutation,
-  useBulkSetPlacementAccessMutation,
+  useGetPlacementProfileQuery,
 } = placementApi;
