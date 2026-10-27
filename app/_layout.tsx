@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { ClerkProvider } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
 import { Provider } from 'react-redux';
 import { store } from '@/store';
 import { ThemeProvider } from '@/theme/ThemeProvider';
+import { ErrorState } from '@/components/feedback/ErrorState';
+import { LoadingView } from '@/components/feedback/LoadingView';
+import { setClerkTokenGetter } from '@/services/authToken';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   useFonts,
@@ -33,6 +36,24 @@ const tokenCache = {
   },
 };
 
+function AuthenticatedApp() {
+  const { isLoaded, getToken } = useAuth();
+  const [tokenReady, setTokenReady] = useState(false);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setClerkTokenGetter(() => getToken());
+      setTokenReady(true);
+    }
+  }, [getToken, isLoaded]);
+
+  if (!isLoaded || !tokenReady) {
+    return <LoadingView message="Restoring your session…" />;
+  }
+
+  return <Stack screenOptions={{ headerShown: false }} />;
+}
+
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     Poppins_700Bold,
@@ -52,14 +73,25 @@ export default function RootLayout() {
     return null;
   }
 
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  if (!publishableKey) {
+    return (
+      <Provider store={store}>
+        <ThemeProvider>
+          <ErrorState message="Set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your environment to use Edwhere." />
+        </ThemeProvider>
+      </Provider>
+    );
+  }
+
   return (
     <ClerkProvider
-      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY ?? ''}
+      publishableKey={publishableKey}
       tokenCache={tokenCache}
     >
       <Provider store={store}>
         <ThemeProvider>
-          <Stack screenOptions={{ headerShown: false }} />
+          <AuthenticatedApp />
         </ThemeProvider>
       </Provider>
     </ClerkProvider>

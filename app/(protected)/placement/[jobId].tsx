@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useGetJobByIdQuery, useApplyForJobMutation, useBookmarkJobMutation } from '@/store/api/placementApi';
+import { useGetJobByIdQuery, useApplyForJobMutation } from '@/store/api/placementApi';
 import { PlacementAccessGate } from '@/components/placement/PlacementAccessGate';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
@@ -18,30 +18,31 @@ export default function JobDetailScreen() {
   const { colors, spacing, radii, shadows } = theme;
   const router = useRouter();
 
-  const { data: job, isLoading, isError, refetch } = useGetJobByIdQuery(jobId ?? '');
+  const { data: job, isLoading, isError, refetch } = useGetJobByIdQuery(jobId ?? '', {
+    skip: !jobId,
+  });
   const [applyForJob, { isLoading: isApplying }] = useApplyForJobMutation();
-  const [bookmarkJob] = useBookmarkJobMutation();
   const [applied, setApplied] = useState(false);
+  const [applicationError, setApplicationError] = useState('');
 
   if (!jobId) {
-    router.back();
-    return null;
+    return <ErrorState message="This job could not be found." />;
   }
 
   if (isLoading) return <LoadingView message="Loading job details…" />;
   if (isError || !job) return <ErrorState onRetry={refetch} />;
 
   const handleApply = async () => {
+    setApplicationError('');
     try {
       await applyForJob({ jobId: job.id }).unwrap();
       setApplied(true);
-    } catch {
-      // error toast could be shown here
+    } catch (error) {
+      const responseError = error as { data?: { error?: { message?: string } } };
+      setApplicationError(
+        responseError.data?.error?.message ?? 'Could not submit your application. Please try again.',
+      );
     }
-  };
-
-  const handleBookmark = () => {
-    bookmarkJob({ jobId: job.id, bookmarked: !job.isBookmarked });
   };
 
   return (
@@ -236,20 +237,15 @@ export default function JobDetailScreen() {
             gap: spacing.sm,
           }}
         >
-          <TouchableOpacity
-            onPress={handleBookmark}
-            style={{
-              borderWidth: 1.5,
-              borderColor: colors.border,
-              borderRadius: radii.lg,
-              padding: spacing.sm + 4,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={{ fontSize: 20 }}>{job.isBookmarked ? '🔖' : '🏷️'}</Text>
-          </TouchableOpacity>
-
+          {applicationError ? (
+            <Text
+              variant="small"
+              color={colors.destructive}
+              style={{ flex: 1, alignSelf: 'center' }}
+            >
+              {applicationError}
+            </Text>
+          ) : null}
           <Button
             label={applied ? '✓ Applied' : 'Apply Now →'}
             onPress={handleApply}

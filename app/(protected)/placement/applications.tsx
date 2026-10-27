@@ -65,7 +65,10 @@ function ApplicationCard({ application }: { application: JobApplication }) {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
 
-  const appliedDate = new Date(application.appliedAt).toLocaleDateString('en-IN', {
+  const parsedDate = new Date(application.appliedAt);
+  const appliedDate = Number.isNaN(parsedDate.getTime())
+    ? 'Date unavailable'
+    : parsedDate.toLocaleDateString('en-IN', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

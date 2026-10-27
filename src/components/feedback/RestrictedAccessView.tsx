@@ -6,7 +6,7 @@ import { Card } from '../ui/Card';
 
 /**
  * Shown when a student navigates to the Placement module but does not have
- * `hasPlacementAccess` enabled by their institution's admin.
+ * a placement profile activated by their institution's admin.
  */
 export function RestrictedAccessView() {
   const { theme } = useTheme();
