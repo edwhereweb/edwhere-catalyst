@@ -2,7 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '../ui/Text';
+import { useRouter } from 'expo-router';
 import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
 
 /**
  * Shown when a student navigates to the Placement module but does not have
@@ -11,6 +13,7 @@ import { Card } from '../ui/Card';
 export function RestrictedAccessView() {
   const { theme } = useTheme();
   const { colors, spacing } = theme;
+  const router = useRouter();
 
   return (
     <View
@@ -80,6 +83,13 @@ export function RestrictedAccessView() {
             track your application statuses.
           </Text>
         </View>
+
+        <Button
+          label="Back to Home"
+          variant="outline"
+          fullWidth
+          onPress={() => router.replace('/(protected)/(tabs)' as any)}
+        />
       </Card>
     </View>
   );
