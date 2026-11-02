@@ -38,55 +38,55 @@ export const gamificationApi = createApi({
   tagTypes: ['Dashboard', 'Notification', 'Task', 'Profile', 'Lab', 'Rewards'],
   endpoints: (builder) => ({
     getDashboard: builder.query<Dashboard, void>({
-      query: () => '/api/mobile/dashboard',
+      query: () => '/api/mobile/catalyst/dashboard',
       transformResponse: unwrap<Dashboard>,
       providesTags: ['Dashboard'],
     }),
     getInProgress: builder.query<InProgressHub, void>({
-      query: () => '/api/mobile/progress',
+      query: () => '/api/mobile/catalyst/progress',
       transformResponse: unwrap<InProgressHub>,
       providesTags: ['Dashboard', 'Task'],
     }),
     getLeaderboard: builder.query<Leaderboard, LeaderboardPeriod>({
-      query: (period) => ({ url: '/api/mobile/leaderboard', params: { period } }),
+      query: (period) => ({ url: '/api/mobile/catalyst/leaderboard', params: { period } }),
       transformResponse: unwrap<Leaderboard>,
     }),
     getNotifications: builder.query<AppNotification[], void>({
-      query: () => '/api/mobile/notifications',
+      query: () => '/api/mobile/catalyst/notifications',
       transformResponse: unwrap<AppNotification[]>,
       providesTags: ['Notification'],
     }),
     markAllNotificationsRead: builder.mutation<void, void>({
-      query: () => ({ url: '/api/mobile/notifications/read-all', method: 'POST' }),
+      query: () => ({ url: '/api/mobile/catalyst/notifications/read-all', method: 'POST' }),
       invalidatesTags: ['Notification'],
     }),
     getWeeklyTasks: builder.query<WeeklyTasks, void>({
-      query: () => '/api/mobile/tasks/weekly',
+      query: () => '/api/mobile/catalyst/tasks/weekly',
       transformResponse: unwrap<WeeklyTasks>,
       providesTags: ['Task'],
     }),
     claimWeeklyBonus: builder.mutation<void, void>({
-      query: () => ({ url: '/api/mobile/tasks/weekly/claim', method: 'POST' }),
+      query: () => ({ url: '/api/mobile/catalyst/tasks/weekly/claim', method: 'POST' }),
       invalidatesTags: ['Task', 'Rewards'],
     }),
     getRewards: builder.query<Rewards, void>({
-      query: () => '/api/mobile/rewards',
+      query: () => '/api/mobile/catalyst/rewards',
       transformResponse: unwrap<Rewards>,
       providesTags: ['Rewards'],
     }),
     getProfile: builder.query<UserProfile, void>({
-      query: () => '/api/mobile/profile',
+      query: () => '/api/mobile/catalyst/profile',
       transformResponse: unwrap<UserProfile>,
       providesTags: ['Profile'],
     }),
     updateProfile: builder.mutation<UserProfile, UpdateProfileInput>({
-      query: (body) => ({ url: '/api/mobile/profile', method: 'PATCH', body }),
+      query: (body) => ({ url: '/api/mobile/catalyst/profile', method: 'PATCH', body }),
       transformResponse: unwrap<UserProfile>,
       invalidatesTags: ['Profile'],
     }),
     getLabs: builder.query<Lab[], { search: string; filters: LabFilters }>({
       query: ({ search, filters }) => ({
-        url: '/api/mobile/labs',
+        url: '/api/mobile/catalyst/labs',
         params: {
           search: search || undefined,
           maxHours: filters.maxHours,
@@ -99,18 +99,18 @@ export const gamificationApi = createApi({
       providesTags: ['Lab'],
     }),
     getLabById: builder.query<Lab, string>({
-      query: (id) => `/api/mobile/labs/${encodeURIComponent(id)}`,
+      query: (id) => `/api/mobile/catalyst/labs/${encodeURIComponent(id)}`,
       transformResponse: unwrap<Lab>,
       providesTags: ['Lab'],
     }),
     createLab: builder.mutation<Lab, CreateLabInput>({
-      query: (body) => ({ url: '/api/mobile/labs', method: 'POST', body }),
+      query: (body) => ({ url: '/api/mobile/catalyst/labs', method: 'POST', body }),
       transformResponse: unwrap<Lab>,
       invalidatesTags: ['Lab'],
     }),
     submitLabProof: builder.mutation<void, { id: string; flag: string }>({
       query: ({ id, flag }) => ({
-        url: `/api/mobile/labs/${encodeURIComponent(id)}/submission`,
+        url: `/api/mobile/catalyst/labs/${encodeURIComponent(id)}/submission`,
         method: 'POST',
         body: { flag },
       }),
