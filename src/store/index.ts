@@ -1,16 +1,22 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { placementApi } from './api/placementApi';
 import { gamificationApi } from './api/gamificationApi';
+import { studyApi } from './api/studyApi';
 import labFiltersReducer from './labFiltersSlice';
 
 export const store = configureStore({
   reducer: {
     [placementApi.reducerPath]: placementApi.reducer,
     [gamificationApi.reducerPath]: gamificationApi.reducer,
+    [studyApi.reducerPath]: studyApi.reducer,
     labFilters: labFiltersReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(placementApi.middleware, gamificationApi.middleware),
+    getDefaultMiddleware().concat(
+      placementApi.middleware,
+      gamificationApi.middleware,
+      studyApi.middleware,
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

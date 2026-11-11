@@ -11,6 +11,7 @@ import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
 import { QueryState } from '@/components/feedback/QueryState';
+import { TodayPlanCard } from '@/components/study/TodayPlanCard';
 import {
   useGetDashboardQuery,
   useGetLeaderboardQuery,
@@ -43,6 +44,8 @@ export default function DashboardScreen() {
       >
         {data ? (
           <View style={{ gap: spacing.md, paddingBottom: spacing.xl }}>
+            <TodayPlanCard />
+
             <Card style={{ gap: spacing.sm }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text variant="h4">Weekly Applications</Text>
