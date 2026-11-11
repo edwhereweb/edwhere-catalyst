@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
-import { FilePicker } from '@/components/ui/FilePicker';
 import { Input } from '@/components/ui/Input';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
@@ -13,7 +12,13 @@ import { useGetProfileQuery, useUpdateProfileMutation } from '@/store/api/gamifi
 import { useTheme } from '@/theme/ThemeProvider';
 import type { UserProfile } from '@/types/gamification';
 
-const FIVE_MB = 5 * 1024 * 1024;
+function isHttpsUrl(value: string) {
+  try {
+    return new URL(value).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
 
 function splitList(value: string): string[] {
   return value
@@ -29,33 +34,38 @@ export default function EditProfileScreen() {
   const { data: profile, isLoading, isError, refetch } = useGetProfileQuery();
   const [updateProfile, { isLoading: isSaving, isError: saveFailed }] = useUpdateProfileMutation();
   const [name, setName] = useState('');
+  const [headline, setHeadline] = useState('');
   const [bio, setBio] = useState('');
   const [roles, setRoles] = useState('');
   const [skills, setSkills] = useState('');
   const [workPreference, setWorkPreference] = useState<UserProfile['workPreference']>('remote');
-  const [resumeName, setResumeName] = useState<string>();
+  const [resumeUrl, setResumeUrl] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (!profile) return;
     setName(profile.name);
+    setHeadline(profile.headline);
     setBio(profile.bio);
     setRoles(profile.targetRoles.join(', '));
     setSkills(profile.skills.join(', '));
     setWorkPreference(profile.workPreference);
-    setResumeName(profile.resumeName);
+    setResumeUrl(profile.resumeUrl ?? '');
   }, [profile]);
+
+  const resumeInvalid = resumeUrl.trim() !== '' && !isHttpsUrl(resumeUrl.trim());
 
   const handleSave = async () => {
     setSubmitted(true);
-    if (!name.trim()) return;
+    if (!name.trim() || resumeInvalid) return;
     const result = await updateProfile({
       name: name.trim(),
+      headline: headline.trim(),
       bio: bio.trim(),
       targetRoles: splitList(roles),
       skills: splitList(skills),
       workPreference,
-      resumeName,
+      resumeUrl: resumeUrl.trim(),
     });
     if ('data' in result) router.back();
   };
@@ -79,6 +89,13 @@ export default function EditProfileScreen() {
             value={name}
             onChangeText={setName}
             error={submitted && !name.trim() ? 'Name is required.' : undefined}
+          />
+          <Input
+            label="Headline"
+            value={headline}
+            onChangeText={setHeadline}
+            placeholder="e.g. Aspiring SOC Analyst"
+            maxLength={120}
           />
           <Input
             label="Bio"
@@ -106,17 +123,20 @@ export default function EditProfileScreen() {
               />
             </View>
           </View>
-          <FilePicker
-            label="Resume & Documents"
-            hint="PDF, DOCX (Max 5MB)"
-            types={[
-              'application/pdf',
-              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            ]}
-            maxSizeBytes={FIVE_MB}
-            fileName={resumeName}
-            onChange={setResumeName}
+          <Input
+            label="Resume link"
+            value={resumeUrl}
+            onChangeText={setResumeUrl}
+            placeholder="https://drive.google.com/…"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="url"
+            error={submitted && resumeInvalid ? 'Enter a valid https link.' : undefined}
           />
+          <Text variant="label" color={colors.mutedForeground} style={{ marginTop: -spacing.sm }}>
+            Upload your resume to Google Drive, set sharing to "Anyone with the link can view", then
+            paste the link here.
+          </Text>
           {saveFailed ? (
             <Text variant="label" color={colors.destructive}>
               Could not save your changes. Please try again.

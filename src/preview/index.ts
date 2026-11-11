@@ -109,10 +109,10 @@ const fixtures: [RegExp, unknown][] = [
       weeklyApplications: { done: 6, target: 10 },
       skillHours: { done: 4.5, target: 10 },
       careerSetup: [
-        { label: 'Complete your profile', state: 'done' },
-        { label: 'Upload your resume', state: 'now' },
-        { label: 'Finish your first lab', state: 'pending' },
-        { label: 'Log your first application', state: 'pending' },
+        { key: 'profile', label: 'Complete your profile', state: 'done' },
+        { key: 'resume', label: 'Add your resume link', state: 'now' },
+        { key: 'lab', label: 'Finish your first lab', state: 'pending' },
+        { key: 'application', label: 'Log your first application', state: 'pending' },
       ],
       event: {
         title: 'Hack-the-Box Local Meetup: London',
@@ -202,7 +202,7 @@ const fixtures: [RegExp, unknown][] = [
       certifications: [{ name: 'CompTIA Security+', credentialId: 'SEC-12345678' }],
       targetRoles: ['SOC Analyst', 'Pentester'],
       workPreference: 'remote',
-      resumeName: 'Aryan_Sharma_Resume.pdf',
+      resumeUrl: 'https://drive.google.com/file/d/1abc/view',
     },
   ],
   [/^\/api\/mobile\/catalyst\/labs$/, labs],

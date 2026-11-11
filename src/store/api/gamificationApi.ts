@@ -82,7 +82,7 @@ export const gamificationApi = createApi({
     updateProfile: builder.mutation<UserProfile, UpdateProfileInput>({
       query: (body) => ({ url: '/api/mobile/catalyst/profile', method: 'PATCH', body }),
       transformResponse: unwrap<UserProfile>,
-      invalidatesTags: ['Profile'],
+      invalidatesTags: ['Profile', 'Dashboard'],
     }),
     getLabs: builder.query<Lab[], { search: string; filters: LabFilters }>({
       query: ({ search, filters }) => ({

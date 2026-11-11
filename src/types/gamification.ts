@@ -111,7 +111,11 @@ export interface Dashboard {
   weeklyApplications: { done: number; target: number };
   skillHours: { done: number; target: number };
   rank?: number;
-  careerSetup: { label: string; state: 'done' | 'now' | 'pending' }[];
+  careerSetup: {
+    key: 'profile' | 'resume' | 'lab' | 'application';
+    label: string;
+    state: 'done' | 'now' | 'pending';
+  }[];
   event?: { title: string; description: string };
 }
 
@@ -138,10 +142,13 @@ export interface UserProfile {
   certifications: { name: string; credentialId: string; url?: string }[];
   targetRoles: string[];
   workPreference: 'remote' | 'hybrid';
-  resumeName?: string;
+  resumeUrl?: string;
 }
 
 export type UpdateProfileInput = Pick<
   UserProfile,
-  'name' | 'bio' | 'targetRoles' | 'skills' | 'workPreference' | 'resumeName'
->;
+  'name' | 'headline' | 'bio' | 'targetRoles' | 'skills' | 'workPreference'
+> & {
+  /** An empty string removes the resume link. */
+  resumeUrl: string;
+};

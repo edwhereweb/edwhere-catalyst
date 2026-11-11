@@ -42,6 +42,13 @@ function StreakPill({ days }: { days: number }) {
   );
 }
 
+const SETUP_ROUTES = {
+  profile: '/(protected)/edit-profile',
+  resume: '/(protected)/edit-profile',
+  lab: '/(protected)/(tabs)/labs',
+  application: '/(protected)/placement/log-application',
+} as const;
+
 function pace(done: number, target: number) {
   const percent = (done / Math.max(1, target)) * 100;
   if (percent >= 100) return { label: 'Goal met', variant: 'success' as const };
@@ -209,13 +216,17 @@ export default function DashboardScreen() {
               </View>
               <View style={{ gap: spacing.sm }}>
                 {data.careerSetup.map((item) => (
-                  <View
-                    key={item.label}
+                  <TouchableOpacity
+                    key={item.key}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${item.label}, ${item.state === 'done' ? 'done' : 'not done'}`}
+                    activeOpacity={0.8}
+                    onPress={() => router.push(SETUP_ROUTES[item.key] as any)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
                       gap: spacing.md,
-                      minHeight: 52,
+                      minHeight: 56,
                       paddingHorizontal: spacing.md,
                       borderRadius: radii.lg,
                       backgroundColor: colors.card,
@@ -228,15 +239,15 @@ export default function DashboardScreen() {
                     />
                     <Text
                       variant="body"
-                      style={[
-                        { flex: 1 },
-                        item.state === 'done' ? { color: colors.mutedForeground } : null,
-                      ]}
+                      style={[{ flex: 1 }, item.state === 'done' ? { color: colors.mutedForeground } : null]}
                     >
                       {item.label}
                     </Text>
-                    {item.state === 'now' ? <Badge label="Do now" variant="destructive" /> : null}
-                  </View>
+                    {item.state === 'now' ? (
+                      <Badge label="Do now" variant="destructive" style={{ alignSelf: 'center' }} />
+                    ) : null}
+                    <Ionicons name="chevron-forward" size={18} color={colors.mutedForeground} />
+                  </TouchableOpacity>
                 ))}
               </View>
             </Card>

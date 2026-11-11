@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useClerk } from '@clerk/clerk-expo';
@@ -131,6 +131,30 @@ export default function ProfileScreen() {
                 <Text variant="small" color={colors.mutedForeground}>
                   Add your skills from Edit Profile.
                 </Text>
+              )}
+            </Card>
+
+            <Card style={{ gap: spacing.md }}>
+              <Text variant="h4">Resume</Text>
+              {profile.resumeUrl ? (
+                <Button
+                  label="Open resume"
+                  icon="open-outline"
+                  variant="tonal"
+                  onPress={() => void Linking.openURL(profile.resumeUrl as string)}
+                />
+              ) : (
+                <>
+                  <Text variant="small" color={colors.mutedForeground}>
+                    Add a Google Drive link so recruiters can see your resume.
+                  </Text>
+                  <Button
+                    label="Add resume link"
+                    variant="tonal"
+                    icon="link-outline"
+                    onPress={() => router.push('/(protected)/edit-profile' as any)}
+                  />
+                </>
               )}
             </Card>
 

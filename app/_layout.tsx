@@ -10,6 +10,7 @@ import { ErrorState } from '@/components/feedback/ErrorState';
 import { LoadingView } from '@/components/feedback/LoadingView';
 import { setClerkTokenGetter } from '@/services/authToken';
 import * as SplashScreen from 'expo-splash-screen';
+import { Ionicons } from '@expo/vector-icons';
 import {
   useFonts,
   Poppins_700Bold,
@@ -57,6 +58,8 @@ function AuthenticatedApp() {
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
+    // Icons are blank until their font is ready, so load it with the text fonts, before first paint.
+    ...Ionicons.font,
     Poppins_700Bold,
     Poppins_600SemiBold,
     OpenSans_400Regular,
