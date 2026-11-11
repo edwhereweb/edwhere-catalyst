@@ -35,7 +35,7 @@ export interface LogApplicationInput {
 export const gamificationApi = createApi({
   reducerPath: 'gamificationApi',
   baseQuery,
-  tagTypes: ['Dashboard', 'Notification', 'Task', 'Profile', 'Lab', 'Rewards'],
+  tagTypes: ['Dashboard', 'Notification', 'Task', 'Profile', 'Lab', 'Rewards', 'Application'],
   endpoints: (builder) => ({
     getDashboard: builder.query<Dashboard, void>({
       query: () => '/api/mobile/catalyst/dashboard',
@@ -118,7 +118,12 @@ export const gamificationApi = createApi({
     }),
     logApplication: builder.mutation<JobApplication, LogApplicationInput>({
       query: (body) => ({ url: '/api/mobile/placement/applications/log', method: 'POST', body }),
-      invalidatesTags: ['Dashboard', 'Task'],
+      invalidatesTags: ['Dashboard', 'Task', 'Application'],
+    }),
+    getLoggedApplications: builder.query<JobApplication[], void>({
+      query: () => '/api/mobile/catalyst/applications',
+      transformResponse: unwrap<JobApplication[]>,
+      providesTags: ['Application'],
     }),
   }),
 });
@@ -139,4 +144,5 @@ export const {
   useCreateLabMutation,
   useSubmitLabProofMutation,
   useLogApplicationMutation,
+  useGetLoggedApplicationsQuery,
 } = gamificationApi;

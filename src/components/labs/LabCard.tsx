@@ -12,6 +12,12 @@ const difficultyVariant = {
   hard: 'destructive',
 } as const satisfies Record<LabDifficulty, 'success' | 'warning' | 'destructive'>;
 
+const STATUS_LABEL = {
+  submitted: { label: 'In review', variant: 'warning' },
+  approved: { label: 'Completed', variant: 'success' },
+  rejected: { label: 'Needs changes', variant: 'destructive' },
+} as const;
+
 interface Props {
   lab: Lab;
   onPress: () => void;
@@ -95,6 +101,12 @@ export function LabCard({ lab, onPress, style }: Props) {
             </Text>
           </View>
           <Badge label={lab.difficulty} variant={difficultyVariant[lab.difficulty]} />
+          {lab.submissionStatus ? (
+            <Badge
+              label={STATUS_LABEL[lab.submissionStatus].label}
+              variant={STATUS_LABEL[lab.submissionStatus].variant}
+            />
+          ) : null}
         </View>
       </View>
 

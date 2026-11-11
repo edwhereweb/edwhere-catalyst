@@ -33,6 +33,8 @@ const labs = [
     targetVm: 'Metasploitable 2',
     tools: 'Metasploit, Nmap',
     network: 'Host-only 10.10.10.0/24',
+    resourceUrl: 'https://tryhackme.com/room/metasploitintro',
+    autoGraded: false,
   },
   {
     id: 'lab2',
@@ -279,6 +281,12 @@ const fixtures: [RegExp, unknown][] = [
       ],
       done: false,
     },
+  ],
+  [
+    /^\/api\/mobile\/catalyst\/applications$/,
+    [
+      { id: 'l1', jobId: '', jobTitle: 'QA Engineer', company: 'Infosys', status: 'applied', appliedAt: ago(48), updatedAt: ago(48) },
+    ],
   ],
   [/^\/api\/mobile\/placement\/profile$/, { isActive: true }],
   [/^\/api\/mobile\/placement\/jobs$/, jobs],

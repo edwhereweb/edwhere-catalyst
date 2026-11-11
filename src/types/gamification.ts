@@ -14,7 +14,11 @@ export interface Lab {
   targetVm?: string;
   tools?: string;
   network?: string;
-  submissionStatus?: 'pending' | 'submitted' | 'approved';
+  resourceUrl?: string;
+  /** Graded by a flag. Otherwise the student submits proof for a teacher to review. */
+  autoGraded?: boolean;
+  submissionStatus?: 'submitted' | 'approved' | 'rejected';
+  reviewNote?: string;
 }
 
 export interface LabFilters {

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useGetMyApplicationsQuery } from '@/store/api/placementApi';
-import { PlacementAccessGate } from '@/components/placement/PlacementAccessGate';
+import { useGetMyApplicationsQuery, useGetPlacementProfileQuery } from '@/store/api/placementApi';
+import { useGetLoggedApplicationsQuery } from '@/store/api/gamificationApi';
 import { ApplicationStatusBadge } from '@/components/placement/ApplicationStatusBadge';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
@@ -20,35 +20,46 @@ export default function ApplicationsScreen() {
   const { spacing } = theme;
   const router = useRouter();
 
-  const { data: applications, isLoading, isError, refetch } = useGetMyApplicationsQuery();
+  // Students log applications themselves, so this list works without placement access too.
+  const { data: placementProfile } = useGetPlacementProfileQuery();
+  const placement = useGetMyApplicationsQuery(undefined, { skip: !placementProfile?.isActive });
+  const logged = useGetLoggedApplicationsQuery();
+
+  const applications = [...(placement.data ?? []), ...(logged.data ?? [])].sort(
+    (a, b) => new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime(),
+  );
+  const isLoading = logged.isLoading || placement.isLoading;
+  const isError = logged.isError && (!placementProfile?.isActive || placement.isError);
+  const refetch = () => {
+    void logged.refetch();
+    if (placementProfile?.isActive) void placement.refetch();
+  };
 
   return (
-    <PlacementAccessGate>
-      <Screen scroll={false} padded>
-        <ScreenHeader title="My Applications" showBack />
+    <Screen scroll={false} padded>
+      <ScreenHeader title="My Applications" showBack />
 
-        {isLoading ? (
-          <LoadingView message="Loading your applications…" />
-        ) : isError ? (
-          <ErrorState onRetry={refetch} message="Could not load applications." />
-        ) : !applications?.length ? (
-          <EmptyState
-            title="No applications yet"
-            message="Start applying to jobs and track your progress here."
-            actionLabel="Browse Jobs"
-            onAction={() => router.navigate('/(protected)/(tabs)/jobs' as any)}
-          />
-        ) : (
-          <FlatList<JobApplication>
-            data={applications}
-            keyExtractor={(a) => a.id}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ gap: spacing.md, paddingBottom: spacing.xl }}
-            renderItem={({ item }) => <ApplicationCard application={item} />}
-          />
-        )}
-      </Screen>
-    </PlacementAccessGate>
+      {isLoading ? (
+        <LoadingView message="Loading your applications…" />
+      ) : isError ? (
+        <ErrorState onRetry={refetch} message="Could not load applications." />
+      ) : !applications.length ? (
+        <EmptyState
+          title="No applications yet"
+          message="Log an application or apply to a job and track it here."
+          actionLabel="Log an application"
+          onAction={() => router.push('/(protected)/placement/log-application' as any)}
+        />
+      ) : (
+        <FlatList<JobApplication>
+          data={applications}
+          keyExtractor={(a) => a.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ gap: spacing.md, paddingBottom: spacing.xl }}
+          renderItem={({ item }) => <ApplicationCard application={item} />}
+        />
+      )}
+    </Screen>
   );
 }
 

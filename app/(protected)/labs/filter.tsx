@@ -9,11 +9,10 @@ import { Text } from '@/components/ui/Text';
 import { clearLabFilters, defaultLabFilters, setLabFilters } from '@/store/labFiltersSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useTheme } from '@/theme/ThemeProvider';
+import { LAB_FIELDS, LAB_JOB_ROLES } from '@/constants/labs';
 import type { LabDifficulty, LabFilters } from '@/types/gamification';
 
 const DIFFICULTIES: LabDifficulty[] = ['easy', 'medium', 'hard'];
-const FIELDS = ['Malware', 'Network', 'Web', 'Cloud', 'Cryptography'];
-const JOB_ROLES = ['SOC', 'Auditor', 'Pen-Tester', 'Cloud Security'];
 const HOURS_STEPS = [5, 10, 15, 20];
 
 function toggle<T>(list: T[], value: T): T[] {
@@ -73,7 +72,7 @@ export default function LabsFilterScreen() {
         <View style={{ gap: spacing.sm }}>
           <Text variant="h4">Field</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-            {FIELDS.map((field) => (
+            {LAB_FIELDS.map((field) => (
               <Chip
                 key={field}
                 label={field}
@@ -86,7 +85,7 @@ export default function LabsFilterScreen() {
         <View style={{ gap: spacing.sm }}>
           <Text variant="h4">Job Role</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-            {JOB_ROLES.map((role) => (
+            {LAB_JOB_ROLES.map((role) => (
               <Chip
                 key={role}
                 label={role}

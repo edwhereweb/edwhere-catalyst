@@ -11,9 +11,9 @@ import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
 import { useCreateLabMutation } from '@/store/api/gamificationApi';
 import { useTheme } from '@/theme/ThemeProvider';
+import { LAB_FIELDS } from '@/constants/labs';
 import type { CreateLabInput } from '@/types/gamification';
 
-const FIELDS = ['Web Security', 'Network Auditing', 'Digital Forensics', 'Cryptography', 'Malware Analysis'];
 const LEVELS: { value: CreateLabInput['difficulty']; label: string }[] = [
   { value: 'beginner', label: 'Beginner' },
   { value: 'intermediate', label: 'Intermediate' },
@@ -84,7 +84,7 @@ export default function CreateLabScreen() {
             Field
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-            {FIELDS.map((item) => (
+            {LAB_FIELDS.map((item) => (
               <Chip key={item} label={item} selected={field === item} onPress={() => setField(item)} />
             ))}
           </View>
