@@ -22,8 +22,8 @@ export function IconButton({ icon, onPress, accessibilityLabel, color, style }: 
       onPress={onPress}
       style={[
         {
-          width: 40,
-          height: 40,
+          width: 44,
+          height: 44,
           borderRadius: theme.radii.full,
           alignItems: 'center',
           justifyContent: 'center',

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Card } from '@/components/ui/Card';
-import { ProgressBar } from '@/components/ui/ProgressBar';
+import { IconTile } from '@/components/ui/IconTile';
+import { ProgressRing } from '@/components/ui/ProgressRing';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
@@ -28,96 +29,151 @@ export default function RewardsScreen() {
         errorMessage="Could not load your rewards."
       >
         {data ? (
-          <View style={{ gap: spacing.md, paddingBottom: spacing.xl }}>
-            <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-              <Card style={{ flex: 1, alignItems: 'center' }}>
-                <Ionicons name="flame" size={28} color={colors.streak} />
-                <Text variant="h3">{data.streak}</Text>
-                <Text variant="label" color={colors.mutedForeground}>
-                  Day Streak
-                </Text>
-              </Card>
-              <Card style={{ flex: 1, alignItems: 'center' }}>
-                <Ionicons name="star" size={28} color={colors.xp} />
-                <Text variant="h3">{formatNumber(data.totalPoints)}</Text>
-                <Text variant="label" color={colors.mutedForeground}>
-                  Total Points
-                </Text>
-              </Card>
-            </View>
-
-            <Card style={{ gap: spacing.sm }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                {WEEK_DAYS.map((day, index) => (
-                  <View key={index} style={{ alignItems: 'center', gap: spacing.xs }}>
-                    <Text variant="label" color={colors.mutedForeground}>
-                      {day}
-                    </Text>
-                    <Ionicons
-                      name={data.activeDays[index] ? 'checkmark-circle' : 'ellipse-outline'}
-                      size={24}
-                      color={data.activeDays[index] ? colors.success : colors.outlineVariant}
-                    />
-                  </View>
-                ))}
-              </View>
-              <Text variant="h4">Weekly Completion: {data.weeklyCompletionPercent}%</Text>
-              <ProgressBar value={data.weeklyCompletionPercent} color={colors.success} />
-            </Card>
-
-            <Text variant="h4">Badge Collection</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
-              {data.badges.map((badge) => (
-                <Card
-                  key={badge.id}
+          <View style={{ gap: spacing.md }}>
+            <Card tone="hero" style={{ gap: spacing.md }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+                <View
                   style={{
-                    width: '31%',
+                    width: 64,
+                    height: 64,
+                    borderRadius: radii.full,
+                    backgroundColor: colors.heroForeground + '1f',
                     alignItems: 'center',
-                    gap: spacing.xs,
-                    padding: spacing.sm,
-                    opacity: badge.unlocked ? 1 : 0.5,
+                    justifyContent: 'center',
                   }}
                 >
-                  <View
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: radii.full,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: colors.badgeLight,
-                    }}
-                  >
-                    <Ionicons
-                      name={badge.unlocked ? 'ribbon' : 'lock-closed'}
-                      size={24}
-                      color={colors.badge}
-                    />
-                  </View>
-                  <Text variant="label" style={{ textAlign: 'center' }}>
-                    {badge.name}
+                  <Ionicons name="flame" size={34} color={colors.highlight} />
+                </View>
+                <View>
+                  <Text variant="h1" color={colors.heroForeground}>
+                    {data.streak}
                   </Text>
-                </Card>
-              ))}
-            </View>
-
-            <Text variant="h4">History of Rewards</Text>
-            {data.history.map((item) => (
-              <Card key={item.id} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-                <View style={{ flex: 1 }}>
-                  <Text variant="body">{item.title}</Text>
-                  <Text variant="small" color={colors.mutedForeground}>
-                    {item.subtitle}
-                  </Text>
-                  <Text variant="label" color={colors.mutedForeground}>
-                    {formatDateTime(item.occurredAt)}
+                  <Text variant="label" color={colors.heroMuted}>
+                    DAY STREAK
                   </Text>
                 </View>
-                <Text variant="button" color={colors.success}>
-                  +{item.points} pts
+              </View>
+              <View>
+                <Text variant="label" color={colors.heroMuted}>
+                  TOTAL POINTS EARNED
                 </Text>
+                <Text variant="h1" color={colors.highlight}>
+                  {formatNumber(data.totalPoints)}
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                {WEEK_DAYS.map((day, index) => {
+                  const active = data.activeDays[index];
+                  return (
+                    <View key={index} style={{ alignItems: 'center', gap: spacing.xs }}>
+                      <View
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: radii.full,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: active ? colors.highlight : colors.heroForeground + '26',
+                        }}
+                      >
+                        <Text variant="label" color={active ? colors.onHighlight : colors.heroMuted}>
+                          {day}
+                        </Text>
+                      </View>
+                      <Ionicons
+                        name={active ? 'checkmark-circle' : 'ellipse'}
+                        size={active ? 14 : 6}
+                        color={active ? colors.highlight : colors.heroForeground + '40'}
+                      />
+                    </View>
+                  );
+                })}
+              </View>
+            </Card>
+
+            <Card style={{ alignItems: 'center', gap: spacing.md }}>
+              <Text variant="label" color={colors.mutedForeground}>
+                WEEKLY COMPLETION
+              </Text>
+              <ProgressRing value={data.weeklyCompletionPercent} size={140} stroke={14}>
+                <Text variant="h2" color={colors.primary}>
+                  {data.weeklyCompletionPercent}%
+                </Text>
+                <Text variant="label" color={colors.mutedForeground}>
+                  Completed
+                </Text>
+              </ProgressRing>
+            </Card>
+
+            <View style={{ gap: spacing.sm }}>
+              <Text variant="h3">Badge Collection</Text>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ gap: spacing.md, paddingVertical: spacing.xs }}
+              >
+                {data.badges.map((badge) => (
+                  <View
+                    key={badge.id}
+                    accessibilityLabel={`${badge.name}, ${badge.unlocked ? 'unlocked' : 'locked'}`}
+                    style={{ width: 92, alignItems: 'center', gap: spacing.sm, opacity: badge.unlocked ? 1 : 0.5 }}
+                  >
+                    <View
+                      style={{
+                        width: 76,
+                        height: 76,
+                        borderRadius: radii.full,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: badge.unlocked ? colors.primaryLight : colors.surfaceContainer,
+                      }}
+                    >
+                      <Ionicons
+                        name={badge.unlocked ? 'shield-checkmark' : 'lock-closed'}
+                        size={34}
+                        color={badge.unlocked ? colors.primary : colors.mutedForeground}
+                      />
+                    </View>
+                    <Text variant="label" style={{ textAlign: 'center' }} numberOfLines={2}>
+                      {badge.name}
+                    </Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+
+            <View style={{ gap: spacing.sm }}>
+              <Text variant="h3">History of Rewards</Text>
+              <Card style={{ gap: spacing.md }}>
+                {data.history.length === 0 ? (
+                  <Text variant="small" color={colors.mutedForeground}>
+                    Complete topics, labs and tasks to start earning points.
+                  </Text>
+                ) : (
+                  data.history.map((item) => (
+                    <View key={item.id} style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+                      <IconTile icon="trophy-outline" tone="violet" />
+                      <View style={{ flex: 1 }}>
+                        <Text variant="body" numberOfLines={2}>
+                          {item.title}
+                        </Text>
+                        {item.subtitle ? (
+                          <Text variant="small" color={colors.mutedForeground} numberOfLines={1}>
+                            {item.subtitle}
+                          </Text>
+                        ) : null}
+                        <Text variant="label" color={colors.mutedForeground}>
+                          {formatDateTime(item.occurredAt)}
+                        </Text>
+                      </View>
+                      <Text variant="button" color={colors.success}>
+                        +{item.points} pts
+                      </Text>
+                    </View>
+                  ))
+                )}
               </Card>
-            ))}
+            </View>
           </View>
         ) : null}
       </QueryState>

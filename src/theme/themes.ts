@@ -8,6 +8,7 @@ export type ColorTokens = {
   popoverForeground: string;
   primary: string;
   primaryForeground: string;
+  primaryLight: string;
   secondary: string;
   secondaryForeground: string;
   muted: string;
@@ -19,7 +20,7 @@ export type ColorTokens = {
   border: string;
   input: string;
   ring: string;
-  // Surface layers (from design system)
+  // Surface layers
   surface: string;
   surfaceContainer: string;
   surfaceContainerLow: string;
@@ -30,6 +31,12 @@ export type ColorTokens = {
   inverseSurface: string;
   inverseOnSurface: string;
   outlineVariant: string;
+  // Hero cards and accents
+  hero: string;
+  heroForeground: string;
+  heroMuted: string;
+  highlight: string;
+  onHighlight: string;
   // Semantic
   success: string;
   successForeground: string;
@@ -49,92 +56,105 @@ export type ColorTokens = {
   badgeLight: string;
 };
 
+// Edwhere brand: the red and navy of the logo, a warm yellow accent and warm neutrals.
 const lightColors: ColorTokens = {
-  background: '#f9f9ff',
-  foreground: '#111c2d',
+  background: '#faf8f6',
+  foreground: '#14103a',
   card: '#ffffff',
-  cardForeground: '#111c2d',
+  cardForeground: '#14103a',
   popover: '#ffffff',
-  popoverForeground: '#111c2d',
-  primary: '#0058be',
+  popoverForeground: '#14103a',
+  primary: '#e30a09',
   primaryForeground: '#ffffff',
-  secondary: '#6b38d4',
+  primaryLight: '#fde8e7',
+  secondary: '#1b1464',
   secondaryForeground: '#ffffff',
-  muted: '#e7eeff',
-  mutedForeground: '#424754',
-  accent: '#dee8ff',
-  accentForeground: '#111c2d',
-  destructive: '#ba1a1a',
+  muted: '#f1ece6',
+  mutedForeground: '#5b5670',
+  accent: '#fde8e7',
+  accentForeground: '#14103a',
+  destructive: '#b42318',
   destructiveForeground: '#ffffff',
-  border: '#c2c6d6',
+  border: '#ddd6cd',
   input: '#ffffff',
-  ring: '#0058be',
-  surface: '#f9f9ff',
-  surfaceContainer: '#e7eeff',
-  surfaceContainerLow: '#f0f3ff',
-  surfaceContainerHigh: '#dee8ff',
+  ring: '#e30a09',
+  surface: '#faf8f6',
+  surfaceContainer: '#efe9e2',
+  surfaceContainerLow: '#f6f2ed',
+  surfaceContainerHigh: '#e6ded5',
   surfaceContainerLowest: '#ffffff',
-  onSurface: '#111c2d',
-  onSurfaceVariant: '#424754',
-  inverseSurface: '#263143',
-  inverseOnSurface: '#ecf1ff',
-  outlineVariant: '#c2c6d6',
-  success: '#1a7a4a',
+  onSurface: '#14103a',
+  onSurfaceVariant: '#4d4966',
+  inverseSurface: '#14103a',
+  inverseOnSurface: '#f3f0ff',
+  outlineVariant: '#ddd6cd',
+  hero: '#140d45',
+  heroForeground: '#ffffff',
+  heroMuted: '#bdb8e0',
+  highlight: '#ffc83d',
+  onHighlight: '#14103a',
+  success: '#17803d',
   successForeground: '#ffffff',
-  successLight: '#d1fae5',
+  successLight: '#dcfce7',
   warning: '#b45309',
   warningForeground: '#ffffff',
   warningLight: '#fef3c7',
-  info: '#0058be',
+  info: '#2f2a8f',
   infoForeground: '#ffffff',
-  infoLight: '#dbeafe',
-  xp: '#7c3aed',
+  infoLight: '#e8e7fa',
+  xp: '#6d28d9',
   xpLight: '#ede9fe',
   streak: '#ea580c',
   streakLight: '#ffedd5',
-  badge: '#0891b2',
+  badge: '#0e7490',
   badgeLight: '#cffafe',
 };
 
 const darkColors: ColorTokens = {
-  background: '#0f1621',
-  foreground: '#ecf1ff',
-  card: '#1a2236',
-  cardForeground: '#ecf1ff',
-  popover: '#1a2236',
-  popoverForeground: '#ecf1ff',
-  primary: '#adc6ff',
-  primaryForeground: '#001a42',
-  secondary: '#d0bcff',
-  secondaryForeground: '#23005c',
-  muted: '#263143',
-  mutedForeground: '#c2c6d6',
-  accent: '#263143',
-  accentForeground: '#ecf1ff',
-  destructive: '#ff897d',
-  destructiveForeground: '#690005',
-  border: '#3a4559',
-  input: '#1a2236',
-  ring: '#adc6ff',
-  surface: '#0f1621',
-  surfaceContainer: '#1a2236',
-  surfaceContainerLow: '#161e2e',
-  surfaceContainerHigh: '#1f2d42',
-  surfaceContainerLowest: '#0c1219',
-  onSurface: '#ecf1ff',
-  onSurfaceVariant: '#c2c6d6',
-  inverseSurface: '#ecf1ff',
-  inverseOnSurface: '#263143',
-  outlineVariant: '#3a4559',
+  background: '#0e0a26',
+  foreground: '#f3f0ff',
+  card: '#181342',
+  cardForeground: '#f3f0ff',
+  popover: '#181342',
+  popoverForeground: '#f3f0ff',
+  primary: '#ff6459',
+  primaryForeground: '#2a0300',
+  primaryLight: '#3d1118',
+  secondary: '#b9b3ff',
+  secondaryForeground: '#14103a',
+  muted: '#221c55',
+  mutedForeground: '#bcb7de',
+  accent: '#3d1118',
+  accentForeground: '#f3f0ff',
+  destructive: '#ff8a80',
+  destructiveForeground: '#3a0500',
+  border: '#3a3370',
+  input: '#181342',
+  ring: '#ff6459',
+  surface: '#0e0a26',
+  surfaceContainer: '#1b1648',
+  surfaceContainerLow: '#141039',
+  surfaceContainerHigh: '#241e5a',
+  surfaceContainerLowest: '#0a071c',
+  onSurface: '#f3f0ff',
+  onSurfaceVariant: '#bcb7de',
+  inverseSurface: '#f3f0ff',
+  inverseOnSurface: '#14103a',
+  outlineVariant: '#332d68',
+  hero: '#1f1870',
+  heroForeground: '#f3f0ff',
+  heroMuted: '#b3aedf',
+  highlight: '#ffc83d',
+  onHighlight: '#14103a',
   success: '#4ade80',
   successForeground: '#052e16',
   successLight: '#14532d',
   warning: '#fbbf24',
   warningForeground: '#451a03',
   warningLight: '#78350f',
-  info: '#60a5fa',
-  infoForeground: '#1e3a5f',
-  infoLight: '#1e3a5f',
+  info: '#b9b3ff',
+  infoForeground: '#14103a',
+  infoLight: '#2a2470',
   xp: '#a78bfa',
   xpLight: '#2e1065',
   streak: '#fb923c',

@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { IconTile } from '@/components/ui/IconTile';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Text } from '@/components/ui/Text';
 import { TopicRow } from './TopicRow';
@@ -24,25 +25,24 @@ export function TodayPlanCard() {
   const goStart = () => router.push('/(protected)/study/start' as any);
 
   if (!plan) {
-    if (request?.status === 'pending') {
-      return (
-        <Card style={{ gap: spacing.sm }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text variant="h4">Placement Roadmap</Text>
-            <Badge label="Awaiting approval" variant="warning" />
-          </View>
-          <Text variant="small" color={colors.mutedForeground}>
-            Your request for {request.track.title} ({request.days} days) is with your instructor.
-            You will get a notification once it is approved.
-          </Text>
-        </Card>
-      );
-    }
+    const pending = request?.status === 'pending';
+    const rejected = request?.status === 'rejected';
 
     return (
-      <Card style={{ gap: spacing.sm }}>
-        <Text variant="h4">Placement Roadmap</Text>
-        {request?.status === 'rejected' ? (
+      <Card style={{ gap: spacing.md }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+          <IconTile icon="map-outline" tone="primary" />
+          <View style={{ flex: 1 }}>
+            <Text variant="h4">Placement Roadmap</Text>
+            {pending ? <Badge label="Awaiting approval" variant="warning" style={{ marginTop: 4 }} /> : null}
+          </View>
+        </View>
+        {pending ? (
+          <Text variant="small" color={colors.mutedForeground}>
+            Your request for {request.track.title} ({request.days} days) is with your instructor. You
+            will get a notification once it is approved.
+          </Text>
+        ) : rejected ? (
           <Text variant="small" color={colors.destructive}>
             Your request for {request.track.title} was not approved
             {request.note ? `: ${request.note}` : '.'}
@@ -53,35 +53,46 @@ export function TodayPlanCard() {
             day-by-day plan to crack your interviews.
           </Text>
         )}
-        <Button
-          label={request?.status === 'rejected' ? 'Request Another Track' : 'Request My Plan'}
-          onPress={goStart}
-        />
+        {!pending ? (
+          <Button label={rejected ? 'Request Another Track' : 'Request My Plan'} onPress={goStart} />
+        ) : null}
       </Card>
     );
   }
 
   return (
-    <Card style={{ gap: spacing.sm }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text variant="h4">Today · Day {Math.min(plan.dayNumber, plan.totalDays)}</Text>
+    <Card style={{ gap: spacing.md }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+        <IconTile icon="today-outline" tone="primary" />
+        <View style={{ flex: 1 }}>
+          <Text variant="h4" numberOfLines={1}>
+            Today · Day {Math.min(plan.dayNumber, plan.totalDays)}
+          </Text>
+          <Text variant="label" color={colors.mutedForeground} numberOfLines={1}>
+            {plan.track.title}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{ gap: spacing.xs }}>
+        <ProgressBar value={plan.percentComplete} />
         <Text variant="label" color={colors.mutedForeground}>
-          {plan.daysLeft} {plan.daysLeft === 1 ? 'day' : 'days'} left
+          {plan.topicsDone} of {plan.topicsTotal} topics complete · {plan.daysLeft}{' '}
+          {plan.daysLeft === 1 ? 'day' : 'days'} left
         </Text>
       </View>
-      <ProgressBar value={plan.percentComplete} />
-      <Text variant="small" color={colors.mutedForeground}>
-        {plan.topicsDone}/{plan.topicsTotal} topics · {plan.track.title}
-      </Text>
 
-      {plan.today.map((topic) => (
-        <TopicRow key={topic.id} topic={topic} onPress={() => openTopic(topic.id)} />
-      ))}
+      <View style={{ gap: spacing.sm }}>
+        {plan.today.map((topic) => (
+          <TopicRow key={topic.id} topic={topic} onPress={() => openTopic(topic.id)} />
+        ))}
+      </View>
 
       {plan.dayComplete && plan.nextUp ? (
         <Button
           label={`Work ahead: ${plan.nextUp.title}`}
-          variant="outline"
+          variant="tonal"
+          icon="flash-outline"
           onPress={() => openTopic(plan.nextUp!.id)}
         />
       ) : null}
@@ -92,12 +103,13 @@ export function TodayPlanCard() {
       ) : null}
       <Button
         label="View Roadmap"
-        variant="ghost"
+        variant="outline"
+        icon="map-outline"
         onPress={() => router.push('/(protected)/study/roadmap' as any)}
       />
       {request?.status === 'pending' ? (
         <Text variant="label" color={colors.mutedForeground}>
-          Request for {request.track.title} is awaiting approval.
+          Your request for {request.track.title} is awaiting approval.
         </Text>
       ) : null}
     </Card>

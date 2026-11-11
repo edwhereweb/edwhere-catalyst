@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, FlatList, TextInput, RefreshControl } from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LabCard } from '@/components/labs/LabCard';
 import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { Screen } from '@/components/ui/Screen';
+import { SearchField } from '@/components/ui/SearchField';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { EmptyState } from '@/components/feedback/EmptyState';
 import { QueryState } from '@/components/feedback/QueryState';
@@ -27,32 +28,31 @@ export default function LabsScreen() {
 
   return (
     <Screen padded>
-      <ScreenHeader title="Labs" />
+      <ScreenHeader
+        title="Labs"
+        trailing={
+          <Button
+            label="New Lab"
+            icon="add"
+            size="sm"
+            fullWidth={false}
+            onPress={() => router.push('/(protected)/labs/create' as any)}
+          />
+        }
+      />
       <View style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md }}>
-        <TextInput
+        <SearchField
           value={search}
           onChangeText={setSearch}
-          onSubmitEditing={() => setQuery(search.trim())}
-          returnKeyType="search"
+          onSubmit={() => setQuery(search.trim())}
           placeholder="Search labs…"
-          placeholderTextColor={colors.mutedForeground}
-          style={{
-            flex: 1,
-            height: 48,
-            paddingHorizontal: spacing.md,
-            borderRadius: radii.xl,
-            borderWidth: 1,
-            borderColor: colors.border,
-            backgroundColor: colors.card,
-            color: colors.foreground,
-            ...theme.typography.body,
-          }}
+          style={{ flex: 1 }}
         />
         <IconButton
           icon="options-outline"
           accessibilityLabel="Filter labs"
           color={colors.primaryForeground}
-          style={{ backgroundColor: colors.primary, width: 48, height: 48, borderRadius: radii.xl }}
+          style={{ backgroundColor: colors.primary, width: 52, height: 52, borderRadius: radii.xl }}
           onPress={() => router.push('/(protected)/labs/filter' as any)}
         />
       </View>
@@ -82,13 +82,6 @@ export default function LabsScreen() {
             renderItem={({ item }) => (
               <LabCard lab={item} onPress={() => router.push(`/(protected)/labs/${item.id}` as any)} />
             )}
-            ListFooterComponent={
-              <Button
-                label="Create New Lab"
-                variant="outline"
-                onPress={() => router.push('/(protected)/labs/create' as any)}
-              />
-            }
           />
         </QueryState>
       </View>

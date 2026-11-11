@@ -34,7 +34,7 @@ export function Input({ label, error, containerStyle, style, onFocus, onBlur, ..
         }}
         style={[
           {
-            minHeight: 48,
+            minHeight: 52,
             paddingHorizontal: spacing.md,
             borderRadius: radii.lg,
             borderWidth: 1,
@@ -42,6 +42,8 @@ export function Input({ label, error, containerStyle, style, onFocus, onBlur, ..
             backgroundColor: colors.input,
             color: colors.foreground,
             ...theme.typography.body,
+            // Web draws its own focus outline; the border colour change is the affordance.
+            ...({ outlineStyle: 'none' } as object),
           },
           style,
         ]}

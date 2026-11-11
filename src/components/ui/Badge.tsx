@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleProp, ViewStyle } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from './Text';
 
@@ -8,10 +8,12 @@ type BadgeVariant = 'default' | 'success' | 'warning' | 'destructive' | 'info' |
 interface Props {
   label: string;
   variant?: BadgeVariant;
+  /** Status badges are uppercase; turn off for names such as skills. */
+  uppercase?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
-export function Badge({ label, variant = 'default', style }: Props) {
+export function Badge({ label, variant = 'default', uppercase = true, style }: Props) {
   const { theme } = useTheme();
   const { colors, radii, spacing } = theme;
 
@@ -39,7 +41,7 @@ export function Badge({ label, variant = 'default', style }: Props) {
         style,
       ]}
     >
-      <Text variant="label" color={v.fg} style={{ textTransform: 'uppercase', letterSpacing: 0.8 }}>
+      <Text variant="label" color={v.fg} style={uppercase ? { textTransform: 'uppercase', letterSpacing: 0.5 } : undefined}>
         {label}
       </Text>
     </View>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/theme/ThemeProvider';
+import { Button } from '../ui/Button';
 import { Text } from '../ui/Text';
 import type { Job } from '@/types/placement';
 
@@ -10,34 +12,26 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-/** Maps job tag variants to colors derived from theme */
-function useTagColors(variant: Job['tags'][number]['variant']) {
-  const { theme } = useTheme();
-  const { colors } = theme;
-  const map = {
-    primary: { bg: colors.surfaceContainerLow, fg: colors.primary, border: colors.primary + '20' },
-    secondary: { bg: colors.xpLight, fg: colors.secondary, border: colors.secondary + '20' },
-    tertiary: { bg: colors.successLight, fg: colors.success, border: colors.success + '20' },
-  };
-  return map[variant];
-}
-
 function JobTag({ label, variant }: Job['tags'][number]) {
   const { theme } = useTheme();
-  const tagColors = useTagColors(variant);
+  const { colors, radii, spacing } = theme;
+  const map = {
+    primary: { bg: colors.primaryLight, fg: colors.primary },
+    secondary: { bg: colors.xpLight, fg: colors.xp },
+    tertiary: { bg: colors.successLight, fg: colors.success },
+  };
+  const tone = map[variant];
 
   return (
     <View
       style={{
-        backgroundColor: tagColors.bg,
-        borderRadius: theme.radii.lg,
-        borderWidth: 1,
-        borderColor: tagColors.border,
-        paddingHorizontal: theme.spacing.sm + 4,
-        paddingVertical: theme.spacing.xs,
+        backgroundColor: tone.bg,
+        borderRadius: radii.md,
+        paddingHorizontal: spacing.sm + 2,
+        paddingVertical: spacing.xs,
       }}
     >
-      <Text variant="label" color={tagColors.fg}>
+      <Text variant="label" color={tone.fg}>
         {label}
       </Text>
     </View>
@@ -48,99 +42,94 @@ export function JobCard({ job, onPress, style }: Props) {
   const { theme } = useTheme();
   const { colors, spacing, radii, shadows } = theme;
 
-  const timeAgo = formatTimeAgo(job.postedAt);
-
   return (
     <TouchableOpacity
-      activeOpacity={0.85}
+      accessibilityRole="button"
+      accessibilityLabel={`${job.title} at ${job.company}`}
+      activeOpacity={0.9}
       onPress={onPress}
       style={[
         {
           backgroundColor: colors.card,
-          borderRadius: radii['2xl'],
-          padding: spacing.md + 8,
+          borderRadius: radii.xl,
+          padding: spacing.screen,
           borderWidth: 1,
-          borderColor: colors.border + '40',
+          borderColor: colors.outlineVariant + '55',
+          gap: spacing.md,
           ...shadows.card,
         },
         style,
       ]}
     >
-      {/* Header row */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.md }}>
-        <View style={{ flexDirection: 'row', gap: spacing.md, flex: 1 }}>
-          {/* Company logo */}
-          <View
-            style={{
-              width: 56,
-              height: 56,
-              borderRadius: radii.xl,
-              backgroundColor: colors.surfaceContainerLow,
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
-              borderWidth: 1,
-              borderColor: colors.border + '30',
-            }}
-          >
-            {job.companyLogoUrl ? (
-              <Image
-                source={{ uri: job.companyLogoUrl }}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="cover"
-              />
-            ) : (
-              <Text variant="h4" color={colors.primary}>
-                {job.company.charAt(0)}
-              </Text>
-            )}
-          </View>
-
-          {/* Title + company */}
-          <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Text variant="h4" color={colors.foreground} numberOfLines={1}>
-              {job.title}
+      <View style={{ flexDirection: 'row', gap: spacing.md, alignItems: 'center' }}>
+        <View
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: radii.lg,
+            backgroundColor: colors.surfaceContainer,
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          {job.companyLogoUrl ? (
+            <Image
+              source={{ uri: job.companyLogoUrl }}
+              style={{ width: '100%', height: '100%' }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Text variant="h3" color={colors.primary}>
+              {job.company.charAt(0).toUpperCase()}
             </Text>
-            <Text variant="small" color={colors.mutedForeground} numberOfLines={1}>
-              {job.company}
-            </Text>
-          </View>
+          )}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text variant="h4" numberOfLines={2}>
+            {job.title}
+          </Text>
+          <Text variant="small" color={colors.mutedForeground} numberOfLines={1}>
+            {job.company}
+          </Text>
         </View>
       </View>
 
-      {/* Tags */}
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.md + 4 }}>
-        {job.tags.map((tag, i) => (
-          <JobTag key={i} {...tag} />
-        ))}
-      </View>
+      {job.tags.length ? (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm }}>
+          {job.tags.map((tag, i) => (
+            <JobTag key={i} {...tag} />
+          ))}
+        </View>
+      ) : null}
 
-      {/* Footer */}
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingTop: spacing.sm + 4,
+          paddingTop: spacing.md,
           borderTopWidth: 1,
-          borderTopColor: colors.border + '30',
+          borderTopColor: colors.outlineVariant + '70',
         }}
       >
-        <Text variant="label" color={colors.mutedForeground + 'aa'}>
-          🕐 {timeAgo}
-        </Text>
-        <Text variant="label" color={colors.primary} style={{ textDecorationLine: 'underline' }}>
-          View →
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.xs }}>
+          <Ionicons name="time-outline" size={16} color={colors.mutedForeground} />
+          <Text variant="label" color={colors.mutedForeground}>
+            {formatTimeAgo(job.postedAt)}
+          </Text>
+        </View>
+        <Button label="View" size="sm" fullWidth={false} onPress={onPress} style={{ minWidth: 88 }} />
       </View>
     </TouchableOpacity>
   );
 }
 
 function formatTimeAgo(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const hours = Math.floor(diff / 3_600_000);
+  const time = new Date(iso).getTime();
+  if (Number.isNaN(time)) return 'Recently posted';
+  const hours = Math.max(0, Math.floor((Date.now() - time) / 3_600_000));
+  if (hours < 1) return 'Posted just now';
   if (hours < 24) return `Posted ${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `Posted ${days}d ago`;
+  return `Posted ${Math.floor(hours / 24)}d ago`;
 }

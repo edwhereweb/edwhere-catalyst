@@ -38,17 +38,26 @@ export default function LabDetailsScreen() {
           <View style={{ gap: spacing.md, paddingBottom: spacing.xl }}>
             <View style={{ flexDirection: 'row', gap: spacing.sm }}>
               <Badge label={lab.field} variant="info" />
-              <Badge label={lab.difficulty} variant="success" />
+              <Badge
+                label={lab.difficulty}
+                variant={lab.difficulty === 'hard' ? 'destructive' : lab.difficulty === 'medium' ? 'warning' : 'success'}
+              />
             </View>
-            <Text variant="h2">Lab: {lab.title}</Text>
-            <View style={{ flexDirection: 'row', gap: spacing.md }}>
-              <Text variant="small" color={colors.mutedForeground}>
-                ⏱ {lab.hours} hrs
-              </Text>
-              {lab.environment ? (
+            <Text variant="h2">{lab.title}</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.xs }}>
+                <Ionicons name="time-outline" size={16} color={colors.mutedForeground} />
                 <Text variant="small" color={colors.mutedForeground}>
-                  🖥 {lab.environment}
+                  {lab.hours} hrs
                 </Text>
+              </View>
+              {lab.environment ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.xs, flexShrink: 1 }}>
+                  <Ionicons name="desktop-outline" size={16} color={colors.mutedForeground} />
+                  <Text variant="small" color={colors.mutedForeground} style={{ flexShrink: 1 }}>
+                    {lab.environment}
+                  </Text>
+                </View>
               ) : null}
             </View>
 

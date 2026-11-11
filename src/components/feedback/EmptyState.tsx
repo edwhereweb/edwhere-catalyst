@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '../ui/Text';
 import { Button } from '../ui/Button';
+import { IconTile } from '../ui/IconTile';
 
 interface Props {
   title?: string;
@@ -28,9 +29,7 @@ export function EmptyState({
         gap: theme.spacing.sm,
       }}
     >
-      <Text variant="h2" style={{ textAlign: 'center' }}>
-        📭
-      </Text>
+      <IconTile icon="file-tray-outline" tone="neutral" size={64} />
       <Text variant="h4" color={theme.colors.foreground} style={{ textAlign: 'center' }}>
         {title}
       </Text>
@@ -40,7 +39,7 @@ export function EmptyState({
         </Text>
       ) : null}
       {actionLabel && onAction ? (
-        <Button label={actionLabel} onPress={onAction} variant="outline" />
+        <Button label={actionLabel} onPress={onAction} variant="outline" style={{ alignSelf: 'center', minWidth: 200 }} />
       ) : null}
     </View>
   );

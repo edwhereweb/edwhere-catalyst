@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
+import { IconTile, IconTone } from '@/components/ui/IconTile';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
@@ -18,6 +19,7 @@ import { formatRelativeTime } from '@/utils/format';
 import type { AppNotification, NotificationCategory } from '@/types/gamification';
 
 type Filter = 'all' | NotificationCategory;
+type IconName = React.ComponentProps<typeof IconTile>['icon'];
 
 const FILTERS: { value: Filter; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -25,6 +27,12 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: 'achievements', label: 'Achievements' },
   { value: 'social', label: 'Social' },
 ];
+
+const CATEGORY_STYLE: Record<NotificationCategory, { icon: IconName; tone: IconTone }> = {
+  alerts: { icon: 'alert-circle-outline', tone: 'amber' },
+  achievements: { icon: 'trophy-outline', tone: 'green' },
+  social: { icon: 'people-outline', tone: 'violet' },
+};
 
 export default function NotificationsScreen() {
   const { theme } = useTheme();
@@ -35,10 +43,27 @@ export default function NotificationsScreen() {
   const [markAllRead, { isLoading: isMarking }] = useMarkAllNotificationsReadMutation();
 
   const items = (data ?? []).filter((item) => filter === 'all' || item.category === filter);
+  const hasUnread = (data ?? []).some((item) => !item.read);
 
   return (
     <Screen padded>
-      <ScreenHeader title="Notifications" showBack showNotifications={false} />
+      <ScreenHeader
+        title="Notifications"
+        showBack
+        showNotifications={false}
+        trailing={
+          hasUnread ? (
+            <Button
+              label="Mark all read"
+              variant="tonal"
+              size="sm"
+              fullWidth={false}
+              loading={isMarking}
+              onPress={() => markAllRead()}
+            />
+          ) : undefined
+        }
+      />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md }}>
         {FILTERS.map((item) => (
           <Chip
@@ -59,46 +84,49 @@ export default function NotificationsScreen() {
           <FlatList<AppNotification>
             data={items}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ gap: spacing.sm, paddingBottom: spacing.xl, flexGrow: 1 }}
+            contentContainerStyle={{ gap: spacing.sm + 2, paddingBottom: spacing.xl, flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
             ListEmptyComponent={<EmptyState title="You're all caught up" />}
-            ListHeaderComponent={
-              items.some((item) => !item.read) ? (
-                <Button
-                  label="Mark all as read"
-                  variant="ghost"
-                  loading={isMarking}
-                  onPress={() => markAllRead()}
-                />
-              ) : null
-            }
-            renderItem={({ item }) => (
-              <Card
-                style={{
-                  gap: spacing.xs,
-                  borderLeftWidth: 4,
-                  borderLeftColor: item.read ? colors.outlineVariant : colors.primary,
-                }}
-              >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text variant="h4" style={{ flex: 1 }}>
-                    {item.title}
-                  </Text>
-                  <Text variant="label" color={colors.mutedForeground}>
-                    {formatRelativeTime(item.createdAt)}
-                  </Text>
-                </View>
-                <Text variant="small" color={colors.mutedForeground}>
-                  {item.body}
-                </Text>
-                {item.actionLabel && item.actionRoute ? (
-                  <TouchableOpacity onPress={() => router.push(item.actionRoute as any)}>
-                    <Text variant="button" color={colors.primary}>
-                      {item.actionLabel}
+            renderItem={({ item }) => {
+              const style = CATEGORY_STYLE[item.category];
+              return (
+                <Card
+                  style={{
+                    flexDirection: 'row',
+                    gap: spacing.md,
+                    borderLeftWidth: 4,
+                    borderLeftColor: item.read ? colors.outlineVariant : colors.primary,
+                  }}
+                >
+                  <IconTile icon={style.icon} tone={style.tone} />
+                  <View style={{ flex: 1, gap: spacing.xs }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: spacing.sm }}>
+                      <Text variant="h4" style={{ flex: 1 }} numberOfLines={2}>
+                        {item.title}
+                      </Text>
+                      <Text variant="label" color={colors.mutedForeground}>
+                        {formatRelativeTime(item.createdAt)}
+                      </Text>
+                    </View>
+                    <Text variant="small" color={colors.mutedForeground}>
+                      {item.body}
                     </Text>
-                  </TouchableOpacity>
-                ) : null}
-              </Card>
-            )}
+                    {item.actionLabel && item.actionRoute ? (
+                      <TouchableOpacity
+                        accessibilityRole="button"
+                        onPress={() => router.push(item.actionRoute as any)}
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        style={{ alignSelf: 'flex-start' }}
+                      >
+                        <Text variant="button" color={colors.primary}>
+                          {item.actionLabel}
+                        </Text>
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                </Card>
+              );
+            }}
           />
         </QueryState>
       </View>

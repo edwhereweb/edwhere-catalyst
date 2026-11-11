@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '../ui/Text';
 import type { ApplicationStatus } from '@/types/placement';
@@ -11,7 +12,7 @@ interface Props {
 
 type StatusMeta = {
   label: string;
-  emoji: string;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
   bg: (colors: ReturnType<typeof useTheme>['theme']['colors']) => string;
   fg: (colors: ReturnType<typeof useTheme>['theme']['colors']) => string;
 };
@@ -19,37 +20,37 @@ type StatusMeta = {
 const STATUS_META: Record<ApplicationStatus, StatusMeta> = {
   applied: {
     label: 'Applied',
-    emoji: '📨',
+    icon: 'paper-plane-outline',
     bg: (c) => c.infoLight,
     fg: (c) => c.info,
   },
   interviewing: {
     label: 'Interviewing',
-    emoji: '🎙️',
+    icon: 'mic-outline',
     bg: (c) => c.xpLight,
     fg: (c) => c.xp,
   },
   shortlisted: {
     label: 'Shortlisted',
-    emoji: '⭐',
+    icon: 'star-outline',
     bg: (c) => c.streakLight,
     fg: (c) => c.streak,
   },
   offer: {
     label: 'Offer',
-    emoji: '🎉',
+    icon: 'trophy-outline',
     bg: (c) => c.successLight,
     fg: (c) => c.success,
   },
   rejected: {
     label: 'Rejected',
-    emoji: '❌',
+    icon: 'close-circle-outline',
     bg: (c) => c.destructive + '20',
     fg: (c) => c.destructive,
   },
   withdrawn: {
     label: 'Withdrawn',
-    emoji: '↩️',
+    icon: 'arrow-undo-outline',
     bg: (c) => c.muted,
     fg: (c) => c.mutedForeground,
   },
@@ -76,11 +77,11 @@ export function ApplicationStatusBadge({ status, style }: Props) {
         style,
       ]}
     >
-      <Text style={{ fontSize: 12 }}>{meta.emoji}</Text>
+      <Ionicons name={meta.icon} size={14} color={meta.fg(colors)} />
       <Text
         variant="label"
         color={meta.fg(colors)}
-        style={{ textTransform: 'uppercase', letterSpacing: 0.8 }}
+        style={{ textTransform: 'uppercase', letterSpacing: 0.5 }}
       >
         {meta.label}
       </Text>

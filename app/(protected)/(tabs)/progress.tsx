@@ -1,8 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { ActionRow } from '@/components/ui/ActionRow';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { IconTile } from '@/components/ui/IconTile';
 import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
@@ -30,68 +32,75 @@ export default function ProgressScreen() {
         errorMessage="Could not load your progress."
       >
         {data ? (
-          <View style={{ gap: spacing.md, paddingBottom: spacing.xl }}>
-            <Card style={{ gap: spacing.xs }}>
-              <Text variant="h4">Active Tasks</Text>
-              <Text variant="small" color={colors.mutedForeground}>
-                {data.remainingTasks} tasks remaining for this week
-              </Text>
-              <Button
-                label="View"
-                variant="outline"
-                onPress={() => router.push('/(protected)/tasks' as any)}
-              />
-            </Card>
+          <View style={{ gap: spacing.md }}>
+            <ActionRow
+              icon="clipboard-outline"
+              tone="primary"
+              title="Active Tasks"
+              subtitle={`${data.remainingTasks} tasks remaining for this week`}
+              actionLabel="View"
+              onPress={() => router.push('/(protected)/tasks' as any)}
+            />
             {data.draftLab ? (
-              <Card style={{ gap: spacing.xs }}>
-                <Text variant="h4">In Progress Lab</Text>
-                <Text variant="small" color={colors.mutedForeground}>
-                  {data.draftLab.title}
-                </Text>
-                <Button
-                  label="View"
-                  variant="outline"
-                  onPress={() => router.push(`/(protected)/labs/${data.draftLab?.id}` as any)}
-                />
-              </Card>
+              <ActionRow
+                icon="terminal-outline"
+                tone="violet"
+                title="In Progress Lab"
+                subtitle={`${data.draftLab.title} (Draft)`}
+                actionLabel="View"
+                onPress={() => router.push(`/(protected)/labs/${data.draftLab?.id}` as any)}
+              />
             ) : null}
             {data.activeApplication ? (
-              <Card style={{ gap: spacing.xs }}>
-                <Text variant="h4">Active Job Apps</Text>
-                <Text variant="small" color={colors.mutedForeground}>
-                  {data.activeApplication.title}
-                </Text>
-                <Button
-                  label="View"
-                  variant="outline"
-                  onPress={() => router.push('/(protected)/placement/applications' as any)}
-                />
-              </Card>
+              <ActionRow
+                icon="briefcase-outline"
+                tone="green"
+                title="Active Job Apps"
+                subtitle={data.activeApplication.title}
+                actionLabel="View"
+                onPress={() => router.push('/(protected)/placement/applications' as any)}
+              />
             ) : null}
-            <Text variant="h4">Focus Metrics</Text>
-            <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-              <Card style={{ flex: 1 }}>
+
+            <Card tone="tinted" style={{ gap: spacing.md }}>
+              <View>
+                <Text variant="h3">Focus Metrics</Text>
+                <Text variant="small" color={colors.mutedForeground}>
+                  Your performance snapshot
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+                <IconTile icon="stopwatch-outline" tone="violet" size={52} />
+                <View style={{ flex: 1 }}>
+                  <Text variant="label" color={colors.mutedForeground}>
+                    Time Invested
+                  </Text>
+                  <Text variant="h2">{data.hoursInvested}h</Text>
+                </View>
+                <Text variant="label" color={data.hoursChangePercent >= 0 ? colors.success : colors.destructive}>
+                  {data.hoursChangePercent >= 0 ? '↑' : '↓'} {Math.abs(data.hoursChangePercent)}%
+                </Text>
+              </View>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>
+                <IconTile icon="checkmark-done-outline" tone="primary" size={52} />
+                <View style={{ flex: 1 }}>
+                  <Text variant="label" color={colors.mutedForeground}>
+                    Tasks Completed
+                  </Text>
+                  <Text variant="h2">
+                    {data.tasksCompleted}/{data.tasksTarget}
+                  </Text>
+                </View>
                 <Text variant="label" color={colors.mutedForeground}>
-                  Time Invested
+                  Target: {data.tasksTarget}
                 </Text>
-                <Text variant="h3">{data.hoursInvested}h</Text>
-                <Text variant="label" color={colors.success}>
-                  ↑ {data.hoursChangePercent}%
-                </Text>
-              </Card>
-              <Card style={{ flex: 1 }}>
-                <Text variant="label" color={colors.mutedForeground}>
-                  Tasks Completed
-                </Text>
-                <Text variant="h3">
-                  {data.tasksCompleted}/{data.tasksTarget}
-                </Text>
-              </Card>
-            </View>
+              </View>
+            </Card>
+
             <Button
               label="Points & Rewards"
+              icon="trophy-outline"
               onPress={() => router.push('/(protected)/rewards' as any)}
-              fullWidth
             />
           </View>
         ) : null}

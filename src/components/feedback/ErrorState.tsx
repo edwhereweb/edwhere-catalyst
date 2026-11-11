@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '../ui/Text';
 import { Button } from '../ui/Button';
+import { IconTile } from '../ui/IconTile';
 
 interface Props {
   message?: string;
@@ -21,13 +22,13 @@ export function ErrorState({ message = 'Something went wrong.', onRetry }: Props
         gap: theme.spacing.md,
       }}
     >
-      <Text variant="h3" color={theme.colors.destructive}>
-        ⚠️
-      </Text>
+      <IconTile icon="alert-circle-outline" tone="red" size={64} />
       <Text variant="body" color={theme.colors.foreground} style={{ textAlign: 'center' }}>
         {message}
       </Text>
-      {onRetry ? <Button label="Try Again" onPress={onRetry} variant="outline" /> : null}
+      {onRetry ? (
+        <Button label="Try Again" icon="refresh" onPress={onRetry} variant="outline" style={{ alignSelf: 'center', minWidth: 200 }} />
+      ) : null}
     </View>
   );
 }

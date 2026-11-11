@@ -1,6 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { getClerkToken } from '@/services/authToken';
+import { UI_PREVIEW, previewFixture } from '@/preview';
 
 export interface MobileResponse<T> {
   data: T;
@@ -24,6 +25,11 @@ export const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryE
   api,
   extraOptions,
 ) => {
+  if (UI_PREVIEW) {
+    const fixture = previewFixture(typeof args === 'string' ? args : args.url);
+    if (fixture) return { data: fixture };
+  }
+
   if (!apiBaseUrl) {
     return {
       error: {

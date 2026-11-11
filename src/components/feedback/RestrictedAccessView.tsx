@@ -1,4 +1,5 @@
 import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { View } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '../ui/Text';
@@ -39,15 +40,13 @@ export function RestrictedAccessView() {
             width: 80,
             height: 80,
             borderRadius: theme.radii.full,
-            backgroundColor: colors.infoLight,
+            backgroundColor: colors.primaryLight,
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: spacing.sm,
           }}
         >
-          <Text variant="h1" style={{ fontSize: 36 }}>
-            🔒
-          </Text>
+          <Ionicons name="lock-closed" size={36} color={colors.primary} />
         </View>
 
         <Text
@@ -79,7 +78,7 @@ export function RestrictedAccessView() {
           }}
         >
           <Text variant="small" color={colors.info} style={{ lineHeight: 20 }}>
-            💡 Once enabled, you&apos;ll be able to browse job listings, apply for roles, and
+            Once enabled, you&apos;ll be able to browse job listings, apply for roles, and
             track your application statuses.
           </Text>
         </View>

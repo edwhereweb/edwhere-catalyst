@@ -23,7 +23,8 @@ export function Chip({ label, selected = false, onPress, style }: Props) {
       style={[
         {
           paddingHorizontal: spacing.md,
-          paddingVertical: spacing.sm,
+          minHeight: 40,
+          justifyContent: 'center',
           borderRadius: radii.full,
           borderWidth: 1,
           borderColor: selected ? colors.primary : colors.border,

@@ -79,6 +79,21 @@ export default function TopicScreen() {
                 )}
               </Card>
             ) : null}
+            {section === 'learn' && (topic.cards.length > 0 || topic.questions.length > 0) ? (
+              <View style={{ gap: spacing.sm }}>
+                {topic.cards.length > 0 ? (
+                  <Button
+                    label="Practice flashcards"
+                    variant={topic.questions.length > 0 ? 'tonal' : 'primary'}
+                    icon="albums-outline"
+                    onPress={() => setSection('cards')}
+                  />
+                ) : null}
+                {topic.questions.length > 0 ? (
+                  <Button label="Take the quiz" icon="help-circle-outline" onPress={() => setSection('quiz')} />
+                ) : null}
+              </View>
+            ) : null}
             {section === 'cards' ? <Flashcards cards={topic.cards} /> : null}
             {section === 'quiz' ? <Quiz topicId={topic.id} questions={topic.questions} /> : null}
 

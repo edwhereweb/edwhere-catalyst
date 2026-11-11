@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import { Stack } from 'expo-router';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
@@ -87,7 +88,8 @@ export default function RootLayout() {
   return (
     <ClerkProvider
       publishableKey={publishableKey}
-      tokenCache={tokenCache}
+      // SecureStore does not exist on web, which is only used for UI previews.
+      tokenCache={Platform.OS === 'web' ? undefined : tokenCache}
     >
       <Provider store={store}>
         <ThemeProvider>
