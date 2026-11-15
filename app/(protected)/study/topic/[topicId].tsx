@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Linking, Pressable, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -77,6 +78,41 @@ export default function TopicScreen() {
                     No sub-topics listed.
                   </Text>
                 )}
+              </Card>
+            ) : null}
+            {section === 'learn' && topic.resources?.length ? (
+              <Card style={{ gap: spacing.xs }}>
+                <Text variant="label" color={colors.mutedForeground}>
+                  Watch and read
+                </Text>
+                {topic.resources.map((r) => (
+                  <Pressable
+                    key={r.url}
+                    accessibilityRole="link"
+                    onPress={() => Linking.openURL(r.url)}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.xs }}
+                  >
+                    <Ionicons
+                      name={r.kind === 'video' ? 'logo-youtube' : 'link-outline'}
+                      size={22}
+                      color={colors.primary}
+                    />
+                    <View style={{ flex: 1 }}>
+                      <Text variant="body">{r.title}</Text>
+                      <Text variant="small" color={colors.mutedForeground}>
+                        {[r.channel, r.language].filter(Boolean).join(' · ')}
+                      </Text>
+                    </View>
+                  </Pressable>
+                ))}
+              </Card>
+            ) : null}
+            {section === 'learn' && topic.notes ? (
+              <Card style={{ gap: spacing.sm }}>
+                <Text variant="label" color={colors.mutedForeground}>
+                  Quick notes
+                </Text>
+                <Text variant="body">{topic.notes}</Text>
               </Card>
             ) : null}
             {section === 'learn' && (topic.cards.length > 0 || topic.questions.length > 0) ? (

@@ -60,6 +60,8 @@ export interface StudyTopic {
   moduleTitle: string;
   estMinutes: number;
   subtopics: string[];
+  notes?: string;
+  resources?: { kind: 'video' | 'link'; title: string; url: string; channel?: string; language?: string }[];
   cards: { front: string; back: string }[];
   questions: { question: string; options: string[]; company?: string }[];
   done: boolean;
