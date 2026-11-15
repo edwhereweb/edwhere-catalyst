@@ -11,6 +11,9 @@ import { Screen } from '@/components/ui/Screen';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { Text } from '@/components/ui/Text';
 import { QueryState } from '@/components/feedback/QueryState';
+import { DailyCard } from '@/components/engagement/DailyCard';
+import { ReadinessCard } from '@/components/engagement/ReadinessCard';
+import { SquadCard } from '@/components/engagement/SquadCard';
 import { TodayPlanCard } from '@/components/study/TodayPlanCard';
 import { useGetDashboardQuery, useGetLeaderboardQuery } from '@/store/api/gamificationApi';
 import { useGetPlacementProfileQuery } from '@/store/api/placementApi';
@@ -81,7 +84,10 @@ export default function DashboardScreen() {
       >
         {data ? (
           <View style={{ gap: spacing.md }}>
+            <ReadinessCard readiness={data.readiness} />
+            <DailyCard />
             <TodayPlanCard />
+            <SquadCard />
 
             <Card tone="hero" style={{ gap: spacing.md }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.md }}>

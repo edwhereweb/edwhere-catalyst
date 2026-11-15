@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, Share, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useClerk } from '@clerk/clerk-expo';
@@ -100,6 +100,18 @@ export default function ProfileScreen() {
                 <StatPill icon="star" value={formatNumber(profile.points)} label="Points" />
                 <StatPill icon="flame" value={`${profile.streak} days`} label="Streak" />
               </View>
+              <Button
+                label="Share my progress"
+                icon="share-social-outline"
+                variant="onHero"
+                onPress={() =>
+                  void Share.share({
+                    message: `${profile.name} on Edwhere Catalyst: ${formatNumber(profile.points)} points, ${profile.streak}-day streak${
+                      profile.skills.length ? `, skills: ${profile.skills.slice(0, 5).join(', ')}` : ''
+                    }.${profile.resumeUrl ? ` Resume: ${profile.resumeUrl}` : ''}`,
+                  })
+                }
+              />
               <Button
                 label="Edit Profile"
                 icon="create-outline"

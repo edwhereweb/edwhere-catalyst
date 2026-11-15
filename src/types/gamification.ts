@@ -115,6 +115,10 @@ export interface Dashboard {
   weeklyApplications: { done: number; target: number };
   skillHours: { done: number; target: number };
   rank?: number;
+  readiness: {
+    percent: number;
+    next?: { key: string; label: string; gain: number };
+  };
   careerSetup: {
     key: 'profile' | 'resume' | 'lab' | 'application';
     label: string;

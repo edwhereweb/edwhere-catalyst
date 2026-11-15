@@ -108,6 +108,7 @@ const fixtures: [RegExp, unknown][] = [
       firstName: 'Aryan',
       streak: 12,
       rank: 14,
+      readiness: { percent: 38, next: { key: 'resume', label: 'Add your resume link', gain: 10 } },
       weeklyApplications: { done: 6, target: 10 },
       skillHours: { done: 4.5, target: 10 },
       careerSetup: [
@@ -205,6 +206,35 @@ const fixtures: [RegExp, unknown][] = [
       targetRoles: ['SOC Analyst', 'Pentester'],
       workPreference: 'remote',
       resumeUrl: 'https://drive.google.com/file/d/1abc/view',
+    },
+  ],
+  [
+    /^\/api\/mobile\/catalyst\/squad$/,
+    {
+      id: 'sq1',
+      name: 'Cyber Crew',
+      code: 'K7M2QX',
+      maxSize: 5,
+      isLeader: true,
+      streak: 4,
+      activeToday: 2,
+      members: [
+        { userId: 'u4', name: 'Aryan Sharma', isLeader: true, isMe: true, points: 2450, streak: 12, weekPoints: 180, activeToday: true },
+        { userId: 'u2', name: 'Kiara Nair', isLeader: false, isMe: false, points: 2980, streak: 6, weekPoints: 220, activeToday: true },
+        { userId: 'u3', name: 'Rohan Das', isLeader: false, isMe: false, points: 2740, streak: 0, weekPoints: 40, activeToday: false },
+      ],
+    },
+  ],
+  [
+    /^\/api\/mobile\/catalyst\/daily$/,
+    {
+      dayKey: '2026-11-15',
+      done: false,
+      questions: [
+        { topicTitle: 'Stacks & Queues', question: 'Which structure manages function calls?', options: ['Queue', 'Stack', 'Tree', 'Hash table'] },
+        { topicTitle: 'OSI & TCP/IP Models', question: 'Which OSI layer handles routing?', options: ['Data Link', 'Network', 'Transport', 'Session'] },
+        { topicTitle: 'Linux Essentials', question: 'Which file stores hashed passwords on Linux?', options: ['/etc/passwd', '/etc/hosts', '/etc/shadow', '/etc/group'] },
+      ],
     },
   ],
   [/^\/api\/mobile\/catalyst\/labs$/, labs],
