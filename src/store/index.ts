@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { placementApi } from './api/placementApi';
 import { gamificationApi } from './api/gamificationApi';
 import { studyApi } from './api/studyApi';
+import { mockTestApi } from './api/mockTestApi';
 import labFiltersReducer from './labFiltersSlice';
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     [placementApi.reducerPath]: placementApi.reducer,
     [gamificationApi.reducerPath]: gamificationApi.reducer,
     [studyApi.reducerPath]: studyApi.reducer,
+    [mockTestApi.reducerPath]: mockTestApi.reducer,
     labFilters: labFiltersReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -16,6 +18,7 @@ export const store = configureStore({
       placementApi.middleware,
       gamificationApi.middleware,
       studyApi.middleware,
+      mockTestApi.middleware,
     ),
 });
 
