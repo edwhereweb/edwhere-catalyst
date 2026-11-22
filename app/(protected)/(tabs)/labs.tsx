@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/Button';
 import { IconButton } from '@/components/ui/IconButton';
 import { Screen } from '@/components/ui/Screen';
 import { SearchField } from '@/components/ui/SearchField';
+import { SegmentedTabs } from '@/components/ui/SegmentedTabs';
+import { ProjectsList } from '@/components/projects/ProjectsList';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { EmptyState } from '@/components/feedback/EmptyState';
 import { QueryState } from '@/components/feedback/QueryState';
@@ -19,9 +21,16 @@ export default function LabsScreen() {
   const { colors, spacing, radii } = theme;
   const router = useRouter();
   const filters = useAppSelector((state) => state.labFilters);
+  const [tab, setTab] = useState<'labs' | 'projects'>('labs');
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('');
-  const { data: labs, isLoading, isError, isFetching, refetch } = useGetLabsQuery({
+  const {
+    data: labs,
+    isLoading,
+    isError,
+    isFetching,
+    refetch,
+  } = useGetLabsQuery({
     search: query,
     filters,
   });
@@ -31,60 +40,99 @@ export default function LabsScreen() {
       <ScreenHeader
         title="Labs"
         trailing={
-          <Button
-            label="New Lab"
-            icon="add"
-            size="sm"
-            fullWidth={false}
-            onPress={() => router.push('/(protected)/labs/create' as any)}
-          />
+          tab === 'projects' ? undefined : (
+            <Button
+              label="New Lab"
+              icon="add"
+              size="sm"
+              fullWidth={false}
+              onPress={() => router.push('/(protected)/labs/create' as any)}
+            />
+          )
         }
       />
-      <View style={{ flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md }}>
-        <SearchField
-          value={search}
-          onChangeText={setSearch}
-          onSubmit={() => setQuery(search.trim())}
-          placeholder="Search labs…"
-          style={{ flex: 1 }}
-        />
-        <IconButton
-          icon="options-outline"
-          accessibilityLabel="Filter labs"
-          color={colors.primaryForeground}
-          style={{ backgroundColor: colors.primary, width: 52, height: 52, borderRadius: radii.xl }}
-          onPress={() => router.push('/(protected)/labs/filter' as any)}
-        />
-      </View>
-      <View style={{ flex: 1 }}>
-        <QueryState
-          isLoading={isLoading}
-          isError={isError}
-          onRetry={refetch}
-          loadingMessage="Loading labs…"
-          errorMessage="Could not load labs."
-        >
-          <FlatList<Lab>
-            data={labs}
-            keyExtractor={(lab) => lab.id}
-            contentContainerStyle={{ gap: spacing.md, paddingBottom: spacing.xl, flexGrow: 1 }}
-            showsVerticalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl
-                refreshing={isFetching && !isLoading}
-                onRefresh={refetch}
-                tintColor={colors.primary}
+      <SegmentedTabs
+        tabs={[
+          { key: 'labs', label: 'Labs' },
+          { key: 'projects', label: 'Project Labs' },
+        ]}
+        value={tab}
+        onChange={(key) => setTab(key as 'labs' | 'projects')}
+      />
+      {tab === 'projects' ? (
+        <View style={{ flex: 1, marginTop: spacing.md }}>
+          <ProjectsList />
+        </View>
+      ) : (
+        <>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: spacing.sm,
+              marginBottom: spacing.md,
+            }}
+          >
+            <SearchField
+              value={search}
+              onChangeText={setSearch}
+              onSubmit={() => setQuery(search.trim())}
+              placeholder="Search labs…"
+              style={{ flex: 1 }}
+            />
+            <IconButton
+              icon="options-outline"
+              accessibilityLabel="Filter labs"
+              color={colors.primaryForeground}
+              style={{
+                backgroundColor: colors.primary,
+                width: 52,
+                height: 52,
+                borderRadius: radii.xl,
+              }}
+              onPress={() => router.push('/(protected)/labs/filter' as any)}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <QueryState
+              isLoading={isLoading}
+              isError={isError}
+              onRetry={refetch}
+              loadingMessage="Loading labs…"
+              errorMessage="Could not load labs."
+            >
+              <FlatList<Lab>
+                data={labs}
+                keyExtractor={(lab) => lab.id}
+                contentContainerStyle={{
+                  gap: spacing.md,
+                  paddingBottom: spacing.xl,
+                  flexGrow: 1,
+                }}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isFetching && !isLoading}
+                    onRefresh={refetch}
+                    tintColor={colors.primary}
+                  />
+                }
+                ListEmptyComponent={
+                  <EmptyState
+                    title="No labs found"
+                    message="Try adjusting your search or filters."
+                  />
+                }
+                renderItem={({ item }) => (
+                  <LabCard
+                    lab={item}
+                    onPress={() => router.push(`/(protected)/labs/${item.id}` as any)}
+                  />
+                )}
               />
-            }
-            ListEmptyComponent={
-              <EmptyState title="No labs found" message="Try adjusting your search or filters." />
-            }
-            renderItem={({ item }) => (
-              <LabCard lab={item} onPress={() => router.push(`/(protected)/labs/${item.id}` as any)} />
-            )}
-          />
-        </QueryState>
-      </View>
+            </QueryState>
+          </View>
+        </>
+      )}
     </Screen>
   );
 }

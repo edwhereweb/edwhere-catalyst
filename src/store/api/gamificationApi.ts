@@ -36,7 +36,7 @@ export interface LogApplicationInput {
 export const gamificationApi = createApi({
   reducerPath: 'gamificationApi',
   baseQuery,
-  tagTypes: ['Dashboard', 'Notification', 'Task', 'Profile', 'Lab', 'Rewards', 'Application', 'Squad', 'Daily'],
+  tagTypes: ['Project', 'Dashboard', 'Notification', 'Task', 'Profile', 'Lab', 'Rewards', 'Application', 'Squad', 'Daily'],
   endpoints: (builder) => ({
     getDashboard: builder.query<Dashboard, void>({
       query: () => '/api/mobile/catalyst/dashboard',
